@@ -1,9 +1,14 @@
 'use strict';
 
-var app = angular.module('scaffoldApp', ['ui.router'])
+var app = angular.module('gameCompare', ['ui.router'])
 
 
-.config(function($stateProvider, $urlRouterProvider, $locationProvider){
+app.constant('ENV', {
+  API_URL: 'http://localhost:3000'
+});
+
+
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
 	$urlRouterProvider.otherwise('/');
 	$stateProvider

@@ -1,2 +1,198 @@
 <h1>Home</h1>
 <p>This is the home page</p>
+
+<input type="text" placeholder="Game Name" ng-model="searchBox">
+<button ng-click="search(searchBox)">Find</button>
+<button ng-click="showStats = !showStats">Stats</button>
+<button ng-click="showReviews = !showReviews">Reviews</button>
+<br>
+<label for="game1">Game 1</label>
+<div id="game1">
+	<select ng-model="game1">
+		<option ng-repeat="games in dbGames track by $index" value="{{games.name}}">
+			{{games.name}}
+		</option>
+	</select>
+	<div ng-if="showStats">
+		<div ng-if="gameOne">
+			<img src="https:{{gameOne.cover[0].url}}" alt="">
+			<p>
+				Name: {{gameOne.name}}
+			</p>
+			<div ng-repeat="company in gameOne.companies">
+				<p ng-if="company.developer">
+					Developed by: {{company.name}}
+				</p>
+				<p ng-if="company.publisher">
+					Published by: {{company.name}}
+				</p>
+			</div>
+			Release(s):
+			<div ng-repeat="release in gameOne.releases">
+				<p>
+					{{release.release_date}} for {{release.platform_name}}
+				</p>
+			</div>
+			Genre(s):
+			<div ng-repeat="genre in gameOne.genres">
+				{{genre.name}}
+			</div>
+			<br>
+			Themes(s):
+			<div ng-repeat="theme in gameOne.themes">
+				{{theme.name}}
+			</div>
+			<p>
+				Summary: {{gameOne.summary}}
+			</p>
+		</div>
+	</div>
+	<div ng-if="showReviews">
+		<p class="radar">
+			<a href="{{gameTwo.gamesradar[0].url}}">
+				Gamesradar:
+				<br>
+				Critc Score: {{gameTwo.gamesradar[0].criticScore}}
+				User Score: {{gameTwo.gamesradar[0].userScore}}
+			</a>
+		</p>
+		<p class="ign">
+			<a href="{{gameTwo.ign[0].url}}">
+				IGN:
+				<br>
+				Critic Score: {{gameTwo.ign[0].criticScore}}
+				User Score: {{gameTwo.ign[0].userScore}}
+			</a>
+		</p>
+		<p class="metacritic">
+			<a href="{{gameTwo.metacritic[0].url}}">
+				Metacritic:
+				<br>
+				Critic Score: {{gameTwo.metacritic[0].criticScore}}
+				User Score: {{gameTwo.metacritic[0].userScore}}
+			</a>
+		</p>
+		<p class="gamespot" ng-if="gameTwo.gamespot[0].url">
+			<a href="{{gameTwo.gamespot[0].url}}">
+				Gamespot:
+				<br>
+				Critic Score: {{gameTwo.gamespot[0].criticScore}}
+				User Score: {{gameTwo.gamespot[0].userScore}}
+			</a>
+		</p>
+	</div>
+</div>
+<label for="game2">Game 2</label>
+<div id="game2">
+	<select ng-model="game2">
+		<option ng-repeat="games in dbGames track by $index" value="{{games.name}}">
+			{{games.name}}
+		</option>
+	</select>
+	<div ng-if="showStats">
+		<div ng-if="gameTwo">
+			<img src="https:{{gameTwo.cover[0].url}}" alt="">
+			<p>
+				Name: {{gameTwo.name}}
+			</p>
+			<div ng-repeat="company in gameTwo.companies">
+				<p ng-if="company.developer">
+					Developed by: {{company.name}}
+				</p>
+				<p ng-if="company.publisher">
+					Published by: {{company.name}}
+				</p>
+			</div>
+			Release(s):
+			<div ng-repeat="release in gameTwo.releases">
+				<p>
+					{{release.release_date}} for {{release.platform_name}}
+				</p>
+			</div>
+			Genre(s):
+			<div ng-repeat="genre in gameTwo.genres">
+				{{genre.name}}
+			</div>
+			<br>
+			Themes(s):
+			<div ng-repeat="theme in gameTwo.themes">
+				{{theme.name}}
+			</div>
+			<p>
+				Summary: {{gameTwo.summary}}
+			</p>
+		</div>
+	</div>
+	<div ng-if="showReviews">
+		<p class="radar">
+			<a href="{{gameTwo.gamesradar[0].url}}">
+				Gamesradar:
+				<br>
+				Critc Score: {{gameTwo.gamesradar[0].criticScore}}
+				User Score: {{gameTwo.gamesradar[0].userScore}}
+			</a>
+		</p>
+		<p class="ign">
+			<a href="{{gameTwo.ign[0].url}}">
+				IGN:
+				<br>
+				Critic Score: {{gameTwo.ign[0].criticScore}}
+				User Score: {{gameTwo.ign[0].userScore}}
+			</a>
+		</p>
+		<p class="metacritic">
+			<a href="{{gameTwo.metacritic[0].url}}">
+				Metacritic:
+				<br>
+				Critic Score: {{gameTwo.metacritic[0].criticScore}}
+				User Score: {{gameTwo.metacritic[0].userScore}}
+			</a>
+		</p>
+		<p class="gamespot">
+			<a href="{{gameTwo.gamespot[0].url}}">
+				Gamespot:
+				<br>
+				Critic Score: {{gameTwo.gamespot[0].criticScore}}
+				User Score: {{gameTwo.gamespot[0].userScore}}
+			</a>
+		</p>
+	</div>
+</div>
+<button ng-click="compare(game1, game2)">Compare</button>
+
+
+<div ng-if="!gameInfo">
+	<div ng-repeat="game in games track by $index">
+		<div ng-click="openGame(game.id, game.name)">
+			Name:	{{game.name}}
+		</div>
+	</div>
+</div>
+<button ng-click="scrape(searchBox)">SCRAPE</button>
+<div ng-if="gameInfo">
+	<img src="https:{{gameInfo.cover.url}}" alt="">
+	<p>
+		Name: {{gameInfo.name}}
+	</p>
+	<p>
+		Gamespot: {{gamespot.criticScore}}
+	</p>
+	<p>
+		Gamesradar: {{gamesradar.criticScore}}
+	</p>
+	<p>
+		IGN: {{ign.criticScore}}
+	</p>
+	<p>
+		Metacritic: {{metacritic.criticScore}}
+	</p>
+	<p>
+		Summary: {{gameInfo.summary}}
+	</p>
+	<div ng-repeat="genre in gameInfo.genres track by $index">
+		<p>
+			Genres: {{genre.name}}
+		</p>
+	</div>
+</div>
+<button ng-click="saveGame()">Save Game</button>
