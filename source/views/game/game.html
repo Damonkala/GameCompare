@@ -1,0 +1,222 @@
+<h1>Games</h1>
+<p>This is the games page</p>
+
+<input type="text" placeholder="Game Name" ng-model="searchBox">
+<button ng-click="search(searchBox)">Find</button>
+<button ng-click="showStats = !showStats">Stats</button>
+<button ng-click="showReviews = !showReviews">Reviews</button>
+<!-- <button ng-click="comparing()">Compare</button>
+<button ng-click="total()">Total</button> -->
+<br>
+<label for="game1">Game 1</label>
+<div id="game1">
+	<select ng-model="game1">
+		<option ng-repeat="games in dbGames track by $index" value="{{games.name}}">
+			{{games.name}}
+		</option>
+	</select>
+	<div ng-if="showStats">
+		<div ng-if="gameOne">
+			<img src="https:{{gameOne.cover[0].url}}" alt="">
+			<p>
+				Name: {{gameOne.name}}
+			</p>
+			<div ng-repeat="company in gameOne.companies">
+				<p ng-if="company.developer">
+					Developed by: {{company.name}}
+				</p>
+				<p ng-if="company.publisher">
+					Published by: {{company.name}}
+				</p>
+			</div>
+			Release(s):
+			<div ng-repeat="release in gameOne.releases">
+				<p>
+					{{release.release_date}} for {{release.platform_name}}
+				</p>
+			</div>
+			Genre(s):
+			<div ng-repeat="genre in gameOne.genres">
+				{{genre.name}}
+			</div>
+			<br>
+			Themes(s):
+			<div ng-repeat="theme in gameOne.themes">
+				{{theme.name}}
+			</div>
+			<p>
+				Summary: {{gameOne.summary}}
+			</p>
+		</div>
+	</div>
+	<div ng-if="!showReviews">
+		<p class="radar" >
+			<a href="{{gameOne.gamesradar[0].url}}" ng-class="comparing(gameOne.gamesradar[0].criticScore, gameTwo.gamesradar[0].criticScore)">
+				Gamesradar:
+				<br>
+				Critc Score: {{gameOne.gamesradar[0].criticScore}}/5
+				User Score: {{gameOne.gamesradar[0].userScore}}/5
+			</a>
+		</p>
+		<p class="ign">
+			<a href="{{gameOne.ign[0].url}}" ng-class="comparing(gameOne.ign[0].criticScore, gameTwo.ign[0].criticScore)">
+				IGN:
+				<br>
+				Critic Score: {{gameOne.ign[0].criticScore}}/10
+				User Score: {{gameOne.ign[0].userScore}}/10
+			</a>
+		</p>
+		<p class="metacritic">
+			<a href="{{gameOne.metacritic[0].url}}" ng-class="comparing(gameOne.metacritic[0].criticScore, gameTwo.metacritic[0].criticScore)">
+				Metacritic:
+				<br>
+				Critic Score: {{gameOne.metacritic[0].criticScore}}/100
+				User Score: {{gameOne.metacritic[0].userScore}}/100
+			</a>
+		</p>
+		<p class="gamespot" ng-if="gameOne.gamespot[0].url">
+			<a href="{{gameOne.gamespot[0].url}}" ng-class="comparing(gameOne.gamespot[0].criticScore, gameTwo.gamespot[0].criticScore)">
+				Gamespot:
+				<br>
+				Critic Score: {{gameOne.gamespot[0].criticScore}}/10
+				User Score: {{gameOne.gamespot[0].userScore}}/10
+			</a>
+		</p>
+		<p class="total">
+			Critic Total:
+			<h3>
+				{{gameOneCriticTotal}}/125
+			</h3>
+			User Total:
+			<h3>
+				{{gameOneUserTotal}}/35
+			</h3>
+		</p>
+	</div>
+</div>
+<label for="game2">Game 2</label>
+<div id="game2">
+	<select ng-model="game2">
+		<option ng-repeat="games in dbGames track by $index" value="{{games.name}}">
+			{{games.name}}
+		</option>
+	</select>
+	<div ng-if="showStats">
+		<div ng-if="gameTwo">
+			<img src="https:{{gameTwo.cover[0].url}}" alt="">
+			<p>
+				Name: {{gameTwo.name}}
+			</p>
+			<div ng-repeat="company in gameTwo.companies">
+				<p ng-if="company.developer">
+					Developed by: {{company.name}}
+				</p>
+				<p ng-if="company.publisher">
+					Published by: {{company.name}}
+				</p>
+			</div>
+			Release(s):
+			<div ng-repeat="release in gameTwo.releases">
+				<p>
+					{{release.release_date}} for {{release.platform_name}}
+				</p>
+			</div>
+			Genre(s):
+			<div ng-repeat="genre in gameTwo.genres">
+				{{genre.name}}
+			</div>
+			<br>
+			Themes(s):
+			<div ng-repeat="theme in gameTwo.themes">
+				{{theme.name}}
+			</div>
+			<p>
+				Summary: {{gameTwo.summary}}
+			</p>
+		</div>
+	</div>
+	<div ng-if="!showReviews">
+		<p class="radar">
+			<a href="{{gameTwo.gamesradar[0].url}}" ng-class="comparing(gameTwo.gamesradar[0].criticScore, gameOne.gamesradar[0].criticScore)">
+				Gamesradar:
+				<br>
+				Critc Score: {{gameTwo.gamesradar[0].criticScore}}
+				User Score: {{gameTwo.gamesradar[0].userScore}}
+			</a>
+		</p>
+		<p class="ign">
+			<a href="{{gameTwo.ign[0].url}}" ng-class="comparing(gameTwo.ign[0].criticScore, gameOne.ign[0].criticScore)">
+				IGN:
+				<br>
+				Critic Score: {{gameTwo.ign[0].criticScore}}
+				User Score: {{gameTwo.ign[0].userScore}}
+			</a>
+		</p>
+		<p class="metacritic">
+			<a href="{{gameTwo.metacritic[0].url}}" ng-class="comparing(gameTwo.metacritic[0].criticScore, gameOne.metacritic[0].criticScore)">
+				Metacritic:
+				<br>
+				Critic Score: {{gameTwo.metacritic[0].criticScore}}
+				User Score: {{gameTwo.metacritic[0].userScore}}
+			</a>
+		</p>
+		<p class="gamespot">
+			<a href="{{gameTwo.gamespot[0].url}}" ng-class="comparing(gameTwo.gamespot[0].criticScore, gameOne.gamespot[0].criticScore)">
+				Gamespot:
+				<br>
+				Critic Score: {{gameTwo.gamespot[0].criticScore}}
+				User Score: {{gameTwo.gamespot[0].userScore}}
+			</a>
+		</p>
+		<p class="total">
+			Critic Total:
+			<h3>
+				{{gameTwoCriticTotal}}/125
+			</h3>
+			User Total:
+			<h3>
+				{{gameTwoUserTotal}}/35
+			</h3>
+		</p>
+	</div>
+</div>
+<button ng-click="compare(game1, game2)">Compare</button>
+<!-- <div ng-if="!gameInfo"> -->
+	<div ng-repeat="game in games track by $index">
+		<div ng-click="openGame(game.id, game.name)">
+			Name:	{{game.name}}
+		</div>
+	</div>
+<!-- </div> -->
+<div ng-if="gameInfo">
+	<img src="https:{{gameInfo.cover.url}}" alt="">
+	<p>
+		Name: {{gameInfo.name}}
+	</p>
+	<div ng-repeat="choice in choices track by $index">
+		<p ng-click="getProperReview(choice)">
+			{{choice}}
+		</p>
+	</div>
+	<p>
+		Gamespot: {{gamespot.criticScore}}
+	</p>
+	<p>
+		Gamesradar: {{gamesradar.criticScore}}
+	</p>
+	<p>
+		IGN: {{ign.criticScore}}
+	</p>
+	<p>
+		Metacritic: {{metacritic.criticScore}}
+	</p>
+	<p>
+		Summary: {{gameInfo.summary}}
+	</p>
+	<div ng-repeat="genre in gameInfo.genres track by $index">
+		<p>
+			Genres: {{genre.name}}
+		</p>
+	</div>
+</div>
+<button ng-click="saveGame()">Save Game</button>
