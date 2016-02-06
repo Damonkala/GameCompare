@@ -16,8 +16,8 @@
 		</option>
 	</select>
 	<div ng-if="showStats">
-		<div ng-if="gameOne">
-			<img src="https:{{gameOne.cover[0].url}}" alt="">
+		<!-- <div ng-if="gameOne"> -->
+			<img src="https:{{gameOneCover}}" alt="">
 			<p>
 				Name: {{gameOne.name}}
 			</p>
@@ -47,42 +47,42 @@
 			<p>
 				Summary: {{gameOne.summary}}
 			</p>
-		</div>
+		<!-- </div> -->
 	</div>
 	<div ng-if="!showReviews">
 		<p class="radar" >
-			<a href="{{gameOne.gamesradar[0].url}}" ng-class="comparing(gameOne.gamesradar[0].criticScore, gameTwo.gamesradar[0].criticScore)">
+			<a href="{{gameOneRadarUrl}}" ng-class="comparing(gameOneRadarCritic, gameTwoRadarCritic)" ng-if="gameOneRadarCritic > 0 || gameOneRadarUser > 0">
 				Gamesradar:
 				<br>
-				Critc Score: {{gameOne.gamesradar[0].criticScore}}/5
-				User Score: {{gameOne.gamesradar[0].userScore}}/5
+				Critc Score: {{gameOneRadarCritic}}/5
+				User Score: {{gameOneRadarUser}}/5
 			</a>
 		</p>
 		<p class="ign">
-			<a href="{{gameOne.ign[0].url}}" ng-class="comparing(gameOne.ign[0].criticScore, gameTwo.ign[0].criticScore)">
+			<a href="{{gameOneIgnUrl}}" ng-class="comparing(gameOneIgnCritic, gameTwoIgnCritic)" ng-if="gameOneIgnCritic > 0 || gameOneIgnUser > 0">
 				IGN:
 				<br>
-				Critic Score: {{gameOne.ign[0].criticScore}}/10
-				User Score: {{gameOne.ign[0].userScore}}/10
+				Critic Score: {{gameOneIgnCritic}}/10
+				User Score: {{gameOneIgnUser}}/10
 			</a>
 		</p>
 		<p class="metacritic">
-			<a href="{{gameOne.metacritic[0].url}}" ng-class="comparing(gameOne.metacritic[0].criticScore, gameTwo.metacritic[0].criticScore)">
+			<a href="{{gameOneMetaUrl}}" ng-class="comparing(gameOneMetaCritic, gameTwoMetaCritic)" ng-if="gameOneMetaCritic > 0 || gameOneMetaUser > 0">
 				Metacritic:
 				<br>
-				Critic Score: {{gameOne.metacritic[0].criticScore}}/100
-				User Score: {{gameOne.metacritic[0].userScore}}/100
+				Critic Score: {{gameOneMetaCritic}}/100
+				User Score: {{gameOneMetaUser}}/100
 			</a>
 		</p>
 		<p class="gamespot" ng-if="gameOne.gamespot[0].url">
-			<a href="{{gameOne.gamespot[0].url}}" ng-class="comparing(gameOne.gamespot[0].criticScore, gameTwo.gamespot[0].criticScore)">
+			<a href="{{gameOneSpotUrl}}" ng-class="comparing(gameOneSpotCritic, gameTwoSpotCritic)" ng-if="gameOneSpotCritic > 0 || gameOneSpotUser > 0">
 				Gamespot:
 				<br>
-				Critic Score: {{gameOne.gamespot[0].criticScore}}/10
-				User Score: {{gameOne.gamespot[0].userScore}}/10
+				Critic Score: {{gameOneSpotCritic}}/10
+				User Score: {{gameOneSpotUser}}/10
 			</a>
 		</p>
-		<p class="total">
+		<!-- <p class="total">
 			Critic Total:
 			<h3>
 				{{gameOneCriticTotal}}/125
@@ -91,7 +91,7 @@
 			<h3>
 				{{gameOneUserTotal}}/35
 			</h3>
-		</p>
+		</p> -->
 	</div>
 </div>
 <label for="game2">Game 2</label>
@@ -102,8 +102,8 @@
 		</option>
 	</select>
 	<div ng-if="showStats">
-		<div ng-if="gameTwo">
-			<img src="https:{{gameTwo.cover[0].url}}" alt="">
+		<!-- <div ng-if="gameTwo"> -->
+			<img src="https:{{gameTwoCover}}" alt="">
 			<p>
 				Name: {{gameTwo.name}}
 			</p>
@@ -133,42 +133,42 @@
 			<p>
 				Summary: {{gameTwo.summary}}
 			</p>
-		</div>
+		<!-- </div> -->
 	</div>
 	<div ng-if="!showReviews">
 		<p class="radar">
-			<a href="{{gameTwo.gamesradar[0].url}}" ng-class="comparing(gameTwo.gamesradar[0].criticScore, gameOne.gamesradar[0].criticScore)">
+			<a href="{{gameTwoRadarUrl}}" ng-class="comparing(gameTwoRadarCritic, gameOneRadarCritic)" ng-if="gameTwoRadarCritic > 0 || gameTwoRadarUser > 0">
 				Gamesradar:
 				<br>
-				Critc Score: {{gameTwo.gamesradar[0].criticScore}}
-				User Score: {{gameTwo.gamesradar[0].userScore}}
+				Critc Score: {{gameTwoRadarCritic}}
+				User Score: {{gameTwoRadarUser}}
 			</a>
 		</p>
 		<p class="ign">
-			<a href="{{gameTwo.ign[0].url}}" ng-class="comparing(gameTwo.ign[0].criticScore, gameOne.ign[0].criticScore)">
+			<a href="{{gameTwoIgnUrl}}" ng-class="comparing(gameTwoIgnCritic, gameOneIgnCritic)" ng-if="gameTwoIgnCritic > 0 || gameTwoIgnUser > 0">
 				IGN:
 				<br>
-				Critic Score: {{gameTwo.ign[0].criticScore}}
-				User Score: {{gameTwo.ign[0].userScore}}
+				Critic Score: {{gameTwoIgnCritic}}
+				User Score: {{gameTwoIgnUser}}
 			</a>
 		</p>
 		<p class="metacritic">
-			<a href="{{gameTwo.metacritic[0].url}}" ng-class="comparing(gameTwo.metacritic[0].criticScore, gameOne.metacritic[0].criticScore)">
+			<a href="{{gameTwoMetaUrl}}" ng-class="comparing(gameTwoMetaCritic, gameOneMetaCritic)" ng-if="gameTwoMetaCritic > 0 || gameTwoMetaUser > 0">
 				Metacritic:
 				<br>
-				Critic Score: {{gameTwo.metacritic[0].criticScore}}
-				User Score: {{gameTwo.metacritic[0].userScore}}
+				Critic Score: {{gameTwoMetaCritic}}
+				User Score: {{gameTwoMetaUser}}
 			</a>
 		</p>
 		<p class="gamespot">
-			<a href="{{gameTwo.gamespot[0].url}}" ng-class="comparing(gameTwo.gamespot[0].criticScore, gameOne.gamespot[0].criticScore)">
+			<a href="{{gameTwoSpotUrl}}" ng-class="comparing(gameTwoSpotCritic, gameOneSpotCritic)" ng-if="gameTwoSpotCritic > 0 || gameTwoSpotUser > 0">
 				Gamespot:
 				<br>
-				Critic Score: {{gameTwo.gamespot[0].criticScore}}
-				User Score: {{gameTwo.gamespot[0].userScore}}
+				Critic Score: {{gameTwoSpotCritic}}
+				User Score: {{gameOneSpotCritic}}
 			</a>
 		</p>
-		<p class="total">
+		<!-- <p class="total">
 			Critic Total:
 			<h3>
 				{{gameTwoCriticTotal}}/125
@@ -177,7 +177,7 @@
 			<h3>
 				{{gameTwoUserTotal}}/35
 			</h3>
-		</p>
+		</p> -->
 	</div>
 </div>
 <button ng-click="compare(game1, game2)">Compare</button>

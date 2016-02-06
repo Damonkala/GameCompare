@@ -67,7 +67,7 @@ router.get('/search/:term', function(req, res){
 router.get('/page/scores/:name', function(req, res){
 	var name = req.params.name.replace(/\s+/g, '+').toLowerCase();
 	name = name.replace(/\&/g, '%26');
-
+	name = name.replace(":", '')
 	console.log("NAME CHEQ", name);
 	unirest.get(`https://ahmedakhan-game-review-information-v1.p.mashape.com/api/v1/information?game_name=${name}`)
 	.header("X-Mashape-Key", `${api_key2}`)

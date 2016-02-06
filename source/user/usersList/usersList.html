@@ -1,16 +1,15 @@
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cyborg/bootstrap.min.css" rel="stylesheet" integrity="sha256-P5gS9tfR0S0WBWIsn0OUp1YR2pcYMGwgfwjxX3AqncA= sha512-Jwcua5M3o+swptQ5w8vJxSuiFjfuTG0mwkJAQ/XMoT8dLVr7ZyhiLxEZPwuDSTtQEl22wYbdfQAlGxd7otaCJw==" crossorigin="anonymous">
 <div ng-if="isLoggedIn">
-<div class="userList-titleHeader"><h1>User List</h1></div>
-<div class="userList-titleSearch">
-  <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)">
-</div>
-<br>
-<div class="container">
-  <div class="col-xs-2 col-centered"></div>
-  <div id="user-list-container" class="col-xs-8 col-centered">
-  <table class="userListTable table table-hover">
+  <div class="userList-titleHeader"><h1>User List</h1></div>
+  <div class="userList-titleSearch">
+    <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)">
+  </div>
+  <br>
+  <div class="container">
+    <div class="col-xs-2 col-centered"></div>
+    <div id="user-list-container" class="col-xs-8 col-centered">
+      <table class="userListTable table table-hover">
 
-    <div ng-if="!isUser(user)" ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users track by $index'>
+        <div ng-if="!isUser(user)" ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users track by $index'>
 
 
           <div class="userListProfilePicDiv col-xs-4">
@@ -27,24 +26,24 @@
               <h6>{{user.name}}</h6>
               <p>{{user.email}}</p>
             </div>
-              <div class="col-xs-4">
-                <button class="pull-right btn btn-primary" id="userList-favoriteButton" ng-click="addFavorite(user._id)" ng-if="!favorited(user)">Favorite</button>
-                <button class="pull-right btn btn-primary" id="userList-unFavoriteButton" ng-click="removeFavorite(user._id)" ng-if="favorited(user)">Unfavorite</button>
-              </div>
+            <div class="col-xs-4">
+              <button class="pull-right btn btn-primary" id="userList-favoriteButton" ng-click="addFavorite(user._id)" ng-if="!favorited(user)">Favorite</button>
+              <button class="pull-right btn btn-primary" id="userList-unFavoriteButton" ng-click="removeFavorite(user._id)" ng-if="favorited(user)">Unfavorite</button>
+            </div>
 
           </div>
 
 
 
-  </div>
-  </table>
+        </div>
+      </table>
     </div>
-</div>
-<div class="col-xs-2 col-centered"></div>
+  </div>
+  <div class="col-xs-2 col-centered"></div>
 
-	<div ng-if="isAdmin">
-	<button ng-click="eraseUser(user._id)">Delete</button>
-	</div>
-	</div>
+  <div ng-if="isAdmin">
+    <button ng-click="eraseUser(user._id)">Delete</button>
+  </div>
+</div>
 </div>
 </div>

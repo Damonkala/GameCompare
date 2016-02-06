@@ -9,27 +9,32 @@
   <link href="styles/style.css" rel="stylesheet">
 </head>
 <body ng-app="gameCompare">
-  <h1>Game information was freely provided by IGDB.com.</h1>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" ui-sref="home">Game Compare</a>
-        <a class="navbar-brand" ui-sref="game">Game</a>
-        <a class="navbar-brand" ui-sref="register">Register</a>
-        <a class="navbar-brand" ui-sref="login">Login</a>
-        <a class="navbar-brand" ng-click="goHome()">Home</a>
-      </div>
-    </nav>
+  <div ng-controller="MasterController">
+    <h1>Game information was freely provided by IGDB.com.</h1>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" ui-sref="home">Game Compare</a>
+          <a class="navbar-brand" ui-sref="game">Game</a>
+          <a class="navbar-brand" ui-sref="register">Register</a>
+          <a class="navbar-brand" ui-sref="login">Login</a>
+          <a class="navbar-brand" ui-sref="list">List</a>
+          <a class="navbar-brand" ng-click="goHome()">Home</a>
+          <a class="navbar-brand" ng-click="logout()">Logout</a>
+        </div>
+      </nav>
+    </div>
     <div ui-view></div>
-    <script src="assets/angular/angular.min.js"></script>
-    <script src="assets/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="assets/angular-cookies/angular-cookies.min.js"></script>
-    <script src="assets/angular-jwt/dist/angular-jwt.min.js"></script>
-    <script src="assets/angular-base64/angular-base64.min.js"></script>
-    <script src="assets/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
-    <script src="assets/ngSweetAlert/SweetAlert.min.js"></script>
-    <script src="assets/angular-sweetalert/SweetAlert.min.js"></script>
-    <script src="assets/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="bundle.js"></script>
-  </body>
-  </html>
+  </div>
+  <script src="assets/angular/angular.min.js"></script>
+  <script src="assets/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="assets/angular-cookies/angular-cookies.min.js"></script>
+  <script src="assets/angular-jwt/dist/angular-jwt.min.js"></script>
+  <script src="assets/angular-base64/angular-base64.min.js"></script>
+  <script src="assets/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
+  <script src="assets/ngSweetAlert/SweetAlert.min.js"></script>
+  <script src="assets/angular-sweetalert/SweetAlert.min.js"></script>
+  <script src="assets/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="bundle.js"></script>
+</body>
+</html>

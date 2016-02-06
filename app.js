@@ -30,6 +30,7 @@ app.use('/login', require('./routes/login'))
 app.use('/games', require('./routes/games'))
 app.use('/user', require('./routes/user'))
 app.use('/auth', require('./routes/auth'))
+app.use('/imageUpload', require('./routes/imageUpload'))
 
 
 app.use('/', function(req, res){
