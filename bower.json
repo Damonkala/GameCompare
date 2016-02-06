@@ -3,7 +3,10 @@
   "description": "",
   "main": "app.js",
   "authors": [
-    "Damon Kalaboukis <damonkala@yahoo.com>"
+    "Damon Kalaboukis <damonkala@yahoo.com>",
+    "Rich Gautereaux <RichGautereaux@gmail.com>",
+    "Andrew Sturick <Andrew.Sturick@gmail.com>",
+    "Rachel Slater"
   ],
   "license": "ISC",
   "moduleType": [],
@@ -17,6 +20,18 @@
   ],
   "dependencies": {
     "angular": "~1.4.8",
-    "angular-ui-router": "~0.2.15"
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.6",
+    "angular-cookies": "~1.4.8",
+    "angular-jwt": "~0.0.9",
+    "ng-file-upload": "~11.0.2",
+    "angular-base64": "~2.0.5",
+    "angular-base64-upload": "~0.1.13",
+    "sweetalert": "~1.1.3",
+    "ngSweetAlert": "angular-sweetalert#~1.1.0",
+    "angular-sweetalert": "latest"
+  },
+  "resolutions": {
+    "angular": "1.4.9"
   }
 }

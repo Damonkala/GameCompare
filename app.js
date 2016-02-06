@@ -9,7 +9,6 @@ var path = require('path');
 var app = express();
 var cookieParser = require("cookie-parser");
 
-var cheerio = require("cheerio");
 var request = require('request');
 
 var mongoose = require('mongoose');
@@ -26,8 +25,11 @@ app.use(express.static('public'));
 app.use(cookieParser())
 
 // ROUTES
-app.use('/test', require('./routes/test'))
+app.use('/register', require('./routes/register'))
+app.use('/login', require('./routes/login'))
 app.use('/games', require('./routes/games'))
+app.use('/user', require('./routes/user'))
+app.use('/auth', require('./routes/auth'))
 
 
 app.use('/', function(req, res){
