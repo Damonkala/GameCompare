@@ -1,8 +1,9 @@
 <h1>Home</h1>
 <p>This is the home page</p>
 
- <input type="text" placeholder="Game Name" ng-model="searchBox">
+<input type="text" placeholder="Game Name" ng-model="searchBox">
 <button ng-click="search(searchBox)">Find</button>
+<button ng-click="saveGame()">Save Game</button>
 
 <div ng-if="!gameInfo">
 	<div ng-repeat="game in games track by $index">
@@ -12,10 +13,32 @@
 	</div>
 </div>
 
+<div ng-repeat="game in games track by $index">
+	<div ng-click="openGame(game.id, game.name)">
+		Name:	{{game.name}}
+	</div>
+</div>
 <div ng-if="gameInfo">
 	<img src="https:{{gameInfo.cover.url}}" alt="">
 	<p>
 		Name: {{gameInfo.name}}
+	</p>
+	<div ng-repeat="choice in choices track by $index">
+		<p ng-click="getProperReview(choice)">
+			{{choice}}
+		</p>
+	</div>
+	<p>
+		Gamespot: {{gamespot.criticScore}}
+	</p>
+	<p>
+		Gamesradar: {{gamesradar.criticScore}}
+	</p>
+	<p>
+		IGN: {{ign.criticScore}}
+	</p>
+	<p>
+		Metacritic: {{metacritic.criticScore}}
 	</p>
 	<p>
 		Summary: {{gameInfo.summary}}

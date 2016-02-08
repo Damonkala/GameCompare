@@ -4,6 +4,7 @@
 	width: 400px;
 	vertical-align: top;
 	/*background: blue;*/
+	float: left;
 }
 #game2{
 	display: inline-block;
@@ -11,6 +12,7 @@
 	width: 400px;
 	vertical-align: top;
 	/*background: red;*/
+	float: right;
 }
 .radar{
 	background-color: #33383E;
@@ -44,9 +46,20 @@ a{
 	font-weight: bold;
 }
 .isLessThan{
-	color: red;
-	font-weight: lighter;
+	color: #ff3333;
+	/*font-size: 20px;*/
+	/*font-weight: lighter;*/
+	/*-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;*/
 }
 .isEqualTo{
 	color: blue;
+}
+.reviews{
+	display: inline-block;
+	-webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+*{
+	border: 1px solid orange;
 }
