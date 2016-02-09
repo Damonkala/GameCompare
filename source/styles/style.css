@@ -5,19 +5,23 @@
 }
 #game1{
 	display: inline-block;
-	border: 1px solid black;
+	border: 3px solid #F8A055;
 	width: 700px;
 	vertical-align: top;
+	border-radius: 10px;
+	background-color: #FCFDFE;
 	/*background: blue;*/
 	/*float: left;*/
 }
 #game2{
 	display: inline-block;
-	border: 1px solid black;
+	border: 3px solid #F8A055;
 	width: 700px;
 	vertical-align: top;
-	/*background: red;*/
-	/*float: right;*/
+	border-radius: 10px;
+	background-color: #FCFDFE;
+	/*background: blue;*/
+	/*float: left;*/
 }
 .radar{
 	background-color: #33383E;
@@ -101,5 +105,13 @@ h1{
 	font-size: 20px;
 }
 body{
-	background-color: #ccffff;
+	background-color: #283655;
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 3px solid #F8A055;
+    margin: 1em 0;
+    padding: 0;
 }

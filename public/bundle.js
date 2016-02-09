@@ -296,7 +296,7 @@ angular.module('gameCompare')
 
 			$scope.gameTwoRadarCritic = gameTwo.gamesradar[0].criticScore
 			$scope.gameTwoRadarUser = gameTwo.gamesradar[0].userScore
-			$scope.gameTwoRadarUrl = gameOne.gamesradar[0].url
+			$scope.gameTwoRadarUrl = gameTwo.gamesradar[0].url
 
 			$scope.gameOneIgnCritic = gameOne.ign[0].criticScore
 			console.log("BROKEN?!", $scope.gameOneIgnCritic);
