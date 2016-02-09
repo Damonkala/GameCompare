@@ -30,8 +30,7 @@
 Name:	{{game.name}}
 </div>
 </div> -->
-
-<div ng-if="gameInfo">
+<div ng-if="gameInfo && reviews" class="happyBox">
 	<img src="https:{{gameInfo.cover.url}}" alt="">
 	<p>
 		Name: {{gameInfo.name}}

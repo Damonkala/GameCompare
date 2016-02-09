@@ -14,6 +14,17 @@
 	/*background: blue;*/
 	/*float: left;*/
 }
+.happyBox{
+	display: inline-block;
+	border: 3px solid #F8A055;
+	width: 100%;
+	vertical-align: top;
+	border-radius: 10px;
+	background-color: #FCFDFE;
+	/*color: black;*/
+	/*background: blue;*/
+	/*float: left;*/
+}
 #game2{
 	display: inline-block;
 	border: 3px solid #F8A055;

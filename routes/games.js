@@ -74,6 +74,7 @@ router.get('/page/scores/:name', function(req, res){
 	.header("X-Mashape-Key", `${api_key2}`)
 	.header("Accept", "application/json")
 	.end(function (result) {
+		
 		console.log("send it back:", result.body);
 		res.send(result.body);
 	});

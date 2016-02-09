@@ -4,7 +4,6 @@ var app = angular.module('gameCompare');
 
 app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
 	this.register = function(user){
-		console.log(user)
 		return $http.post(`${ENV.API_URL}/register`, user);
 	};
 	this.login = function(user){
