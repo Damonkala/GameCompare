@@ -13,9 +13,12 @@
 <button class="btn btn-primary" ng-click="compare(game1, game2)">Compare</button>
 <br>
 <div id="game1">
+	<a href="{{gameOne.url}}">
 	<h1 class="title">
 		{{gameOne.name}}
 	</h1>
+	</a>
+
 	<hr>
 	<img src="https:{{gameOneCover}}" class="thumb">
 	<div class="reviews">
@@ -113,9 +116,11 @@
 	</div>
 </div>
 <div id="game2">
+	<a href="{{gameTwo.url}}">
 	<h1 class="title">
 		{{gameTwo.name}}
 	</h1>
+	</a>
 	<hr>
 	<img src="https:{{gameTwoCover}}" class="thumb">
 	<div class="reviews">

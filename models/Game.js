@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var Game;
 
 var gameSchema = Schema({
+	url: String,
 	companies: Array,
 	cover: Array,
 	genres: Array,
@@ -40,7 +41,7 @@ gameSchema.statics.register = function(game, cb){
 	var gamesradar = game.gamesradar;
 	var ign = game.ign;
 	var metacritic = game.metacritic;
-
+	var url = game.url;
 	Game.find({$or: [{id: id}, {name: name}] }, function(err, game){
 		if (err || game[0]){return console.log(err) || console.log("Game is already in db")}
 		var newGame = new Game;
@@ -55,6 +56,7 @@ gameSchema.statics.register = function(game, cb){
 		newGame.gamespot = gamespot;
 		newGame.gamesradar = gamesradar;
 		newGame.ign = ign;
+		newGame.url = url;
 		newGame.metacritic = metacritic;
 		newGame.save(function(err, savedGame){
 			console.log('saved user: ', savedGame)

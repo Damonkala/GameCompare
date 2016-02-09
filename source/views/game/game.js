@@ -130,6 +130,10 @@ angular.module('gameCompare')
 			$scope.gameTwo = resp.data[1][0];
 			var gameOne = $scope.gameOne
 			var gameTwo = $scope.gameTwo
+
+			console.log("YOU ARE EL!", gameOne.url);
+			$scope.gameOneurl = gameOne.url;
+			$scope.gameTwourl = gameTwo.url;
 			$scope.gameOneCover = gameOne.cover[0].url
 			$scope.gameTwoCover = gameTwo.cover[0].url
 

@@ -14,7 +14,11 @@ angular.module('gameCompare')
 	}
 	$scope.openGame = function(id, name){
 		$http.get(`${ENV.API_URL}/games/page/stats/${id}`).then( function victory(resp) {
+			name = name.replace(/\s+/g, '-').toLowerCase();
+			name = name.replace(":", '')
 			console.log("NEW INFO:", resp);
+			$scope.url = `https://www.igdb.com/games/${name}`;
+			// console.log("GAYMME.", `https://www.igdb.com/games/${name}`);
 			$scope.gameInfo = resp.data.game;
 		}, function failure(err) {
 			console.log(err);
@@ -38,8 +42,10 @@ angular.module('gameCompare')
 		});
 	}
 	$scope.saveGame = function(){
+		console.log("Shaving");
 		var newGame = {}
 		newGame.companies = $scope.gameInfo.companies
+		newGame.url = $scope.url
 		newGame.cover = $scope.gameInfo.cover
 		newGame.genres = $scope.gameInfo.genres
 		newGame.id = $scope.gameInfo.id
