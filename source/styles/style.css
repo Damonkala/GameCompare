@@ -10,6 +10,7 @@
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #FCFDFE;
+	/*color: black;*/
 	/*background: blue;*/
 	/*float: left;*/
 }
@@ -20,6 +21,7 @@
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #FCFDFE;
+	/*color: black;*/
 	/*background: blue;*/
 	/*float: left;*/
 }
@@ -41,6 +43,7 @@
 }
 .ign{
 	background-color: #d3222a;
+
 }
 .metacritic{
 	background-color: #FFCD34;
@@ -59,14 +62,16 @@ a:hover{
 	color: green;
 }
 .isGreaterThan{
-	color: green;
+	color: #33cc33;
 	font-weight: bold;
+
 }
 .isLessThan{
 	color: red;
 	/*font-size: 20px;*/
 	font-weight: lighter;
-
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
 }
 .isEqualTo{
 	color: blue;
@@ -76,6 +81,7 @@ a:hover{
 	font-family: Zig;
 	font-size: 20px;
 	float: right;
+	vertical-align: top;
 }
 .title{
 	text-align: center;
@@ -99,10 +105,34 @@ a:hover{
 h1{
 	/*font-family: Zig;*/
 	font-family: Ponderosa;
+	text-align: center;
+	font-weight: bold;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+	color: white;
+	font-family: Zig;
 }
 *{
 	/*font-family: Charybdis;*/
 	font-size: 20px;
+	color: white;
+}
+p, div, h5{
+	font-size: 20px;
+	/*color: white;*/
+	color:inherit;
+}
+.stats{
+	font-family: Verdana, Geneva, sans-serif;
+	/*font-family: "Arial Black", Gadget, sans-serif;*/
+	color: black;
+}
+#selected{
+	/*border: 1px solid green;*/
+	display: inline-block;
+}
+input{
+	color: black;
 }
 body{
 	background-color: #283655;
@@ -114,4 +144,7 @@ hr {
     border-top: 3px solid #F8A055;
     margin: 1em 0;
     padding: 0;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: orange;
 }

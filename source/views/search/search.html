@@ -4,20 +4,33 @@
 <input type="text" placeholder="Game Name" ng-model="searchBox">
 <button ng-click="search(searchBox)">Find</button>
 <button ng-click="saveGame()">Save Game</button>
-
-<div ng-if="!gameInfo">
-	<div ng-repeat="game in games track by $index">
-		<div ng-click="openGame(game.id)">
+<table class="table table-hover">
+	<tr>
+		<th>
+			Name
+		</th>
+		<th>
+			Release Date
+		</th>
+	</tr>
+	<tr ng-repeat="game in games track by $index" ng-click="openGame(game.id, game.name)">
+		<td>
+			{{game.name}}
+		</td>
+		<td>
+			{{game.release_date}}
+		</td>
+		<!-- <td ng-click="openGame(game.id, game.name)">
 			Name:	{{game.name}}
-		</div>
-	</div>
+		</td> -->
+	</tr>
+</table>
+<!-- <div ng-repeat="game in games track by $index">
+<div ng-click="openGame(game.id, game.name)">
+Name:	{{game.name}}
 </div>
+</div> -->
 
-<div ng-repeat="game in games track by $index">
-	<div ng-click="openGame(game.id, game.name)">
-		Name:	{{game.name}}
-	</div>
-</div>
 <div ng-if="gameInfo">
 	<img src="https:{{gameInfo.cover.url}}" alt="">
 	<p>
@@ -28,18 +41,60 @@
 			{{choice}}
 		</p>
 	</div>
-	<p>
-		Gamespot: {{gamespot.criticScore}}
-	</p>
-	<p>
-		Gamesradar: {{gamesradar.criticScore}}
-	</p>
-	<p>
-		IGN: {{ign.criticScore}}
-	</p>
-	<p>
-		Metacritic: {{metacritic.criticScore}}
-	</p>
+	<div class="reviews">
+		<div class="review radar" ng-if="gamesradar.criticScore > 0 || gamesradar.userScore > 0">
+			<a href="{{gamesradar.url}}">
+				<p>
+					Gamesradar:
+				</p>
+				<p ng-if="gamesradar.criticScore > 0">
+					Critc Score: {{gamesradar.criticScore}}/5
+				</p>
+				<p ng-if="gamesradar.userScore > 0">
+					User Score: {{gamesradar.userScore}}/5
+				</p>
+			</a>
+		</div>
+		<div class="review ign"  ng-if="ign.criticScore > 0 || ign.userScore > 0">
+			<a href="{{ign.url}}">
+				<p>
+					IGN:
+				</p>
+				<p ng-if="ign.criticScore > 0">
+					Critic Score: {{ign.criticScore}}/10
+				</p>
+				<p ng-if="ign.userScore > 0">
+					User Score: {{ign.userScore}}/10
+				</p>
+			</a>
+		</div>
+		<div class="review metacritic" ng-if="metacritic.criticScore > 0 || metacritic.userScore > 0">
+			<a href="{{metacritic.url}}">
+				<p>
+					Metacritic:
+				</p>
+				<p ng-if="metacritic.criticScore > 0">
+					Critic Score: {{metacritic.criticScore}}/100
+				</p>
+				<p ng-if="metacritic.userScore > 0" >
+					User Score: {{metacritic.userScore}}/10
+				</p>
+			</a>
+		</div>
+		<div class="review gamespot" ng-if="gamespot.criticScore > 0 || gamespot.userScore > 0">
+			<a href="{{gamespot.url}}">
+				<p>
+					Gamespot:
+				</p>
+				<p ng-if="gamespot.criticScore > 0">
+					Critic Score: {{gamespot.criticScore}}/10
+				</p>
+				<p  ng-if="gamespot.userScore > 0">
+					User Score: {{gamespot.userScore}}/10
+				</p>
+			</a>
+		</div>
+	</div>
 	<p>
 		Summary: {{gameInfo.summary}}
 	</p>

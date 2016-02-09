@@ -13,6 +13,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
   $urlRouterProvider.otherwise('/');
   $stateProvider
   .state('home', {url: '/', templateUrl: 'views/home/home.html', controller: 'homeCtrl'})
+  .state('search', {url: '/search', templateUrl: 'views/search/search.html', controller: 'searchCtrl'})
   .state('list', {url: '/list', templateUrl: 'views/list/list.html', controller: 'listCtrl'})
   .state('game', {url: '/game', templateUrl: 'views/game/game.html', controller: 'gameCtrl'})
   .state('login', {url: '/login', templateUrl: 'views/login/login.html', controller: 'loginCtrl'})
@@ -37,7 +38,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
       console.log("LOGGED IN!")
     } else {
       $scope.isLoggedIn = false;
-      $state.go('game');
+      $state.go('search');
     }
   })
   $scope.$on('loggedIn', function(){
@@ -64,7 +65,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
   $scope.logout = function(){
     $cookies.remove('token');
-    $state.go('game')
+    $state.go('search')
     $scope.isLoggedIn = false;
   }
   $scope.goHome = function(){

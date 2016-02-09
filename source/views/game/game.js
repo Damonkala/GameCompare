@@ -118,27 +118,7 @@ angular.module('gameCompare')
 			console.log(err);
 		});
 	}
-	$scope.saveGame = function(){
-		var newGame = {}
-		newGame.companies = $scope.gameInfo.companies
-		newGame.cover = $scope.gameInfo.cover
-		newGame.genres = $scope.gameInfo.genres
-		newGame.id = $scope.gameInfo.id
-		newGame.name = $scope.gameInfo.name
-		newGame.releases = $scope.gameInfo.release_dates
-		newGame.summary = $scope.gameInfo.summary
-		newGame.themes = $scope.gameInfo.themes
-		newGame.gamespot = $scope.gamespot
-		newGame.gamesradar = $scope.gamesradar
-		newGame.ign = $scope.ign
-		newGame.metacritic = $scope.metacritic
 
-		$http.post(`${ENV.API_URL}/games`, newGame).then( function victory(resp) {
-			console.log(resp.data)
-		}, function failure(err) {
-			console.log(err);
-		});
-	}
 
 	$scope.compare = function(game1, game2){
 		var games = {}
