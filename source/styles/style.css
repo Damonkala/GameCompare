@@ -1,41 +1,54 @@
+@font-face {
+	font-family: Ponderosa; src: url('ponde.ttf');
+	font-family: Zig; src: url('Zig.ttf');
+	font-family: Charybdis; src: url('Chary.ttf');
+}
 #game1{
 	display: inline-block;
 	border: 1px solid black;
-	width: 400px;
+	width: 700px;
 	vertical-align: top;
 	/*background: blue;*/
-	float: left;
+	/*float: left;*/
 }
 #game2{
 	display: inline-block;
 	border: 1px solid black;
-	width: 400px;
+	width: 700px;
 	vertical-align: top;
 	/*background: red;*/
-	float: right;
+	/*float: right;*/
 }
 .radar{
 	background-color: #33383E;
 	border: 1px solid black;
 	color: white;
 }
+.review{
+	border: 1px solid black;
+	color: white;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+.review:hover{
+	border: 2px solid black;
+	box-shadow: 10px 10px 5px #888888;
+}
 .ign{
 	background-color: #d3222a;
-	border: 1px solid black;
-	color: white;
 }
 .metacritic{
-	background-color: #010101;
-	border: 1px solid black;
-	color: white;
+	background-color: #FFCD34;
 }
 .gamespot{
 	background-color:#5ba4a4;
-	border: 1px solid black;
-	color: white;
 }
 a{
 	color: inherit;
+	text-decoration: none;
+}
+a:hover{
 	text-decoration: none;
 }
 .better{
@@ -46,20 +59,44 @@ a{
 	font-weight: bold;
 }
 .isLessThan{
-	color: #ff3333;
+	color: red;
 	/*font-size: 20px;*/
-	/*font-weight: lighter;*/
-	/*-webkit-text-stroke-width: 1px;
-	-webkit-text-stroke-color: black;*/
+	font-weight: lighter;
+
 }
 .isEqualTo{
 	color: blue;
 }
 .reviews{
 	display: inline-block;
+	font-family: Zig;
+	font-size: 20px;
+	float: right;
+}
+.title{
+	text-align: center;
+	font-weight: bold;
 	-webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+	-webkit-text-stroke-color: black;
+	color: white;
+	font-family: Zig;
+}
+.total{
+	border: 1px solid black;
+	background-color: #6699ff;
+	display: inline-block;
+	font-size: 20px;
+	font-family: Zig;
+	color: white;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+h1{
+	/*font-family: Zig;*/
+	font-family: Ponderosa;
 }
 *{
-	border: 1px solid orange;
+	/*font-family: Charybdis;*/
+	font-size: 20px;
 }

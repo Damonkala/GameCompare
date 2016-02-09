@@ -20,36 +20,61 @@ angular.module('gameCompare')
 			return "isEqualTo"
 		}
 	}
-	// $scope.total = function(){
-	// 	// $scope.gameOne.ign[0].criticScore = $scope.gameOne.ign[0].criticScore.replace("-.-", 0);
-	// 	// console.log($scope.gameOne.gamespot[0].criticScore, $scope.gameOne.ign[0].criticScore, $scope.gameOne.gamesradar[0].criticScore, $scope.gameOne.metacritic[0].criticScore);
-	// 	$scope.gameOneCriticTotal = (
-	// 		Number($scope.gameOne.gamespot[0].criticScore) +
-	// 		Number($scope.gameOne.ign[0].criticScore.replace("-.-", 0)) +
-	// 		Number($scope.gameOne.gamesradar[0].criticScore) +
-	// 		Number($scope.gameOne.metacritic[0].criticScore)
-	// 	)
-	// 	console.log("GAME ONE CRITIC SCORE", );
-	// 	$scope.gameTwoCriticTotal = (
-	// 		Number($scope.gameTwo.gamespot[0].criticScore) +
-	// 		Number($scope.gameTwo.ign[0].criticScore) +
-	// 		Number($scope.gameTwo.gamesradar[0].criticScore) +
-	// 		Number($scope.gameTwo.metacritic[0].criticScore)
-	// 	)
-	// 	// $scope.gameOne.ign[0].userScore = $scope.gameOne.ign[0].userScore.replace("-.-", 0);
-	// 	$scope.gameOneUserTotal = (
-	// 		Number($scope.gameOne.gamespot[0].userScore) +
-	// 		Number($scope.gameOne.ign[0].userScore) +
-	// 		Number($scope.gameOne.gamesradar[0].userScore) +
-	// 		Number($scope.gameOne.metacritic[0].userScore)
-	// 	)
-	// 	$scope.gameTwoUserTotal = (
-	// 		Number($scope.gameTwo.gamespot[0].userScore) +
-	// 		Number($scope.gameTwo.ign[0].userScore) +
-	// 		Number($scope.gameTwo.gamesradar[0].userScore) +
-	// 		Number($scope.gameTwo.metacritic[0].userScore)
-	// 	)
-	// }
+	$scope.total = function(){
+		console.log("Still broken?", $scope.gameOneIgnCritic);
+		if(isNaN(Number($scope.gameOneIgnCritic))){
+			console.log("IGN ONE CRITIC CHANGED");
+			$scope.gameOneIgnCritic = 0;
+		}
+		if(isNaN(Number($scope.gameTwoIgnCritic))){
+			console.log("IGN TWO CRITIC CHANGED");
+			$scope.gameTwoIgnCritic = 0;
+		}
+		if(isNaN(Number($scope.gameOneIgnUser))){
+			console.log("IGN ONE CRITIC CHANGED");
+			$scope.gameOneIgnUser = 0;
+		}
+		if(isNaN(Number($scope.gameTwoIgnUser))){
+			console.log("IGN TWO CRITIC CHANGED");
+			$scope.gameTwoIgnUser = 0;
+		}
+		$scope.gameOneCriticTotal = (
+			Number($scope.gameOneSpotCritic) +
+			Number($scope.gameOneIgnCritic) +
+			Number($scope.gameOneRadarCritic) +
+			Number($scope.gameOneMetaCritic)
+		)
+		console.log("GAME ONE CRITIC TOTAL:", $scope.gameOneCriticTotal);
+		$scope.gameTwoCriticTotal = (
+			Number($scope.gameTwoSpotCritic) +
+			Number($scope.gameTwoIgnCritic) +
+			Number($scope.gameTwoRadarCritic) +
+			Number($scope.gameTwoMetaCritic)
+		)
+		if (!$scope.gameOneRadarUser) {
+			$scope.gameOneRadarUser = 0;
+		}
+		if (!$scope.gameTwoRadarUser) {
+			$scope.gameTwoRadarUser = 0;
+		}
+		console.log("GAME TWO CRITIC TOTAL:", $scope.gameTwoCriticTotal);
+		$scope.gameOneUserTotal = (
+			Number($scope.gameOneSpotUser) +
+			Number($scope.gameOneIgnUser) +
+			Number($scope.gameOneRadarUser) +
+			Number($scope.gameOneMetaUser)
+		)
+		console.log("GAME ONE USER TOTAL:", $scope.gameOneUserTotal);
+
+		$scope.gameTwoUserTotal = (
+			Number($scope.gameTwoSpotUser) +
+			Number($scope.gameTwoIgnUser) +
+			Number($scope.gameTwoRadarUser) +
+			Number($scope.gameTwoMetaUser)
+		)
+		console.log("GAME TWO USER TOTAL:", $scope.gameTwoUserTotal);
+
+	}
 	$scope.search = function(term){
 		term = term.replace(/\s+/g, '-').toLowerCase();
 
@@ -127,6 +152,7 @@ angular.module('gameCompare')
 			var gameTwo = $scope.gameTwo
 			$scope.gameOneCover = gameOne.cover[0].url
 			$scope.gameTwoCover = gameTwo.cover[0].url
+
 			$scope.gameOneRadarCritic = gameOne.gamesradar[0].criticScore
 			$scope.gameOneRadarUser = gameOne.gamesradar[0].userScore
 			$scope.gameOneRadarUrl = gameOne.gamesradar[0].url
@@ -136,12 +162,13 @@ angular.module('gameCompare')
 			$scope.gameTwoRadarUrl = gameOne.gamesradar[0].url
 
 			$scope.gameOneIgnCritic = gameOne.ign[0].criticScore
+			console.log("BROKEN?!", $scope.gameOneIgnCritic);
 			$scope.gameOneIgnUser = gameOne.ign[0].userScore
 			$scope.gameOneIgnUrl = gameOne.ign[0].url
 
 			$scope.gameTwoIgnCritic = gameTwo.ign[0].criticScore
 			$scope.gameTwoIgnUser = gameTwo.ign[0].userScore
-			$scope.gameOneIgnUrl = gameOne.ign[0].url
+			$scope.gameTwoIgnUrl = gameTwo.ign[0].url
 
 			$scope.gameOneMetaCritic = gameOne.metacritic[0].criticScore
 			$scope.gameOneMetaUser = gameOne.metacritic[0].userScore
@@ -158,10 +185,10 @@ angular.module('gameCompare')
 
 			$scope.gameTwoSpotCritic = gameTwo.gamespot[0].criticScore
 			$scope.gameTwoSpotUser = gameTwo.gamespot[0].userScore
-			$scope.gameOneSpotUrl = gameTwo.gamespot[0].url
+			$scope.gameTwoSpotUrl = gameTwo.gamespot[0].url
 
 
-			// $scope.total();
+			$scope.total();
 		}, function failure(err){
 			console.log(err);
 		})
