@@ -1,5 +1,5 @@
 <h1>Game list</h1>
-<button type="button" name="button">Compare</button>
+<button type="button" name="button" ng-click="compare()">Compare</button>
 
 <label>Search: <input ng-model="searchText"></label>
 <table class="table table-hover">
@@ -24,7 +24,7 @@
 			</div>
 		</td>
 		<td>
-			<input type="checkbox" name="name" value="{{games.name}}">
+			<input type="checkbox" name="name" value="{{check}}" ng-true-value="hleeeo">
 		</td>
 	</tr>
 </table>

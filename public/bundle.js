@@ -38,7 +38,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
       console.log("LOGGED IN!")
     } else {
       $scope.isLoggedIn = false;
-      $state.go('search');
+      $state.go('home');
     }
   })
   $scope.$on('loggedIn', function(){
@@ -65,7 +65,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
   $scope.logout = function(){
     $cookies.remove('token');
-    $state.go('search')
+    $state.go('home')
     $scope.isLoggedIn = false;
   }
   $scope.goHome = function(){
@@ -327,6 +327,12 @@ angular.module('gameCompare')
 	}, function failure(err) {
 		console.log(err);
 	});
+
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
+	}
+
 })
 
 'use strict';

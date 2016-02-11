@@ -12,13 +12,12 @@
 </select>
 <button class="btn btn-primary" ng-click="compare(game1, game2)">Compare</button>
 <br>
-<div id="game1">
+<div id="game1" ng-if="gameOne">
 	<a href="{{gameOne.url}}">
 	<h1 class="title">
 		{{gameOne.name}}
 	</h1>
 	</a>
-
 	<hr>
 	<img src="https:{{gameOneCover}}" class="thumb">
 	<div class="reviews">
@@ -121,7 +120,7 @@
 		</p>
 	</div>
 </div>
-<div id="game2">
+<div id="game2"  ng-if="gameOne">
 	<a href="{{gameTwo.url}}">
 	<h1 class="title">
 		{{gameTwo.name}}

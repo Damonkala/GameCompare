@@ -9,4 +9,10 @@ angular.module('gameCompare')
 	}, function failure(err) {
 		console.log(err);
 	});
+
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
+	}
+
 })
