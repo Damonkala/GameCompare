@@ -2,7 +2,8 @@
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV){
+.controller('gameCtrl', function($scope, $http, ENV, UserService, $cookies, jwtHelper){
+
 	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;

@@ -13,7 +13,7 @@ angular.module('gameCompare')
 	// }
 	console.log("COOKIES", cookies)
 	UserService.isAuthed(cookies)
-	.then(function(res , err){
+	.then(function(res, err){
 		console.log(res.data)
 		 if (res.data === "authRequired"){
 			 $location.path('/login')

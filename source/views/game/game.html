@@ -1,3 +1,6 @@
+<div ng-if="isLoggedIn">
+	<h1>Just checkin to see if you're logged in</h1>
+</div>
 <label for="game1">Game 1</label>
 <select ng-model="game1">
 	<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">

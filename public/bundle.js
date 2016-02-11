@@ -38,7 +38,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
       console.log("LOGGED IN!")
     } else {
       $scope.isLoggedIn = false;
-      $state.go('home');
+      $state.go('game');
     }
   })
   $scope.$on('loggedIn', function(){
@@ -65,7 +65,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
   $scope.logout = function(){
     $cookies.remove('token');
-    $state.go('home')
+    $state.go('game')
     $scope.isLoggedIn = false;
   }
   $scope.goHome = function(){
@@ -139,7 +139,8 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV){
+.controller('gameCtrl', function($scope, $http, ENV, UserService, $cookies, jwtHelper){
+
 	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;
@@ -510,7 +511,7 @@ angular.module('gameCompare')
 	// }
 	console.log("COOKIES", cookies)
 	UserService.isAuthed(cookies)
-	.then(function(res , err){
+	.then(function(res, err){
 		console.log(res.data)
 		 if (res.data === "authRequired"){
 			 $location.path('/login')

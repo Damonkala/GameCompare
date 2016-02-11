@@ -38,7 +38,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
       console.log("LOGGED IN!")
     } else {
       $scope.isLoggedIn = false;
-      $state.go('home');
+      $state.go('game');
     }
   })
   $scope.$on('loggedIn', function(){
@@ -65,7 +65,7 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
   $scope.logout = function(){
     $cookies.remove('token');
-    $state.go('home')
+    $state.go('game')
     $scope.isLoggedIn = false;
   }
   $scope.goHome = function(){
