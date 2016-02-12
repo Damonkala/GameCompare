@@ -74,7 +74,6 @@ router.get('/page/scores/:name', function(req, res){
 	.header("X-Mashape-Key", `${api_key2}`)
 	.header("Accept", "application/json")
 	.end(function (result) {
-		
 		console.log("send it back:", result.body);
 		res.send(result.body);
 	});
@@ -82,7 +81,6 @@ router.get('/page/scores/:name', function(req, res){
 router.get('/page/stats/:id', function(req, res){
 	var id = req.params.id;
 	var name = req.params.name;
-
 	var options = {
 		host: 'www.igdb.com',
 		path: `/api/v1/games/${id}`,
@@ -98,15 +96,11 @@ router.get('/page/stats/:id', function(req, res){
 			str += chunk;
 		});
 		response.on('end', function () {
-
-
 			console.log("Heya", str);
-
 			res.send(str)
 		});
 	}
 	var req = https.request(options, callback);
-
 	request.get(`http://www.ign.com/games/${name}/`, function(err, res, html){
 		var $ = cheerio.load(html);
 		$('div.ratingRows').each(function(i, element){
@@ -114,9 +108,7 @@ router.get('/page/stats/:id', function(req, res){
 			console.log("IGN", a.text());
 		})
 	})
-
 	req.end();
-
 })
 
 router.post('/save'), function(req, res){

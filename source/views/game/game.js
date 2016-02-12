@@ -18,18 +18,11 @@ GameService.load()
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
 		 if (res.data === "authRequired"){
-			//  $location.path('/login')
 		 } else
 		 {$scope.isLoggedIn = true;}
 	})
 	$scope.comparing = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
+		return GameService.compareGames(score1, score2)
 	}
 	$scope.total = function(){
 		console.log("Still broken?", $scope.gameOneIgnCritic);
@@ -88,7 +81,7 @@ GameService.load()
 	}
 	$scope.search = function(term){
 		term = term.replace(/\s+/g, '-').toLowerCase();
-		$http.get(`${ENV.API_URL}/games/search/${term}`).then( function victory(resp) {
+		GameService.searchGame().then( function victory(resp) {
 			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
 		}, function failure(err) {
@@ -138,10 +131,7 @@ GameService.load()
 		var games = {}
 		games.game1 = game1;
 		games.game2 = game2;
-		console.log("Comparison", games);
 		GameService.startBattle(games).then(function victory(resp){
-			console.log("GAME ONE BEING", resp.data[0][0]);
-			console.log("GAME TWO BEING", resp.data[1][0]);
 			$scope.gameOne = resp.data[0][0];
 			$scope.gameTwo = resp.data[1][0];
 			var gameOne = $scope.gameOne

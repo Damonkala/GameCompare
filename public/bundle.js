@@ -113,18 +113,11 @@ GameService.load()
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
 		 if (res.data === "authRequired"){
-			//  $location.path('/login')
 		 } else
 		 {$scope.isLoggedIn = true;}
 	})
 	$scope.comparing = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
+		return GameService.compareGames(score1, score2)
 	}
 	$scope.total = function(){
 		console.log("Still broken?", $scope.gameOneIgnCritic);
@@ -183,7 +176,7 @@ GameService.load()
 	}
 	$scope.search = function(term){
 		term = term.replace(/\s+/g, '-').toLowerCase();
-		$http.get(`${ENV.API_URL}/games/search/${term}`).then( function victory(resp) {
+		GameService.searchGame().then( function victory(resp) {
 			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
 		}, function failure(err) {
@@ -233,10 +226,7 @@ GameService.load()
 		var games = {}
 		games.game1 = game1;
 		games.game2 = game2;
-		console.log("Comparison", games);
 		GameService.startBattle(games).then(function victory(resp){
-			console.log("GAME ONE BEING", resp.data[0][0]);
-			console.log("GAME TWO BEING", resp.data[1][0]);
 			$scope.gameOne = resp.data[0][0];
 			$scope.gameTwo = resp.data[1][0];
 			var gameOne = $scope.gameOne
@@ -298,8 +288,11 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	this.load = function(){
 		return $http.get(`${ENV.API_URL}/games/`)
 	};
-	this.openGame = function(){
+	this.openGame = function(id){
 		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
+	};
+	this.searchGame = function(term){
+		return $http.get(`${ENV.API_URL}/games/search/${term}`)
 	};
 	this.startBattle = function(){
 		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
@@ -307,6 +300,22 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	this.startBattle = function(games){
 		return $http.post(`${ENV.API_URL}/games/compare`, games)
 	};
+	this.getScore = function(name){
+		return $http.get(`${ENV.API_URL}/games/page/scores/${name}`)
+	};
+	this.saveGame = function(newGame){
+		return $http.post(`${ENV.API_URL}/games`, newGame)
+	};
+	this.compareGames = function(score1, score2){
+		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
+			return "isGreaterThan"
+		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
+			return "isLessThan"
+		} else {
+			return "isEqualTo"
+		}
+	}
+	// this.totalScore = function()
 })
 
 'use strict';
@@ -480,10 +489,10 @@ angular.module('gameCompare')
 
 angular.module('gameCompare')
 
-.controller('searchCtrl', function($scope, $http, ENV){
+.controller('searchCtrl', function($scope, $http, ENV, GameService){
 	$scope.search = function(term){
 		term = term.replace(/\s+/g, '-').toLowerCase();
-		$http.get(`${ENV.API_URL}/games/search/${term}`).then( function victory(resp) {
+		GameService.searchGame(term).then( function victory(resp) {
 			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
 		}, function failure(err) {
@@ -491,24 +500,17 @@ angular.module('gameCompare')
 		});
 	}
 	$scope.openGame = function(id, name){
-		$http.get(`${ENV.API_URL}/games/page/stats/${id}`).then( function victory(resp) {
-			// name = name.replace(/\s+/g, '-').toLowerCase();
-			// name = name.replace(":", '')
-			// name = name.replace(/^[^']*$/, '-')
+		GameService.openGame(id).then( function victory(resp) {
 			console.log("NEW INFO:", resp);
 			$scope.url = `https://www.igdb.com/games/${resp.data.game.slug}`;
-			// console.log("GAYMME.", `https://www.igdb.com/games/${name}`);
 			$scope.gameInfo = resp.data.game;
 		}, function failure(err) {
 			console.log(err);
 		});
 		$scope.reviews = false;
-
-		$http.get(`${ENV.API_URL}/games/page/scores/${name}`).then( function victory(resp) {
+		GameService.getScore(name)
+		.then( function victory(resp) {
 			$scope.reviews = false;
-			console.log("SCORES!", resp.data.result);
-			console.log("Massage:", resp.data.message);
-			console.log("DAAATAAA:", resp.data.possibleChoices);
 			if(!resp.data.message){
 				$scope.reviews = true;
 				var scoreData = resp.data.result;
@@ -518,7 +520,6 @@ angular.module('gameCompare')
 				$scope.metacritic = scoreData.metacritic
 			}
 			$scope.choices = resp.data.possibleChoices
-			console.log("choice", $scope.choices);
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -539,8 +540,7 @@ angular.module('gameCompare')
 		newGame.gamesradar = $scope.gamesradar
 		newGame.ign = $scope.ign
 		newGame.metacritic = $scope.metacritic
-
-		$http.post(`${ENV.API_URL}/games`, newGame).then( function victory(resp) {
+		GameService.saveGame(newGame).then( function victory(resp) {
 			console.log(resp.data)
 		}, function failure(err) {
 			console.log(err);
@@ -553,7 +553,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService){
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
 	DeathMatchService.load()
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
@@ -562,13 +562,7 @@ angular.module('gameCompare')
 		console.log(err);
 	});
 	$scope.comparing = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
+		return GameService.compareGames(score1, score2)
 	}
 })
 
@@ -577,7 +571,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -719,13 +713,7 @@ angular.module('gameCompare')
 		}
 	}
 	$scope.comparing = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
+		return GameService.compareGames(score1, score2)
 	}
 });
 

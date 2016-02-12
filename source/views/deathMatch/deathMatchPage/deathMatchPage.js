@@ -3,7 +3,7 @@
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -145,12 +145,6 @@ angular.module('gameCompare')
 		}
 	}
 	$scope.comparing = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
+		return GameService.compareGames(score1, score2)
 	}
 });
