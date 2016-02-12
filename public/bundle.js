@@ -81,59 +81,15 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
 var app = angular.module('gameCompare');
 
-app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.register = function(user){
-		return $http.post(`${ENV.API_URL}/register`, user);
+app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`${ENV.API_URL}/deathMatches/`)
 	};
-	this.login = function(user){
-		return $http.post(`${ENV.API_URL}/login`, user);
+	this.openMatch = function(id){
+		return $http.get(`${ENV.API_URL}/deathMatches/${id}`)
 	};
-	this.list = function(){
-		return $http.get(`${ENV.API_URL}/user/list`);
-	};
-	this.page = function(username){
-		return $http.get(`${ENV.API_URL}/user/page/${username}`)
-	}
-	this.auth = function(){
-		return $http.get(`${ENV.API_URL}/auth`)
-	};
-	this.favoriteUser = function(userId){
-		var data = {};
-		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
-		data.myId = decoded._id;
-		data.favoriteId = userId
-		return $http.put(`${ENV.API_URL}/user/favorite`, data)
-	};
-	this.editAccount = function(data){
-		return $http.post(`${ENV.API_URL}/user/edit`, data)
-	}
-	this.unFavoriteUser = function(userId){
-		console.log(userId)
-		var data = {};
-		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
-		data.myId = decoded._id;
-		data.unFavoriteId = userId
-		console.log("MYID", data.myId)
-		console.log("THEIRID", data.unFavoriteId)
-		return $http.put(`${ENV.API_URL}/user/unfavorite`, data)
-	}
-	this.eraseUser = function(userId){
-		console.log("USERID", userId)
-		var data = {};
-		data.userId = userId
-		return $http.post(`${ENV.API_URL}/user/erase`, data)
-	}
-	this.loggedIn = function(isLoggedIn){
-			if(isLoggedIn){ return true }
-	};
-  this.uploadImage = function(image, userId){
-    return $http.post(`${ENV.API_URL}/imageUpload`, {
-      userId: userId,
-      image: image
-    })
-  }
-	this.isAuthed = function(token){
-		return $http.post(`${ENV.API_URL}/auth`, {token:token})
+	this.writeReview = function(id, review){
+		return $http.put(`${ENV.API_URL}/deathMatches/${id}`, review)
 	};
 })
 
@@ -141,9 +97,9 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV, UserService, $cookies, jwtHelper, $location){
-
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location){
+GameService.load()
+	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;
 	}, function failure(err) {
@@ -156,15 +112,12 @@ angular.module('gameCompare')
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
-		// console.log(res.data)
 		 if (res.data === "authRequired"){
 			//  $location.path('/login')
 		 } else
 		 {$scope.isLoggedIn = true;}
 	})
 	$scope.comparing = function(score1, score2){
-		// var ign1 = Number($scope.gameOne.ign[0].criticScore);
-		// var ign2 = Number($scope.gameTwo.ign[0].criticScore);
 		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
 			return "isGreaterThan"
 		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
@@ -230,7 +183,6 @@ angular.module('gameCompare')
 	}
 	$scope.search = function(term){
 		term = term.replace(/\s+/g, '-').toLowerCase();
-
 		$http.get(`${ENV.API_URL}/games/search/${term}`).then( function victory(resp) {
 			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
@@ -238,23 +190,16 @@ angular.module('gameCompare')
 			console.log(err);
 		});
 	}
-	$scope.getProperReview = function(choice){
-		console.log("GET REVIEWWWWW", choice);
-		$http.get(`${ENV.API_URL}/games/page/scores/${choice}`).then( function victory(resp) {
-			console.log("RETURN!", resp);
-		}, function failure(err) {
-			console.log(err);
-		});
-	}
 	$scope.openGame = function(id, name){
-		$http.get(`${ENV.API_URL}/games/page/stats/${id}`).then( function victory(resp) {
+		GameService.openGame()
+		.then( function victory(resp) {
 			console.log("NEW INFO:", resp);
 			$scope.gameInfo = resp.data.game;
 		}, function failure(err) {
 			console.log(err);
 		});
 
-		$http.get(`${ENV.API_URL}/games/page/scores/${name}`).then( function victory(resp) {
+		GameService.openGame().then( function victory(resp) {
 			console.log("SCORES!", resp.data.result);
 			console.log("Massage:", resp.data.message);
 			console.log("DAAATAAA:", resp.data.possibleChoices);
@@ -278,7 +223,7 @@ angular.module('gameCompare')
 		deathmatch.user = $scope.userInfo._id;
 		deathmatch.game1 = $scope.gameOne;
 		deathmatch.game2 = $scope.gameTwo;
-		$http.post(`${ENV.API_URL}/deathMatches`, deathmatch).then(function victory(resp){
+		GameService.startBattle().then(function victory(resp){
 			console.log("HOORAY", resp);
 	}, function failure(err){
 		console.log("OH NO!", err);
@@ -289,7 +234,7 @@ angular.module('gameCompare')
 		games.game1 = game1;
 		games.game2 = game2;
 		console.log("Comparison", games);
-		$http.post(`${ENV.API_URL}/games/compare`, games).then(function victory(resp){
+		GameService.startBattle(games).then(function victory(resp){
 			console.log("GAME ONE BEING", resp.data[0][0]);
 			console.log("GAME TWO BEING", resp.data[1][0]);
 			$scope.gameOne = resp.data[0][0];
@@ -347,6 +292,25 @@ angular.module('gameCompare')
 
 'use strict';
 
+var app = angular.module('gameCompare');
+
+app.service('GameService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`${ENV.API_URL}/games/`)
+	};
+	this.openGame = function(){
+		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
+	};
+	this.startBattle = function(){
+		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
+	};
+	this.startBattle = function(games){
+		return $http.post(`${ENV.API_URL}/games/compare`, games)
+	};
+})
+
+'use strict';
+
 angular.module('gameCompare')
 
 .controller('homeCtrl', function($scope, $http, ENV){
@@ -362,6 +326,66 @@ angular.module('gameCompare')
 		console.log("A THANG!", $scope.check);
 	}
 
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.register = function(user){
+		return $http.post(`${ENV.API_URL}/register`, user);
+	};
+	this.login = function(user){
+		return $http.post(`${ENV.API_URL}/login`, user);
+	};
+	this.list = function(){
+		return $http.get(`${ENV.API_URL}/user/list`);
+	};
+	this.page = function(username){
+		return $http.get(`${ENV.API_URL}/user/page/${username}`)
+	}
+	this.auth = function(){
+		return $http.get(`${ENV.API_URL}/auth`)
+	};
+	this.favoriteUser = function(userId){
+		var data = {};
+		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
+		data.myId = decoded._id;
+		data.favoriteId = userId
+		return $http.put(`${ENV.API_URL}/user/favorite`, data)
+	};
+	this.editAccount = function(data){
+		return $http.post(`${ENV.API_URL}/user/edit`, data)
+	}
+	this.unFavoriteUser = function(userId){
+		console.log(userId)
+		var data = {};
+		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
+		data.myId = decoded._id;
+		data.unFavoriteId = userId
+		console.log("MYID", data.myId)
+		console.log("THEIRID", data.unFavoriteId)
+		return $http.put(`${ENV.API_URL}/user/unfavorite`, data)
+	}
+	this.eraseUser = function(userId){
+		console.log("USERID", userId)
+		var data = {};
+		data.userId = userId
+		return $http.post(`${ENV.API_URL}/user/erase`, data)
+	}
+	this.loggedIn = function(isLoggedIn){
+			if(isLoggedIn){ return true }
+	};
+  this.uploadImage = function(image, userId){
+    return $http.post(`${ENV.API_URL}/imageUpload`, {
+      userId: userId,
+      image: image
+    })
+  }
+	this.isAuthed = function(token){
+		return $http.post(`${ENV.API_URL}/auth`, {token:token})
+	};
 })
 
 'use strict';
@@ -529,8 +553,9 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV){
-	$http.get(`${ENV.API_URL}/deathMatches/`).then( function victory(resp) {
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService){
+	DeathMatchService.load()
+	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.deathMatches = resp.data;
 	}, function failure(err) {
@@ -552,7 +577,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -568,7 +593,8 @@ angular.module('gameCompare')
 		} else
 		{$scope.isLoggedIn = true;}
 	})
-	$http.get(`${ENV.API_URL}/deathMatches/${$state.params.id}`).then( function victory(resp) {
+	DeathMatchService.openMatch($state.params.id)
+	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		// $scope.deathMatch = resp.data;
 		$scope.gameOne = resp.data.game1;
@@ -576,7 +602,7 @@ angular.module('gameCompare')
 
 		$scope.game1UserReviews = resp.data.game1UserReviews
 		$scope.game2UserReviews = resp.data.game2UserReviews
-		
+
 		var gameOne = $scope.gameOne
 		var gameTwo = $scope.gameTwo
 		console.log("YOU ARE EL!", gameOne.url);
@@ -686,7 +712,7 @@ angular.module('gameCompare')
 		review.deathMatch = $state.params.id;
 		review.user = $scope.userInfo._id;
 		review.review = content;
-		$http.put(`${ENV.API_URL}/deathMatches/${$state.params.id}`, review).then( function victory(resp){
+		DeathMatchService($state.params.id, review).then( function victory(resp){
 			console.log("HOORA", resp);
 		}), function failure(err){
 			console.log("O no ", err);
@@ -832,7 +858,6 @@ angular.module('gameCompare')
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
-		// console.log(res.data)
 		 if (res.data === "authRequired"){$location.path('/login')}
 		 else{$scope.isLoggedIn = true;}
 	})

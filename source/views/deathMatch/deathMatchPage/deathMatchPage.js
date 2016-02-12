@@ -3,7 +3,7 @@
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -19,7 +19,8 @@ angular.module('gameCompare')
 		} else
 		{$scope.isLoggedIn = true;}
 	})
-	$http.get(`${ENV.API_URL}/deathMatches/${$state.params.id}`).then( function victory(resp) {
+	DeathMatchService.openMatch($state.params.id)
+	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		// $scope.deathMatch = resp.data;
 		$scope.gameOne = resp.data.game1;
@@ -27,7 +28,7 @@ angular.module('gameCompare')
 
 		$scope.game1UserReviews = resp.data.game1UserReviews
 		$scope.game2UserReviews = resp.data.game2UserReviews
-		
+
 		var gameOne = $scope.gameOne
 		var gameTwo = $scope.gameTwo
 		console.log("YOU ARE EL!", gameOne.url);
@@ -137,7 +138,7 @@ angular.module('gameCompare')
 		review.deathMatch = $state.params.id;
 		review.user = $scope.userInfo._id;
 		review.review = content;
-		$http.put(`${ENV.API_URL}/deathMatches/${$state.params.id}`, review).then( function victory(resp){
+		DeathMatchService($state.params.id, review).then( function victory(resp){
 			console.log("HOORA", resp);
 		}), function failure(err){
 			console.log("O no ", err);

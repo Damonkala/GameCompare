@@ -13,9 +13,10 @@ gulp.task('default', ['build', 'watch'])
 gulp.task('watch', function() {
 	gulp.watch('source/**/*', ['build']);
 });
-
 gulp.task('build', ['clean'], function(){
-	gulp.src('source/**/*.js')
+	gulp.src('source/module.js')
+		.pipe(addsrc("source/services/*.js"))
+		.pipe(addsrc("source/views/**/*.js"))
 		.pipe(concat("bundle.js"))
 		.pipe(addsrc("source/**/*.html"))
     .pipe(addsrc("source/**/*.css"))

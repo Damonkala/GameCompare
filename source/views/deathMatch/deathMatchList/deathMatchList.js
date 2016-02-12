@@ -3,8 +3,9 @@
 angular.module('gameCompare')
 
 
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV){
-	$http.get(`${ENV.API_URL}/deathMatches/`).then( function victory(resp) {
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService){
+	DeathMatchService.load()
+	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.deathMatches = resp.data;
 	}, function failure(err) {
