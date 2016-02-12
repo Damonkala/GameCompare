@@ -20,16 +20,8 @@
 		<td>
 			{{game.release_date}}
 		</td>
-		<!-- <td ng-click="openGame(game.id, game.name)">
-			Name:	{{game.name}}
-		</td> -->
 	</tr>
 </table>
-<!-- <div ng-repeat="game in games track by $index">
-<div ng-click="openGame(game.id, game.name)">
-Name:	{{game.name}}
-</div>
-</div> -->
 <div ng-if="gameInfo && reviews" class="happyBox">
 	<img src="https:{{gameInfo.cover.url}}" alt="">
 	<p>
@@ -88,11 +80,14 @@ Name:	{{game.name}}
 				<p ng-if="gamespot.criticScore > 0">
 					Critic Score: {{gamespot.criticScore}}/10
 				</p>
-				<p  ng-if="gamespot.userScore > 0">
+				<p ng-if="gamespot.userScore > 0">
 					User Score: {{gamespot.userScore}}/10
 				</p>
 			</a>
 		</div>
+		<!-- <div class="total"> -->
+			<button class="magicButton" ng-click="saveGame()">Save Game</button>
+		<!-- </div> -->
 	</div>
 	<p>
 		Summary: {{gameInfo.summary}}
@@ -102,5 +97,4 @@ Name:	{{game.name}}
 			Genres: {{genre.name}}
 		</p>
 	</div>
-	<button ng-click="saveGame()">Save Game</button>
 </div>

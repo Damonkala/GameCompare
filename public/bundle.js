@@ -514,6 +514,7 @@ angular.module('gameCompare')
 			if(!resp.data.message){
 				$scope.reviews = true;
 				var scoreData = resp.data.result;
+				console.log("This just in ", scoreData);
 				$scope.gamespot = scoreData.gamespot
 				$scope.gamesradar = scoreData.gamesradar
 				$scope.ign = scoreData.ign
@@ -536,10 +537,15 @@ angular.module('gameCompare')
 		newGame.releases = $scope.gameInfo.release_dates
 		newGame.summary = $scope.gameInfo.summary
 		newGame.themes = $scope.gameInfo.themes
+
 		newGame.gamespot = $scope.gamespot
 		newGame.gamesradar = $scope.gamesradar
 		newGame.ign = $scope.ign
 		newGame.metacritic = $scope.metacritic
+		console.log("spot", newGame.gamespot);
+		console.log("radar", newGame.gamesradar);
+		console.log("ign", newGame.ign);
+		console.log("meta", newGame.metacritic);
 		GameService.saveGame(newGame).then( function victory(resp) {
 			console.log(resp.data)
 		}, function failure(err) {
