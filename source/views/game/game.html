@@ -1,5 +1,6 @@
 <div ng-if="isLoggedIn">
 	<h1>Just checkin to see if you're logged in</h1>
+	<button class="btn btn-danger name" ng-click="startBattle()" ng-if="gameOne && gameTwo"> BATTLE BEGIN!</button>
 </div>
 <label for="game1">Game 1</label>
 <select ng-model="game1">
@@ -17,9 +18,9 @@
 <br>
 <div id="game1" ng-if="gameOne">
 	<a href="{{gameOne.url}}">
-	<h1 class="title">
-		{{gameOne.name}}
-	</h1>
+		<h1 class="title">
+			{{gameOne.name}}
+		</h1>
 	</a>
 	<hr>
 	<img src="https:{{gameOneCover}}" class="thumb">
@@ -118,16 +119,16 @@
 		<p ng-if="!gameOne.summary">
 			This title is awaiting a description.
 			<a href="{{gameOne.url}}">
-			Why not add one?
+				Why not add one?
 			</a>
 		</p>
 	</div>
 </div>
 <div id="game2"  ng-if="gameOne">
 	<a href="{{gameTwo.url}}">
-	<h1 class="title">
-		{{gameTwo.name}}
-	</h1>
+		<h1 class="title">
+			{{gameTwo.name}}
+		</h1>
 	</a>
 	<hr>
 	<img src="https:{{gameTwoCover}}" class="thumb">
@@ -226,7 +227,7 @@
 		<p ng-if="!gameTwo.summary">
 			This title is awaiting a description.
 			<a href="{{gameTwo.url}}">
-			Why not add one?
+				Why not add one?
 			</a>
 		</p>
 	</div>

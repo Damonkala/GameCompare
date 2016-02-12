@@ -20,6 +20,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
   .state('register', {url: '/register', templateUrl: 'views/register/register.html', controller: 'registerCtrl'})
   .state('usersList', {url: '/userslist', templateUrl: 'views/user/usersList/usersList.html', controller: 'usersListCtrl'})
   .state('userPage', {url: '/userpage/{username}', templateUrl: 'views/user/userPage/userPage.html', controller: 'userPageCtrl'})
+  .state('deathMatchList', {url: '/deathMatchlist', templateUrl: 'views/deathMatch/deathMatchList/deathMatchList.html', controller: 'deathMatchListCtrl'})
+  .state('deathMatchPage', {url: '/deathMatchpage/{id}', templateUrl: 'views/deathMatch/deathMatchPage/deathMatchPage.html', controller: 'deathMatchPageCtrl'})
 })
 
 app.controller('MasterController', function(UserService, $cookies, jwtHelper, $scope, $state, $rootScope){

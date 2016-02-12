@@ -12,11 +12,9 @@ var userSchema = Schema({
   username: { type: String, required: true, unique: true},
 	name: {type: String, required: true},
   password: { type: String, required: true },
-	phone: {type: Number},
-	address: {type: String},
 	avatar: {type: String, data:Buffer, default: ''},
-	favorites: [{type: Schema.Types.ObjectId, ref: "User"}],
-	isAdmin: {type: Boolean, default: false}
+	deathMatches: [{type: Schema.Types.ObjectId, ref: "DeathMatch"}],
+	reviews: [{type: Schema.Types.ObjectId, ref: "UserReview"}],
 });
 
 

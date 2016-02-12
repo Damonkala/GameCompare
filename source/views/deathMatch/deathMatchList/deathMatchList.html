@@ -1,0 +1,19 @@
+<h1>List of ongoing Death Matches</h1>
+<table class="table-hover table-center">
+  <tbody>
+    <tr ng-repeat="match in deathMatches" ui-sref="deathMatchPage({id: match._id})">
+      <td>
+        <img src="https:{{match.game1.cover[0].url}}" class="thumb">
+        <td ng-class="comparing(match.game1UserReviews.length, match.game2UserReviews.length)">
+          {{match.game1.name}}
+        </td>
+      </td>
+      <td>
+        <img src="https:{{match.game2.cover[0].url}}" class="thumb">
+        <td ng-class="comparing(match.game2UserReviews.length, match.game1UserReviews.length)">
+          {{match.game2.name}}
+        </td>
+      </td>
+    </tr>
+  </tbody>
+</table>

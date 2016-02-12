@@ -1,20 +1,4 @@
-<div ng-if="isLoggedIn">
-	<h1>Just checkin to see if you're logged in</h1>
-	<button class="btn btn-danger name" ng-click="startBattle()" ng-if="gameOne && gameTwo"> BATTLE BEGIN!</button>
-</div>
-<label for="game1">Game 1</label>
-<select ng-model="game1">
-	<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
-		{{games.name}}
-	</option>
-</select>
-<label for="game2">Game 2</label>
-<select ng-model="game2">
-	<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
-		{{games.name}}
-	</option>
-</select>
-<button class="btn btn-primary" ng-click="compare(game1, game2)">Compare</button>
+<h1>DEATH MATCH!</h1>
 <br>
 <div id="game1" ng-if="gameOne">
 	<a href="{{gameOne.url}}">
@@ -123,6 +107,15 @@
 			</a>
 		</p>
 	</div>
+	<div ng-repeat="userReview in game1UserReviews track by $index">
+		<div class="total">
+			{{userReview.review}}
+		</div>
+	</div>
+	<div ng-if="isLoggedIn">
+		<textarea rows="8" cols="40" ng-model="writtenReviewForGameOne"></textarea>
+		<button ng-click="writeReview(writtenReviewForGameOne, 1)">Write a review</button>
+	</div>
 </div>
 <div id="game2"  ng-if="gameOne">
 	<a href="{{gameTwo.url}}">
@@ -230,5 +223,14 @@
 				Why not add one?
 			</a>
 		</p>
+	</div>
+	<div ng-repeat="userReview in game2UserReviews track by $index">
+		<div class="total">
+			{{userReview.review}}
+		</div>
+	</div>
+	<div ng-if="isLoggedIn">
+		<textarea rows="8" cols="40" ng-model="writtenReviewForGameTwo"></textarea>
+		<button ng-click="writeReview(writtenReviewForGameTwo, 2)">Write a review</button>
 	</div>
 </div>
