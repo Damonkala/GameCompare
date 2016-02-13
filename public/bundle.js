@@ -98,7 +98,7 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 angular.module('gameCompare')
 
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster){
-	$scope.grape = "on The ground"
+	console.log("STARTING GAME ONE SCOPE", $scope.gameOne);
 	GameService.load()
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
@@ -118,6 +118,7 @@ angular.module('gameCompare')
 		{$scope.isLoggedIn = true;}
 	})
 	$scope.comparing = function(score1, score2){
+		console.log("COMPARISON TOTALED UP!");
 		return GameService.compareGames(score1, score2)
 	}
 	$scope.startBattle = function(){
@@ -139,17 +140,32 @@ angular.module('gameCompare')
 		games.game2 = game2;
 		GameService.startBattle(games).then(function victory(resp){
 			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
+			console.log("WHOAH THERE BOY", typeof $scope.gameOne);
+			console.log("GAME ONE SCOPE", $scope.gameOne);
 			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
+			console.log("GAME TWO SCOPE", $scope.gameTwo);
 		}, function failure(err){
 			console.log(err);
 		})
 	}
 })
 .directive("gameDirective", function() {
-  return {
-    restrict: 'E',
-    templateUrl: "views/game-view.html"
-  };
+	return {
+		restrict: 'AE',
+		scope: {
+			gameOne: "=",
+			gameTwo: "=",
+		},
+		templateUrl: "views/game-view.html"
+		// ,
+		// link: function(scope, element, attr){
+		// 	scope.gameOne = attr.gameOne
+		// 	scope.$watch(function(){return attr.gameOne}, function(n,o){
+		// 		console.log("NO", n,o);
+		// 	})
+		// 	console.log("THIS IS THING", attr.gameOne);
+		// }
+	};
 })
 
 
@@ -202,10 +218,13 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	};
 	this.compareGames = function(score1, score2){
 		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
+			console.log("ONE IS GREATER THAN THE OTHER !!!!!");
 			return "isGreaterThan"
 		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
+			console.log("ONE IS LESS THAN THE OTHER !!!!!");
 			return "isLessThan"
 		} else {
+			console.log("ONE IS EQUAL TO THE OTHER !!!!!");
 			return "isEqualTo"
 		}
 	}

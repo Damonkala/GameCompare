@@ -1,3 +1,7 @@
+
+
+<div ng-controller="gameCtrl">
+
 <div id="game1" ng-if="gameOne">
 	<a href="{{gameOne.url}}">
 		<h1 class="title">
@@ -26,7 +30,7 @@
 					IGN:
 				</p>
 				<p ng-class="comparing(gameOne.ignCriticScore, gameTwo.ignCriticScore)"  ng-if="gameOne.ignCriticScore > 0">
-					Critic Score: {{gameOneIgn.ignCriticScore}}/10
+					Critic Score: {{gameOne.ignCriticScore}}/10
 				</p>
 				<p ng-class="comparing(gameOne.ignUserScore, gameTwo.ignUserScore)"  ng-if="gameOne.ignUserScore > 0">
 					User Score: {{gameOne.ignUserScore}}/10
@@ -38,7 +42,7 @@
 				<p>
 					Metacritic:
 				</p>
-				<p ng-class="comparing(gameOne.metacriticCriticScore, gameTwo.metacriticCriticScore)" ng-if="gameOneMetaCritic > 0">
+				<p ng-class="comparing(gameOne.metacriticCriticScore, gameTwo.metacriticCriticScore)" ng-if="gameOne.metacriticCriticScore > 0">
 					Critic Score: {{gameOne.metacriticCriticScore}}/100
 				</p>
 				<p ng-class="comparing(gameOne.metacriticUserScore, gameTwo.metacriticUserScore)" ng-if="gameOne.metacriticUserScore > 0">
@@ -105,3 +109,5 @@
 			</a>
 		</p>
 	</div>
+</div>
+</div>
