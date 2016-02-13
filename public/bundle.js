@@ -97,8 +97,9 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location){
-GameService.load()
+.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster){
+	$scope.grape = "on The ground"
+	GameService.load()
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;
@@ -112,173 +113,66 @@ GameService.load()
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
-		 if (res.data === "authRequired"){
-		 } else
-		 {$scope.isLoggedIn = true;}
+		if (res.data === "authRequired"){
+		} else
+		{$scope.isLoggedIn = true;}
 	})
 	$scope.comparing = function(score1, score2){
 		return GameService.compareGames(score1, score2)
 	}
-	$scope.total = function(){
-		console.log("Still broken?", $scope.gameOneIgnCritic);
-		if(isNaN(Number($scope.gameOneIgnCritic))){
-			console.log("IGN ONE CRITIC CHANGED");
-			$scope.gameOneIgnCritic = 0;
-		}
-		if(isNaN(Number($scope.gameTwoIgnCritic))){
-			console.log("IGN TWO CRITIC CHANGED");
-			$scope.gameTwoIgnCritic = 0;
-		}
-		if(isNaN(Number($scope.gameOneIgnUser))){
-			console.log("IGN ONE CRITIC CHANGED");
-			$scope.gameOneIgnUser = 0;
-		}
-		if(isNaN(Number($scope.gameTwoIgnUser))){
-			console.log("IGN TWO CRITIC CHANGED");
-			$scope.gameTwoIgnUser = 0;
-		}
-		$scope.gameOneCriticTotal = (
-			Number($scope.gameOneSpotCritic) +
-			Number($scope.gameOneIgnCritic) +
-			Number($scope.gameOneRadarCritic) +
-			Number($scope.gameOneMetaCritic)
-		)
-		console.log("GAME ONE CRITIC TOTAL:", $scope.gameOneCriticTotal);
-		$scope.gameTwoCriticTotal = (
-			Number($scope.gameTwoSpotCritic) +
-			Number($scope.gameTwoIgnCritic) +
-			Number($scope.gameTwoRadarCritic) +
-			Number($scope.gameTwoMetaCritic)
-		)
-		if (!$scope.gameOneRadarUser) {
-			$scope.gameOneRadarUser = 0;
-		}
-		if (!$scope.gameTwoRadarUser) {
-			$scope.gameTwoRadarUser = 0;
-		}
-		console.log("GAME TWO CRITIC TOTAL:", $scope.gameTwoCriticTotal);
-		$scope.gameOneUserTotal = (
-			Number($scope.gameOneSpotUser) +
-			Number($scope.gameOneIgnUser) +
-			Number($scope.gameOneRadarUser) +
-			Number($scope.gameOneMetaUser)
-		)
-		console.log("GAME ONE USER TOTAL:", $scope.gameOneUserTotal);
-
-		$scope.gameTwoUserTotal = (
-			Number($scope.gameTwoSpotUser) +
-			Number($scope.gameTwoIgnUser) +
-			Number($scope.gameTwoRadarUser) +
-			Number($scope.gameTwoMetaUser)
-		)
-		console.log("GAME TWO USER TOTAL:", $scope.gameTwoUserTotal);
-
-	}
-	$scope.search = function(term){
-		term = term.replace(/\s+/g, '-').toLowerCase();
-		GameService.searchGame().then( function victory(resp) {
-			console.log("INFO:", resp.data.games);
-			$scope.games = resp.data.games;
-		}, function failure(err) {
-			console.log(err);
-		});
-	}
-	$scope.openGame = function(id, name){
-		GameService.openGame()
-		.then( function victory(resp) {
-			console.log("NEW INFO:", resp);
-			$scope.gameInfo = resp.data.game;
-		}, function failure(err) {
-			console.log(err);
-		});
-
-		GameService.openGame().then( function victory(resp) {
-			console.log("SCORES!", resp.data.result);
-			console.log("Massage:", resp.data.message);
-			console.log("DAAATAAA:", resp.data.possibleChoices);
-			if(!resp.data.message){
-				var scoreData = resp.data.result;
-				$scope.gamespot = scoreData.gamespot
-				$scope.gamesradar = scoreData.gamesradar
-				$scope.ign = scoreData.ign
-				$scope.metacritic = scoreData.metacritic
-			}
-			$scope.choices = resp.data.possibleChoices
-			console.log("choice", $scope.choices);
-		}, function failure(err) {
-			console.log(err);
-		});
-	}
-
 	$scope.startBattle = function(){
 		console.log($scope.gameOne, " V.S ", $scope.gameTwo);
 		var deathmatch = {};
 		deathmatch.user = $scope.userInfo._id;
 		deathmatch.game1 = $scope.gameOne;
 		deathmatch.game2 = $scope.gameTwo;
-		GameService.startBattle().then(function victory(resp){
+		// GameService.startBattle(deathmatch)
+		$http.post(`${ENV.API_URL}/deathMatches`, deathmatch).then(function victory(resp){
 			console.log("HOORAY", resp);
-	}, function failure(err){
-		console.log("OH NO!", err);
-	})
-}
+		}, function failure(err){
+			console.log("OH NO!", err);
+		})
+	}
 	$scope.compare = function(game1, game2){
 		var games = {}
 		games.game1 = game1;
 		games.game2 = game2;
 		GameService.startBattle(games).then(function victory(resp){
-			$scope.gameOne = resp.data[0][0];
-			$scope.gameTwo = resp.data[1][0];
-			var gameOne = $scope.gameOne
-			var gameTwo = $scope.gameTwo
-
-			console.log("YOU ARE EL!", gameOne.url);
-			$scope.gameOneurl = gameOne.url;
-			$scope.gameTwourl = gameTwo.url;
-			$scope.gameOneCover = gameOne.cover[0].url
-			$scope.gameTwoCover = gameTwo.cover[0].url
-
-			$scope.gameOneRadarCritic = gameOne.gamesradar[0].criticScore
-			$scope.gameOneRadarUser = gameOne.gamesradar[0].userScore
-			$scope.gameOneRadarUrl = gameOne.gamesradar[0].url
-
-			$scope.gameTwoRadarCritic = gameTwo.gamesradar[0].criticScore
-			$scope.gameTwoRadarUser = gameTwo.gamesradar[0].userScore
-			$scope.gameTwoRadarUrl = gameTwo.gamesradar[0].url
-
-			$scope.gameOneIgnCritic = gameOne.ign[0].criticScore
-			console.log("BROKEN?!", $scope.gameOneIgnCritic);
-			$scope.gameOneIgnUser = gameOne.ign[0].userScore
-			$scope.gameOneIgnUrl = gameOne.ign[0].url
-
-			$scope.gameTwoIgnCritic = gameTwo.ign[0].criticScore
-			$scope.gameTwoIgnUser = gameTwo.ign[0].userScore
-			$scope.gameTwoIgnUrl = gameTwo.ign[0].url
-
-			$scope.gameOneMetaCritic = gameOne.metacritic[0].criticScore
-			$scope.gameOneMetaUser = gameOne.metacritic[0].userScore
-			$scope.gameOneMetaUrl = gameOne.metacritic[0].url
-
-			$scope.gameTwoMetaCritic = gameTwo.metacritic[0].criticScore
-			$scope.gameTwoMetaUser = gameTwo.metacritic[0].userScore
-			$scope.gameTwoMetaUrl = gameTwo.metacritic[0].url
-
-
-			$scope.gameOneSpotCritic = gameOne.gamespot[0].criticScore
-			$scope.gameOneSpotUser = gameOne.gamespot[0].userScore
-			$scope.gameOneSpotUrl = gameOne.gamespot[0].url
-
-			$scope.gameTwoSpotCritic = gameTwo.gamespot[0].criticScore
-			$scope.gameTwoSpotUser = gameTwo.gamespot[0].userScore
-			$scope.gameTwoSpotUrl = gameTwo.gamespot[0].url
-
-
-			$scope.total();
+			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
+			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
 		}, function failure(err){
 			console.log(err);
 		})
 	}
 })
+.directive("gameDirective", function() {
+  return {
+    restrict: 'E',
+    templateUrl: "views/game-view.html"
+  };
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
 
 'use strict';
 
@@ -294,7 +188,7 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	this.searchGame = function(term){
 		return $http.get(`${ENV.API_URL}/games/search/${term}`)
 	};
-	this.startBattle = function(){
+	this.startBattle = function(deathmatch){
 		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
 	};
 	this.startBattle = function(games){
@@ -335,6 +229,76 @@ angular.module('gameCompare')
 		console.log("A THANG!", $scope.check);
 	}
 
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.setScopes = function(data){
+		var trueGame = data;
+		trueGame.cover = data.cover[0].url;
+
+		trueGame.gameSpotCriticScore = data.gamespot[0].criticScore;
+		trueGame.gameSpotUserScore = data.gamespot[0].userScore;
+		trueGame.gameSpotUrl = data.gamespot[0].url;
+
+		trueGame.gamesRadarCriticScore = data.gamesradar[0].criticScore;
+		trueGame.gamesRadarUserScore = data.gamesradar[0].userScore;
+		trueGame.gamesRadarUrl = data.gamesradar[0].url;
+
+		trueGame.ignCriticScore = data.ign[0].criticScore;
+		trueGame.ignUserScore = data.ign[0].userScore;
+		trueGame.ignUrl = data.ign[0].url;
+
+		trueGame.metacriticCriticScore = data.metacritic[0].criticScore;
+		trueGame.metacriticUserScore = data.metacritic[0].userScore;
+		trueGame.metacriticUrl = data.metacritic[0].url;
+
+		var criticScore = [trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.IgnCriticScore, trueGame.MetacriticCriticScore]
+		function totalScore(scores) {
+			var total = [];
+			console.log("DO WE REALLY HAVE SCORE!?", scores);
+			for(var i = 0; i<scores.length;i++){
+				if(!Number(scores[i])){
+					console.log("Not a real score", Number(scores[i]), scores[i]);
+					total.push(0)
+					console.log("Current total: fail:", total);
+				} else {
+					console.log("Is a real score", Number(scores[i]), scores[i]);
+					total.push(Number(scores[i]))
+					console.log("Current total: success:", total);
+				}
+			}
+			return total.reduce(function(a, b){
+				console.log("We totaled up, what's the problem?", a + b);
+				return a + b;
+			})
+		}
+		trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])
+
+		trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
+
+		console.log("DO WE HAVE CRITIC SCORE?", criticScore);
+		console.log("DO WE HAVE A REAL CRITIC SCORE?", trueGame.totalCritic);
+		console.log("DO WE HAVE A REAL USER SCORE?", trueGame.totalUser);
+		console.log("TRUE FORM!", trueGame);
+		return trueGame
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+.controller('listCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
 })
 
 'use strict';
@@ -395,19 +359,6 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 	this.isAuthed = function(token){
 		return $http.post(`${ENV.API_URL}/auth`, {token:token})
 	};
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-.controller('listCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
 })
 
 'use strict';
@@ -712,7 +663,7 @@ angular.module('gameCompare')
 		review.deathMatch = $state.params.id;
 		review.user = $scope.userInfo._id;
 		review.review = content;
-		DeathMatchService($state.params.id, review).then( function victory(resp){
+		DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
 			console.log("HOORA", resp);
 		}), function failure(err){
 			console.log("O no ", err);

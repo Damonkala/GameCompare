@@ -1,3 +1,7 @@
+<div ng-app="gameCompare" ng-controller="gameCtrl">
+	<game-directive></game-directive>
+</div>
+
 <div ng-if="isLoggedIn">
 	<h1>Just checkin to see if you're logged in</h1>
 	<button class="btn btn-danger name" ng-click="startBattle()" ng-if="gameOne && gameTwo"> BATTLE BEGIN!</button>
@@ -16,38 +20,38 @@
 </select>
 <button class="btn btn-primary" ng-click="compare(game1, game2)">Compare</button>
 <br>
-<div id="game1" ng-if="gameOne">
+<!-- <div id="game1" ng-if="gameOne">
 	<a href="{{gameOne.url}}">
 		<h1 class="title">
 			{{gameOne.name}}
 		</h1>
 	</a>
 	<hr>
-	<img src="https:{{gameOneCover}}" class="thumb">
+	<img src="https:{{gameOne.cover}}" class="thumb">
 	<div class="reviews">
-		<div class="review radar" ng-if="gameOneRadarCritic > 0 || gameOneRadarUser > 0">
-			<a href="{{gameOneRadarUrl}}">
+		<div class="review radar" ng-if="gameOne.gamesRadarCriticScore > 0 || gameOne.gamesRadarUserScore > 0">
+			<a href="{{gameOne.gamesRadarUrl}}">
 				<p>
 					Gamesradar:
 				</p>
-				<p ng-class="comparing(gameOneRadarCritic, gameTwoRadarCritic)" ng-if="gameOneRadarCritic > 0">
-					Critc Score: {{gameOneRadarCritic}}/5
+				<p ng-class="comparing(gameOne.gamesRadarCriticScore, gameTwo.gamesRadarCriticScore)" ng-if="gameOne.gamesRadarCriticScore > 0">
+					Critc Score: {{gameOne.gamesRadarCriticScore}}/5
 				</p>
-				<p ng-class="comparing(gameOneRadarUser, gameTwoRadarUser)" ng-if="gameOneRadarUser > 0">
-					User Score: {{gameOneRadarUser}}/5
+				<p ng-class="comparing(gameOne.gamesRadarUserScore, gameTwo.gamesRadarUserScore)" ng-if="gameOne.gamesRadarUserScore > 0">
+					User Score: {{gameOne.gamesRadarUserScore}}/5
 				</p>
 			</a>
 		</div>
-		<div class="review ign" ng-if="gameOneIgnCritic > 0 || gameOneIgnUser > 0">
-			<a href="{{gameOneIgnUrl}}">
+		<div class="review ign" ng-if="gameOne.ignCriticScore > 0 || gameOne.ignUserScore > 0">
+			<a href="{{gameOne.ignUrl}}">
 				<p>
 					IGN:
 				</p>
-				<p ng-class="comparing(gameOneIgnCritic, gameTwoIgnCritic)"  ng-if="gameOneIgnCritic > 0">
-					Critic Score: {{gameOneIgnCritic}}/10
+				<p ng-class="comparing(gameOne.ignCriticScore, gameTwo.ignCriticScore)"  ng-if="gameOne.ignCriticScore > 0">
+					Critic Score: {{gameOneIgn.ignCriticScore}}/10
 				</p>
-				<p ng-class="comparing(gameOneIgnUser, gameTwoIgnUser)"  ng-if="gameOneIgnUser > 0">
-					User Score: {{gameOneIgnUser}}/10
+				<p ng-class="comparing(gameOneIgnUser, gameTwo.ignUserScore)"  ng-if="gameOne.ignUserScore > 0">
+					User Score: {{gameOne.ignUserScore}}/10
 				</p>
 			</a>
 		</div>
@@ -131,7 +135,7 @@
 		</h1>
 	</a>
 	<hr>
-	<img src="https:{{gameTwoCover}}" class="thumb">
+	<img src="https:{{gameTwo.cover}}" class="thumb">
 	<div class="reviews">
 		<div class="review radar" ng-if="gameTwoRadarCritic > 0 || gameTwoRadarUser > 0">
 			<a href="{{gameTwoRadarUrl}}">
@@ -231,4 +235,4 @@
 			</a>
 		</p>
 	</div>
-</div>
+</div> -->

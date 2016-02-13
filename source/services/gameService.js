@@ -12,7 +12,7 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	this.searchGame = function(term){
 		return $http.get(`${ENV.API_URL}/games/search/${term}`)
 	};
-	this.startBattle = function(){
+	this.startBattle = function(deathmatch){
 		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
 	};
 	this.startBattle = function(games){

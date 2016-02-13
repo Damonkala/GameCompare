@@ -6,6 +6,7 @@ var https = require("https");
 
 var DeathMatch = require('../models/DeathMatch.js');
 var UserReview = require('../models/UserReview.js');
+var User = require('../models/User.js');
 
 router.get('/', function(req, res){
 	console.log("RETURNING ALL DEATH MATCHES");
@@ -16,7 +17,10 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
 	console.log("MAKING A NEW DEATH MATCH", req.body);
 	DeathMatch.make(req.body, function(err, deathMatch){
-		res.send(deathMatch)
+			// res.send(deathMatch)
+		User.findByIdAndUpdate(deathMatch.user, { $push: { deathMatches: deathMatch }}, function(err, deathMatch) {
+			res.status(err ? 400 : 200).send(err || deathMatch)
+		})
 	})
 })
 router.get('/:id', function(req, res){
@@ -32,13 +36,16 @@ router.put('/:id', function(req, res){
 		console.log("WE GOT A NEW REVIEW!!", newReview);
 		if(game === 1){
 			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game1UserReviews: newReview }}, function(err, deathMatch) {
-				res.status(err ? 400 : 200).send(err || deathMatch)
+				// res.status(err ? 400 : 200).send(err || deathMatch)
 			})
 		}else {
 			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game2UserReviews: newReview }}, function(err, deathMatch) {
-				res.status(err ? 400 : 200).send(err || deathMatch)
+				// res.status(err ? 400 : 200).send(err || deathMatch)
 			})
 		}
+		User.findByIdAndUpdate(newReview.user, { $push: { reviews: newReview }}, function(err, deathMatch) {
+			res.status(err ? 400 : 200).send(err || deathMatch)
+		})
 	})
 })
 

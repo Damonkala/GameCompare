@@ -138,7 +138,7 @@ angular.module('gameCompare')
 		review.deathMatch = $state.params.id;
 		review.user = $scope.userInfo._id;
 		review.review = content;
-		DeathMatchService($state.params.id, review).then( function victory(resp){
+		DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
 			console.log("HOORA", resp);
 		}), function failure(err){
 			console.log("O no ", err);

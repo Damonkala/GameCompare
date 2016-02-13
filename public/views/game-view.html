@@ -1,0 +1,107 @@
+<div id="game1" ng-if="gameOne">
+	<a href="{{gameOne.url}}">
+		<h1 class="title">
+			{{gameOne.name}}
+		</h1>
+	</a>
+	<hr>
+	<img src="https:{{gameOne.cover}}" class="thumb">
+	<div class="reviews">
+		<div class="review radar" ng-if="gameOne.gamesRadarCriticScore > 0 || gameOne.gamesRadarUserScore > 0">
+			<a href="{{gameOne.gamesRadarUrl}}">
+				<p>
+					Gamesradar:
+				</p>
+				<p ng-class="comparing(gameOne.gamesRadarCriticScore, gameTwo.gamesRadarCriticScore)" ng-if="gameOne.gamesRadarCriticScore > 0">
+					Critc Score: {{gameOne.gamesRadarCriticScore}}/5
+				</p>
+				<p ng-class="comparing(gameOne.gamesRadarUserScore, gameTwo.gamesRadarUserScore)" ng-if="gameOne.gamesRadarUserScore > 0">
+					User Score: {{gameOne.gamesRadarUserScore}}/5
+				</p>
+			</a>
+		</div>
+		<div class="review ign" ng-if="gameOne.ignCriticScore > 0 || gameOne.ignUserScore > 0">
+			<a href="{{gameOne.ignUrl}}">
+				<p>
+					IGN:
+				</p>
+				<p ng-class="comparing(gameOne.ignCriticScore, gameTwo.ignCriticScore)"  ng-if="gameOne.ignCriticScore > 0">
+					Critic Score: {{gameOneIgn.ignCriticScore}}/10
+				</p>
+				<p ng-class="comparing(gameOne.ignUserScore, gameTwo.ignUserScore)"  ng-if="gameOne.ignUserScore > 0">
+					User Score: {{gameOne.ignUserScore}}/10
+				</p>
+			</a>
+		</div>
+		<div class="review metacritic" ng-if="gameOne.metacriticCriticScore > 0 || gameOne.metacriticUserScore > 0">
+			<a href="{{gameOne.metacriticUrl}}" >
+				<p>
+					Metacritic:
+				</p>
+				<p ng-class="comparing(gameOne.metacriticCriticScore, gameTwo.metacriticCriticScore)" ng-if="gameOneMetaCritic > 0">
+					Critic Score: {{gameOne.metacriticCriticScore}}/100
+				</p>
+				<p ng-class="comparing(gameOne.metacriticUserScore, gameTwo.metacriticUserScore)" ng-if="gameOne.metacriticUserScore > 0">
+					User Score: {{gameOne.metacriticUserScore}}/10
+				</p>
+			</a>
+		</div>
+		<div class="review gamespot"  ng-if="gameOne.gamespotCriticScore > 0 || gameOne.gamespotUserScore > 0">
+			<a href="{{gameOne.gamespotUrl}}">
+				<p>
+					Gamespot:
+				</p>
+				<p ng-class="comparing(gameOne.gamespotCriticScore, gameTwo.gamespotCriticScore)" ng-if="gameOne.gamespotCriticScore > 0">
+					Critic Score: {{gameOne.gamespotCriticScore}}/10
+				</p>
+				<p ng-class="comparing(gameOne.gamespotUserScore, gameTwo.gamespotUserScore)" ng-if="gameOne.gamespotUserScore > 0">
+					User Score: {{gameOne.gamespotUserScore}}/10
+				</p>
+			</a>
+		</div>
+		<div class="total" ng-if="gameOne.totalCritic > 0 || gameOne.totalUser > 0">
+			<p>
+				Total:
+			</p>
+			<p ng-class="comparing(gameOne.totalCritic, gameTwo.totalCritic)">
+				Critic Total: {{gameOne.totalCritic}}/125
+			</p>
+			<p ng-class="comparing(gameOne.totalUser, gameTwo.totalUser)">
+				User Total: {{gameOne.totalUser}}/35
+			</p>
+		</div>
+	</div>
+	<div class="stats">
+		<div ng-repeat="company in gameOne.companies">
+			<p ng-if="company.developer">
+				Developed by: {{company.name}}
+			</p>
+			<p ng-if="company.publisher">
+				Published by: {{company.name}}
+			</p>
+		</div>
+		Release(s):
+		<div ng-repeat="release in gameOne.releases">
+			<p>
+				{{release.release_date}} for {{release.platform_name}}
+			</p>
+		</div>
+		Genre(s):
+		<div ng-repeat="genre in gameOne.genres">
+			{{genre.name}}
+		</div>
+		<br>
+		Themes(s):
+		<div ng-repeat="theme in gameOne.themes">
+			{{theme.name}}
+		</div>
+		<p>
+			Summary: {{gameOne.summary}}
+		</p>
+		<p ng-if="!gameOne.summary">
+			This title is awaiting a description.
+			<a href="{{gameOne.url}}">
+				Why not add one?
+			</a>
+		</p>
+	</div>
