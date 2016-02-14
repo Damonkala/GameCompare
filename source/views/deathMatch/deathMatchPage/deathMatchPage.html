@@ -109,6 +109,8 @@
 	</div>
 	<div ng-repeat="userReview in game1UserReviews track by $index">
 		<div class="total">
+				<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+			{{userReview.user["username"]}}
 			{{userReview.review}}
 		</div>
 	</div>
@@ -226,6 +228,8 @@
 	</div>
 	<div ng-repeat="userReview in game2UserReviews track by $index">
 		<div class="total">
+			<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+			{{userReview.user["username"]}}
 			{{userReview.review}}
 		</div>
 	</div>

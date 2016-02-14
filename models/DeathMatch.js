@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var DeathMatch;
 
@@ -13,6 +14,8 @@ var deathMatchSchema = Schema({
 	game2UserReviews: [{type: Schema.Types.ObjectId, ref: "UserReview"}],
 	user: {type: Schema.Types.ObjectId, ref: "User"},
 });
+
+deathMatchSchema.plugin(deepPopulate);
 
 deathMatchSchema.statics.make = function(deathMatch, cb){
 	console.log("BATTLE TO THE DEATH", deathMatch);
