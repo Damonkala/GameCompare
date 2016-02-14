@@ -1,4 +1,22 @@
-<h1>DEATH MATCH!</h1>
+
+<death-match-directive game-one="gameOne" game-two="gameTwo"></death-match-directive>
+<div ng-repeat="userReview in game1UserReviews track by $index">
+	<div class="total">
+		<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+		{{userReview.user["username"]}}
+		{{userReview.review}}
+	</div>
+</div>
+<death-match-directive game-one="gameTwo" game-two="gameOne"></death-match-directive>
+<div ng-repeat="userReview in game2UserReviews track by $index">
+	<div class="total">
+		<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+		{{userReview.user["username"]}}
+		{{userReview.review}}
+	</div>
+</div>
+<!-- <h1>DEATH MATCH!</h1>
+
 <br>
 <div id="game1" ng-if="gameOne">
 	<a href="{{gameOne.url}}">
@@ -237,4 +255,4 @@
 		<textarea rows="8" cols="40" ng-model="writtenReviewForGameTwo"></textarea>
 		<button ng-click="writeReview(writtenReviewForGameTwo, 2)">Write a review</button>
 	</div>
-</div>
+</div> -->

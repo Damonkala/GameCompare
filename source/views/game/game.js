@@ -62,14 +62,6 @@ angular.module('gameCompare')
 			gameTwo: "=",
 		},
 		templateUrl: "views/game-view.html"
-		// ,
-		// link: function(scope, element, attr){
-		// 	scope.gameOne = attr.gameOne
-		// 	scope.$watch(function(){return attr.gameOne}, function(n,o){
-		// 		console.log("NO", n,o);
-		// 	})
-		// 	console.log("THIS IS THING", attr.gameOne);
-		// }
 	};
 })
 
