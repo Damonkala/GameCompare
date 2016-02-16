@@ -64,25 +64,3 @@ angular.module('gameCompare')
 		templateUrl: "views/game-view.html"
 	};
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//

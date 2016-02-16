@@ -160,28 +160,6 @@ angular.module('gameCompare')
 	};
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-
 'use strict';
 
 var app = angular.module('gameCompare');
