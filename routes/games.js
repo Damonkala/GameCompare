@@ -99,14 +99,6 @@ router.get('/page/stats/:id', function(req, res){
 			res.send(str)
 		});
 	}
-	var req = https.request(options, callback);
-	request.get(`http://www.ign.com/games/${name}/`, function(err, res, html){
-		var $ = cheerio.load(html);
-		$('div.ratingRows').each(function(i, element){
-			var a = $(this).find('.ratingValue');
-			console.log("IGN", a.text());
-		})
-	})
 	req.end();
 })
 
