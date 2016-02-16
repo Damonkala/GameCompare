@@ -1,7 +1,8 @@
 
-<death-match-directive game-one="gameOne" game-two="gameTwo"></death-match-directive>
+<death-match-directive game-one="gameOne" game-two="gameTwo">
+</death-match-directive>
 <div ng-repeat="userReview in game1UserReviews track by $index">
-	<div class="total">
+	<div class="userReview">
 		<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
 		{{userReview.user["username"]}}
 		{{userReview.review}}
@@ -9,7 +10,7 @@
 </div>
 <death-match-directive game-one="gameTwo" game-two="gameOne"></death-match-directive>
 <div ng-repeat="userReview in game2UserReviews track by $index">
-	<div class="total">
+	<div class="userReview">
 		<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
 		{{userReview.user["username"]}}
 		{{userReview.review}}

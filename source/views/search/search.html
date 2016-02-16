@@ -14,23 +14,35 @@
 		</th>
 	</tr>
 	<tr ng-repeat="game in games track by $index" ng-click="openGame(game.id, game.name)">
+		<script>
+		var realTime = moment(game.release_date).format('MMMM Do YYYY');
+		console.log("UN REAL TIME!",realTime);
+		</script>
 		<td>
 			{{game.name}}
 		</td>
 		<td>
-			{{game.release_date}}
+			{{game.release_date | cmdate:'MM/dd/yyyy'}}
 		</td>
+		<!-- <td>
+			{{moment(game.release_date).format('MMMM Do YYYY')}}
+		</td> -->
 	</tr>
 </table>
 <div ng-if="gameInfo && reviews" class="happyBox">
-	<img src="https:{{gameInfo.cover.url}}" alt="">
-	<p>
-		Name: {{gameInfo.name}}
-	</p>
-	<div ng-repeat="choice in choices track by $index">
-		<p ng-click="getProperReview(choice)">
-			{{choice}}
+	<div class="stats">
+		<img src="https:{{gameInfo.cover.url}}" alt="">
+		<p>
+			Name: {{gameInfo.name}}
 		</p>
+		<p>
+			Summary: {{gameInfo.summary}}
+		</p>
+		<div ng-repeat="genre in gameInfo.genres track by $index">
+			<p>
+				Genres: {{genre.name}}
+			</p>
+		</div>
 	</div>
 	<div class="reviews">
 		<div class="review radar" ng-if="gamesradar.criticScore > 0 || gamesradar.userScore > 0">
@@ -85,16 +97,7 @@
 				</p>
 			</a>
 		</div>
-		<!-- <div class="total"> -->
-			<button class="magicButton" ng-click="saveGame()">Save Game</button>
-		<!-- </div> -->
+		<button class="magicButton" ng-click="saveGame()">Save Game</button>
 	</div>
-	<p>
-		Summary: {{gameInfo.summary}}
-	</p>
-	<div ng-repeat="genre in gameInfo.genres track by $index">
-		<p>
-			Genres: {{genre.name}}
-		</p>
-	</div>
+
 </div>

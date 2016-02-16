@@ -8,6 +8,7 @@ angular.module('gameCompare')
 		GameService.searchGame(term).then( function victory(resp) {
 			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
+			console.log(moment($scope.games[0].release_date).format('MMMM Do YYYY, h:mm:ss a'));
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -66,3 +67,10 @@ angular.module('gameCompare')
 		});
 	}
 })
+.filter('cmdate', [
+	'$filter', function($filter) {
+		return function(input, format) {
+			return $filter('date')(new Date(input), format);
+		};
+	}
+]);
