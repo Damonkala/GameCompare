@@ -6,7 +6,6 @@ var https = require("https");
 
 var Game = require('../models/Game.js');
 
-var cheerio = require("cheerio");
 var request = require('request');
 
 var api_key = process.env.IGDB_KEY;
