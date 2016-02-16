@@ -99,6 +99,7 @@ router.get('/page/stats/:id', function(req, res){
 			res.send(str)
 		});
 	}
+	var req = https.request(options, callback);
 	req.end();
 })
 
