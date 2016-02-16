@@ -1,26 +1,29 @@
-
-<death-match-directive game-one="gameOne" game-two="gameTwo">
-</death-match-directive>
-<div ng-repeat="userReview in game1UserReviews track by $index">
-	<div class="userReview">
-		<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
-		{{userReview.user["username"]}}
-		{{userReview.review}}
+<div class="dm">
+	<death-match-directive game-one="gameOne" game-two="gameTwo">
+	</death-match-directive>
+	<div ng-repeat="userReview in game1UserReviews track by $index">
+		<div class="userReview">
+			<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+			{{userReview.user["username"]}}
+			{{userReview.review}}
+		</div>
+		<div ng-if="isLoggedIn">
+			<textarea rows="8" cols="40" ng-model="writtenReviewForGameOne"></textarea>
+			<button ng-click="writeReview(writtenReviewForGameOne, 1)">Write a review</button>
+		</div>
 	</div>
 </div>
-<div ng-if="isLoggedIn">
-	<textarea rows="8" cols="40" ng-model="writtenReviewForGameOne"></textarea>
-	<button ng-click="writeReview(writtenReviewForGameOne, 1)">Write a review</button>
-</div>
-<death-match-directive game-one="gameTwo" game-two="gameOne"></death-match-directive>
-<div ng-repeat="userReview in game2UserReviews track by $index">
-	<div class="userReview">
-		<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
-		{{userReview.user["username"]}}
-		{{userReview.review}}
+<div class="dm">
+	<death-match-directive game-one="gameTwo" game-two="gameOne"></death-match-directive>
+	<div ng-repeat="userReview in game2UserReviews track by $index">
+		<div class="userReview">
+			<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+			{{userReview.user["username"]}}
+			{{userReview.review}}
+		</div>
 	</div>
-</div>
-<div ng-if="isLoggedIn">
-	<textarea rows="8" cols="40" ng-model="writtenReviewForGameTwo"></textarea>
-	<button ng-click="writeReview(writtenReviewForGameTwo, 2)">Write a review</button>
+	<div ng-if="isLoggedIn">
+		<textarea rows="8" cols="40" ng-model="writtenReviewForGameTwo"></textarea>
+		<button ng-click="writeReview(writtenReviewForGameTwo, 2)">Write a review</button>
+	</div>
 </div>

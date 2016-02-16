@@ -1,4 +1,6 @@
-
+.dm{
+	display: inline-block;
+}
 @font-face {
 	font-family: Ponderosa; src: url('ponde.ttf');
 	font-family: Zig; src: url('Zig.ttf');
