@@ -1,5 +1,6 @@
 .dm{
 	display: inline-block;
+	width: 75%;
 }
 @font-face {
 	font-family: Ponderosa; src: url('ponde.ttf');
