@@ -25,24 +25,22 @@
 			{{game.release_date | cmdate:'MM/dd/yyyy'}}
 		</td>
 		<!-- <td>
-			{{moment(game.release_date).format('MMMM Do YYYY')}}
-		</td> -->
-	</tr>
+		{{moment(game.release_date).format('MMMM Do YYYY')}}
+	</td> -->
+</tr>
 </table>
 <div ng-if="gameInfo && reviews" class="happyBox">
-	<div class="stats">
-		<img src="https:{{gameInfo.cover.url}}" alt="">
+	<img src="https:{{gameInfo.cover.url}}" alt="">
+	<p>
+		Name: {{gameInfo.name}}
+	</p>
+	<p>
+		Summary: {{gameInfo.summary}}
+	</p>
+	<div ng-repeat="genre in gameInfo.genres track by $index">
 		<p>
-			Name: {{gameInfo.name}}
+			Genres: {{genre.name}}
 		</p>
-		<p>
-			Summary: {{gameInfo.summary}}
-		</p>
-		<div ng-repeat="genre in gameInfo.genres track by $index">
-			<p>
-				Genres: {{genre.name}}
-			</p>
-		</div>
 	</div>
 	<div class="reviews">
 		<div class="review radar" ng-if="gamesradar.criticScore > 0 || gamesradar.userScore > 0">
@@ -99,5 +97,4 @@
 		</div>
 		<button class="magicButton" ng-click="saveGame()">Save Game</button>
 	</div>
-
 </div>

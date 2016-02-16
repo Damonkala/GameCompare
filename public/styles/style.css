@@ -1,3 +1,4 @@
+
 @font-face {
 	font-family: Ponderosa; src: url('ponde.ttf');
 	font-family: Zig; src: url('Zig.ttf');
@@ -14,10 +15,13 @@
 	/*background: blue;*/
 	/*float: left;*/
 }
+game-directive{
+	display: inline-block;
+}
 .happyBox{
 	/*display: inline-block;*/
 	border: 3px solid #F8A055;
-	width: 75%;
+	/*width: 75%;*/
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #FCFDFE;
@@ -66,6 +70,7 @@
 .review{
 	border: 1px solid black;
 	color: white;
+	width: 75%;
 	border-radius: 10px;
 	margin-top: 10px;
 	margin-right: 10px;
@@ -110,10 +115,10 @@ a:hover{
 	color: blue;
 }
 .reviews{
-	display: inline-block;
+	/*display: inline-block;*/
 	font-family: Zig;
 	font-size: 20px;
-	float: right;
+	/*float: right;*/
 	vertical-align: top;
 }
 .title{
