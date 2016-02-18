@@ -1,4 +1,11 @@
-<div class="dm">
+	<death-match-directive game-one="gameOne" game-two="gameTwo" gameNum="1" user-reviews="game1UserReviews"></death-match-directive>
+		<death-match-directive game-one="gameTwo" game-two="gameOne" gameNum="2" user-reviews="game2UserReviews"></death-match-directive>
+
+
+
+
+
+<!-- <div class="dm">
 	<death-match-directive game-one="gameOne" game-two="gameTwo"></death-match-directive>
 	<div ng-repeat="userReview in game1UserReviews track by $index">
 		<div class="userReview">
@@ -25,4 +32,4 @@
 		<textarea rows="8" cols="40" ng-model="writtenReviewForGameTwo"></textarea>
 		<button ng-click="writeReview(writtenReviewForGameTwo, 2)">Write a review</button>
 	</div>
-</div>
+</div> -->

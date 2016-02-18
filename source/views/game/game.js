@@ -23,7 +23,6 @@ angular.module('gameCompare')
 		{$scope.isLoggedIn = true;}
 	})
 	$scope.comparing = function(score1, score2){
-		console.log("COMPARISON TOTALED UP!");
 		return GameService.compareGames(score1, score2)
 	}
 	$scope.startBattle = function(){

@@ -40,11 +40,12 @@ angular.module('gameCompare')
 		});
 	}
 	$scope.saveGame = function(){
+		var badScore = {'criticScore': 0, 'userScore': 0}
 		console.log("Shaving");
 		var newGame = {}
 		newGame.companies = $scope.gameInfo.companies
 		newGame.url = $scope.url
-		newGame.cover = $scope.gameInfo.cover
+		newGame.cover = $scope.gameInfo.cover ? $scope.gameInfo.cover : '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
 		newGame.genres = $scope.gameInfo.genres
 		newGame.id = $scope.gameInfo.id
 		newGame.name = $scope.gameInfo.name

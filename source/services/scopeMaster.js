@@ -5,25 +5,54 @@ var app = angular.module('gameCompare');
 app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
 	this.setScopes = function(data){
 		var trueGame = data;
-		trueGame.cover = data.cover[0].url;
+		var noReview = {criticScore: 0, userScore: 0, url:null}
+		trueGame.cover = data.cover || '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
 
-		trueGame.gameSpotCriticScore = data.gamespot[0].criticScore;
-		trueGame.gameSpotUserScore = data.gamespot[0].userScore;
-		trueGame.gameSpotUrl = data.gamespot[0].url;
+		console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
+		trueGame.gameSpotCriticScore = data.gamespot.length ? data.gamespot[0].criticScore : 0
+		trueGame.gameSpotUserScore = data.gamespot.length ? data.gamespot[0].userScore : 0
+		trueGame.gameSpotUrl = data.gamespot.length ? data.gamespot[0].url : undefined
 
-		trueGame.gamesRadarCriticScore = data.gamesradar[0].criticScore;
-		trueGame.gamesRadarUserScore = data.gamesradar[0].userScore;
-		trueGame.gamesRadarUrl = data.gamesradar[0].url;
+		console.log("DO WE HAVE GAMESRADAR!?", data.gamesradar);
+		trueGame.gamesRadarCriticScore = data.gamesradar.length ? data.gamesradar[0].criticScore : 0
+		trueGame.gamesRadarUserScore = data.gamesradar.length ? data.gamesradar[0].userScore : 0
+		trueGame.gamesRadarUrl = data.gamesradar.length ? data.gamesradar[0].url : undefined
 
-		trueGame.ignCriticScore = data.ign[0].criticScore;
-		trueGame.ignUserScore = data.ign[0].userScore;
-		trueGame.ignUrl = data.ign[0].url;
+		console.log("DO WE HAVE METACRITIC!?", data.metacritic);
 
-		trueGame.metacriticCriticScore = data.metacritic[0].criticScore;
-		trueGame.metacriticUserScore = data.metacritic[0].userScore;
-		trueGame.metacriticUrl = data.metacritic[0].url;
+		trueGame.metacriticCriticScore = data.metacritic.length ? data.metacritic[0].criticScore : 0
+		trueGame.metacriticUserScore = data.metacritic.length ? data.metacritic[0].userScore : 0
+		trueGame.metacriticUrl = data.metacritic.length ? data.metacritic[0].url : undefined
 
-		var criticScore = [trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.IgnCriticScore, trueGame.MetacriticCriticScore]
+		console.log("DO WE HAVE IGN!?", data.ign);
+		trueGame.ignCriticScore = data.ign.length ? data.ign[0].criticScore : 0
+		trueGame.ignUserScore = data.ign.length ? data.ign[0].userScore : 0
+		trueGame.ignUrl = data.ign.length ? data.ign[0].url : undefined
+		// if(data.gamespot){
+		// 	trueGame.gameSpot = data.gamespot[0];
+		// } else{
+		// 	trueGame.gameSpot = noReview;
+		// }
+		// if(data.gamesradar){
+		// 	trueGame.gamesRadar = data.gamesradar[0];
+		// } else{
+		// 	trueGame.gamesRadar = noReview;
+		// }
+		// trueGame.gamesRadarCriticScore = data.gamesradar[0].criticScore;
+		// trueGame.gamesRadarUserScore = data.gamesradar[0].userScore;
+		// trueGame.gamesRadarUrl = data.gamesradar[0].url;
+		//
+		// trueGame.ignCriticScore = data.ign[0].criticScore;
+		// trueGame.ignUserScore = data.ign[0].userScore;
+		// trueGame.ignUrl = data.ign[0].url;
+		//
+		// trueGame.metacriticCriticScore = data.metacritic[0].criticScore;
+		// trueGame.metacriticUserScore = data.metacritic[0].userScore;
+		// trueGame.metacriticUrl = data.metacritic[0].url;
+
+		var criticScore = [trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore]
+		var userScore = [trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore]
+
 		function totalScore(scores) {
 			var total = [];
 			console.log("DO WE REALLY HAVE SCORE!?", scores);
@@ -43,9 +72,10 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 				return a + b;
 			})
 		}
-		trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])
-
-		trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
+		// trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])
+		trueGame.totalCritic = totalScore(criticScore)
+		trueGame.totalUser = totalScore(userScore)
+		// trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
 
 		console.log("DO WE HAVE CRITIC SCORE?", criticScore);
 		console.log("DO WE HAVE A REAL CRITIC SCORE?", trueGame.totalCritic);

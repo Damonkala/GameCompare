@@ -26,13 +26,10 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	};
 	this.compareGames = function(score1, score2){
 		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			console.log("ONE IS GREATER THAN THE OTHER !!!!!");
 			return "isGreaterThan"
 		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			console.log("ONE IS LESS THAN THE OTHER !!!!!");
 			return "isLessThan"
 		} else {
-			console.log("ONE IS EQUAL TO THE OTHER !!!!!");
 			return "isEqualTo"
 		}
 	}

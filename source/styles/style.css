@@ -1,3 +1,4 @@
+
 .dm{
 	display: inline-block;
 	width: 75%;
@@ -189,4 +190,8 @@ hr {
 }
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
 	background-color: orange;
+}
+.userReviews{
+	color: purple;
+	border: 1px solid orange;
 }

@@ -55,6 +55,8 @@ angular.module('gameCompare')
 		scope: {
 			gameOne: "=",
 			gameTwo: "=",
+			userReviews: "=",
+			gameNum: "="
 		},
 		templateUrl: "views/death-match-view.html"
 	};
