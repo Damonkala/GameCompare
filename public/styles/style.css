@@ -4,9 +4,9 @@
 	width: 75%;
 }
 @font-face {
-	font-family: Ponderosa; src: url('./ponde.ttf');
-	font-family: Zig; src: url('./Zig.ttf');
-	font-family: Charybdis; src: url('./Chary.ttf');
+	font-family: Ponderosa; src: url('../ponde.ttf');
+	font-family: Zig; src: url('../Zig.ttf');
+	font-family: Charybdis; src: url('../Chary.ttf');
 }
 #game1{
 	display: inline-block;
