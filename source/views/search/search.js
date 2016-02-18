@@ -3,9 +3,17 @@
 angular.module('gameCompare')
 
 .controller('searchCtrl', function($scope, $http, ENV, GameService){
+	$scope.loading = false;
+	console.log("LOADING?", $scope.loading);
+		var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
 	$scope.search = function(term){
+		$scope.loading = true;
+		$scope.loadingImage = loadingPics[Math.floor(Math.random() * loadingPics.length)];
+		console.log("LOADING IMAGE", $scope.loadingImage);
+		console.log("LOADING?", $scope.loading);
 		term = term.replace(/\s+/g, '-').toLowerCase();
 		GameService.searchGame(term).then( function victory(resp) {
+			$scope.loading = false;
 			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
 			console.log(moment($scope.games[0].release_date).format('MMMM Do YYYY, h:mm:ss a'));
@@ -14,6 +22,10 @@ angular.module('gameCompare')
 		});
 	}
 	$scope.openGame = function(id, name){
+		$scope.loadingImage = loadingPics[Math.floor(Math.random() * loadingPics.length)];
+		console.log("LOADING IMAGE", $scope.loadingImage);
+		$scope.loading = true;
+		console.log("LOADING?", $scope.loading);
 		GameService.openGame(id).then( function victory(resp) {
 			console.log("NEW INFO:", resp);
 			$scope.url = `https://www.igdb.com/games/${resp.data.game.slug}`;
