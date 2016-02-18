@@ -98,6 +98,63 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 
 angular.module('gameCompare')
 
+.controller('homeCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
+	}
+
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('GameService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`${ENV.API_URL}/games/`)
+	};
+	this.openGame = function(id){
+		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
+	};
+	this.searchGame = function(term){
+		return $http.get(`${ENV.API_URL}/games/search/${term}`)
+	};
+	this.startBattle = function(deathmatch){
+		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
+	};
+	this.startBattle = function(games){
+		return $http.post(`${ENV.API_URL}/games/compare`, games)
+	};
+	this.getScore = function(name){
+		return $http.get(`${ENV.API_URL}/games/page/scores/${name}`)
+	};
+	this.saveGame = function(newGame){
+		return $http.post(`${ENV.API_URL}/games`, newGame)
+	};
+	this.compareGames = function(score1, score2){
+		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
+			return "isGreaterThan"
+		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
+			return "isLessThan"
+		} else {
+			return "isEqualTo"
+		}
+	}
+	// this.totalScore = function()
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster){
 	console.log("STARTING GAME ONE SCOPE", $scope.gameOne);
 	GameService.load()
@@ -164,68 +221,12 @@ angular.module('gameCompare')
 
 var app = angular.module('gameCompare');
 
-app.service('GameService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.load = function(){
-		return $http.get(`${ENV.API_URL}/games/`)
-	};
-	this.openGame = function(id){
-		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
-	};
-	this.searchGame = function(term){
-		return $http.get(`${ENV.API_URL}/games/search/${term}`)
-	};
-	this.startBattle = function(deathmatch){
-		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
-	};
-	this.startBattle = function(games){
-		return $http.post(`${ENV.API_URL}/games/compare`, games)
-	};
-	this.getScore = function(name){
-		return $http.get(`${ENV.API_URL}/games/page/scores/${name}`)
-	};
-	this.saveGame = function(newGame){
-		return $http.post(`${ENV.API_URL}/games`, newGame)
-	};
-	this.compareGames = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
-	}
-	// this.totalScore = function()
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-.controller('homeCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-
-	$scope.compare = function(){
-		console.log("CLICKITY CLACK");
-		console.log("A THANG!", $scope.check);
-	}
-
-})
-
-'use strict';
-
-var app = angular.module('gameCompare');
-
 app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
 	this.setScopes = function(data){
 		var trueGame = data;
+		console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
 		var noReview = {criticScore: 0, userScore: 0, url:null}
-		trueGame.cover = data.cover || '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
+		trueGame.cover = data.cover ? data.cover[0].url : '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
 
 		console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
 		trueGame.gameSpotCriticScore = data.gamespot.length ? data.gamespot[0].criticScore : 0

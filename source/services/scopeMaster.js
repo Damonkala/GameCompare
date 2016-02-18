@@ -5,8 +5,9 @@ var app = angular.module('gameCompare');
 app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
 	this.setScopes = function(data){
 		var trueGame = data;
+		console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
 		var noReview = {criticScore: 0, userScore: 0, url:null}
-		trueGame.cover = data.cover || '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
+		trueGame.cover = data.cover ? data.cover[0].url : '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
 
 		console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
 		trueGame.gameSpotCriticScore = data.gamespot.length ? data.gamespot[0].criticScore : 0
