@@ -145,7 +145,6 @@ a:hover{
 	margin-right: 10px;
 }
 h1{
-	/*font-family: Zig;*/
 	font-family: Ponderosa;
 	text-align: center;
 	font-weight: bold;
@@ -155,23 +154,18 @@ h1{
 	font-family: Zig;
 }
 *{
-	/*font-family: Charybdis;*/
 	font-size: 20px;
 	color: white;
 }
 p, div, h5{
 	font-size: 20px;
-	/*color: white;*/
 	color:inherit;
 }
 .stats{
-	/*display: inline-block;*/
 	font-family: Verdana, Geneva, sans-serif;
-	/*font-family: "Arial Black", Gadget, sans-serif;*/
 	color: black;
 }
 #selected{
-	/*border: 1px solid green;*/
 	display: inline-block;
 }
 input{
