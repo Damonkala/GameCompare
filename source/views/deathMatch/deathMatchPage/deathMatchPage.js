@@ -33,16 +33,24 @@ angular.module('gameCompare')
 		console.log(err);
 	});
 	$scope.writeReview = function(content, game){
-		console.log("is it game", game);
-		var review = {}
-		review.game = game
-		review.deathMatch = $state.params.id;
-		review.user = $scope.userInfo._id;
-		review.review = content;
-		DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
-			console.log("HOORA", resp);
-		}), function failure(err){
-			console.log("O no ", err);
+		if(content){
+			console.log("is it game", game);
+			var review = {}
+			review.game = game
+			review.deathMatch = $state.params.id;
+			review.user = $scope.userInfo._id;
+			review.review = content;
+			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
+				console.log("HOORA", resp);
+			}), function failure(err){
+				console.log("O no ", err);
+			}
+		} else {
+			swal({
+				type: "error",
+				title: "I'm sorry",
+				text: "Did you want to write a review? Then write one."
+			});
 		}
 	}
 	$scope.comparing = function(score1, score2){

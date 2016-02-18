@@ -1,35 +1,4 @@
-	<death-match-directive game-one="gameOne" game-two="gameTwo" gameNum="1" user-reviews="game1UserReviews"></death-match-directive>
-		<death-match-directive game-one="gameTwo" game-two="gameOne" gameNum="2" user-reviews="game2UserReviews"></death-match-directive>
-
-
-
-
-
-<!-- <div class="dm">
-	<death-match-directive game-one="gameOne" game-two="gameTwo"></death-match-directive>
-	<div ng-repeat="userReview in game1UserReviews track by $index">
-		<div class="userReview">
-			<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
-			{{userReview.user["username"]}}
-			{{userReview.review}}
-		</div>
-	</div>
-		<div ng-if="isLoggedIn">
-			<textarea rows="8" cols="40" ng-model="writtenReviewForGameOne"></textarea>
-			<button ng-click="writeReview(writtenReviewForGameOne, 1)">Write a review</button>
-		</div>
-</div>
-<div class="dm">
-	<death-match-directive game-one="gameTwo" game-two="gameOne"></death-match-directive>
-	<div ng-repeat="userReview in game2UserReviews track by $index">
-		<div class="userReview">
-			<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
-			{{userReview.user["username"]}}
-			{{userReview.review}}
-		</div>
-	</div>
-	<div ng-if="isLoggedIn">
-		<textarea rows="8" cols="40" ng-model="writtenReviewForGameTwo"></textarea>
-		<button ng-click="writeReview(writtenReviewForGameTwo, 2)">Write a review</button>
-	</div>
-</div> -->
+<!-- <div ng-controller="deathMatchPageCtrl"> -->
+	<death-match-directive game-one="gameOne" game-two="gameTwo" game-num="1" user-reviews="game1UserReviews"></death-match-directive>
+	<death-match-directive game-one="gameTwo" game-two="gameOne" game-num="2" user-reviews="game2UserReviews"></death-match-directive>
+<!-- </div> -->

@@ -106,16 +106,18 @@
 				</a>
 			</p>
 		</div>
-		<div ng-repeat="userReview in userReviews track by $index">
-			<div class="userReview">
-				<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
-				{{userReview.user["username"]}}
-				{{userReview.review}}
+		<div ng-controller="deathMatchPageCtrl">
+			<div ng-repeat="userReview in userReviews track by $index">
+				<div class="userReviews">
+					<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+					{{userReview.user["username"]}}
+					{{userReview.review}}
+				</div>
 			</div>
-		</div>
-		<div ng-if="isLoggedIn">
-			<textarea rows="8" cols="40" ng-model='reviewBox'></textarea>
-			<button ng-click="writeReview(reviewBox, gameNum)">Write a review</button>
+			<ng-form ng-if="isLoggedIn">
+				<textarea rows="8" cols="40" ng-model='reviewBox'></textarea>
+				<button class="btn btn-success" ng-click="writeReview(reviewBox, gameNum)">Write a review</button>
+			</ng-form>
 		</div>
 	</div>
 </div>

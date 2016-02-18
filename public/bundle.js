@@ -596,16 +596,24 @@ angular.module('gameCompare')
 		console.log(err);
 	});
 	$scope.writeReview = function(content, game){
-		console.log("is it game", game);
-		var review = {}
-		review.game = game
-		review.deathMatch = $state.params.id;
-		review.user = $scope.userInfo._id;
-		review.review = content;
-		DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
-			console.log("HOORA", resp);
-		}), function failure(err){
-			console.log("O no ", err);
+		if(content){
+			console.log("is it game", game);
+			var review = {}
+			review.game = game
+			review.deathMatch = $state.params.id;
+			review.user = $scope.userInfo._id;
+			review.review = content;
+			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
+				console.log("HOORA", resp);
+			}), function failure(err){
+				console.log("O no ", err);
+			}
+		} else {
+			swal({
+				type: "error",
+				title: "I'm sorry",
+				text: "Did you want to write a review? Then write one."
+			});
 		}
 	}
 	$scope.comparing = function(score1, score2){
@@ -623,6 +631,88 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/death-match-view.html"
 	};
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+
+.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
+	var cookies = $cookies.get('token');
+	if(cookies){
+		$scope.userInfo = (jwtHelper.decodeToken(cookies))
+	}
+	UserService.isAuthed(cookies)
+	.then(function(res , err){
+		 if (res.data === "authRequired"){$location.path('/login')}
+		 else{$scope.isLoggedIn = true;}
+	})
+	UserService.list()
+	.then(function(res) {
+		users = res.data;
+		$scope.users = users;
+	}, function(err) {
+		console.error(err)
+	});
+	var users;
+
+	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
+		$scope.updateSearch();
+	})
+
+	$scope.addFavorite = function (userId){
+		UserService.favoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.removeFavorite = function (userId){
+		UserService.unFavoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.eraseUser = function (userId){
+		UserService.eraseUser(userId)
+		.then(function(res){
+			$scope.users = res.data
+			users = res.data
+		})
+	}
+
+	$scope.favorited = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+			return ($scope.userInfo.favorites).some(function(favorite){
+				return (user._id === favorite)
+			})
+		} else {return true}
+	}
+	$scope.isUser = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+				return (false)
+		} else {return true}
+	}
+		$scope.isAdmin = $scope.userInfo.isAdmin;
+
+	$scope.updateSearch = function(searchTerm){
+		// $scope.searchTerm = searchTerm
+		console.log(searchTerm)
+		if(searchTerm){
+			console.log(searchTerm)
+		$scope.users = $scope.users.filter(function(user){
+			if (user.username.match(searchTerm)){
+				return true
+			} else{
+				return false
+			}
+		})
+		} else{
+			$scope.users = users
+		}
+	}
 })
 
 'use strict';
@@ -741,85 +831,3 @@ angular.module('gameCompare')
 	})
 
 });
-
-'use strict';
-
-angular.module('gameCompare')
-
-
-.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
-	var cookies = $cookies.get('token');
-	if(cookies){
-		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	}
-	UserService.isAuthed(cookies)
-	.then(function(res , err){
-		 if (res.data === "authRequired"){$location.path('/login')}
-		 else{$scope.isLoggedIn = true;}
-	})
-	UserService.list()
-	.then(function(res) {
-		users = res.data;
-		$scope.users = users;
-	}, function(err) {
-		console.error(err)
-	});
-	var users;
-
-	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
-		$scope.updateSearch();
-	})
-
-	$scope.addFavorite = function (userId){
-		UserService.favoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.removeFavorite = function (userId){
-		UserService.unFavoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.eraseUser = function (userId){
-		UserService.eraseUser(userId)
-		.then(function(res){
-			$scope.users = res.data
-			users = res.data
-		})
-	}
-
-	$scope.favorited = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-			return ($scope.userInfo.favorites).some(function(favorite){
-				return (user._id === favorite)
-			})
-		} else {return true}
-	}
-	$scope.isUser = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-				return (false)
-		} else {return true}
-	}
-		$scope.isAdmin = $scope.userInfo.isAdmin;
-
-	$scope.updateSearch = function(searchTerm){
-		// $scope.searchTerm = searchTerm
-		console.log(searchTerm)
-		if(searchTerm){
-			console.log(searchTerm)
-		$scope.users = $scope.users.filter(function(user){
-			if (user.username.match(searchTerm)){
-				return true
-			} else{
-				return false
-			}
-		})
-		} else{
-			$scope.users = users
-		}
-	}
-})
