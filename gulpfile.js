@@ -20,7 +20,7 @@ gulp.task('build', ['clean'], function(){
 		.pipe(concat("bundle.js"))
 		.pipe(addsrc("source/**/*.html"))
     .pipe(addsrc("./source/**/*.css"))
-    // .pipe(addsrc("./source/styles/*.ttf"))
+    .pipe(addsrc("./source/styles/*.ttf"))
 		.pipe(gulp.dest('public'))
 	gulp.src('assets/**/*')
 		.pipe(gulp.dest('public/assets'))

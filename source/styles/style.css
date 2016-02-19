@@ -3,7 +3,7 @@
 	display: inline-block;
 	width: 75%;
 }
-@font-face { font-family: Zig; src: url('zig.ttf');}
+@font-face { font-family: Zig; src: url('/zig.ttf');}
 	/*font-family: Ponderosa; src: url('./styles/ponde.ttf');*/
 	/*font-family: Charybdis; src: url('./styles/chary.ttf');*/
 #game1{
