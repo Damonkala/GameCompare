@@ -148,7 +148,7 @@ h1{
 	font-weight: bold;
 	-webkit-text-stroke-width: 1px;
 	-webkit-text-stroke-color: black;
-	color: orange;./styles
+	color: #F8A055;./styles
 }
 *{
 	font-size: 20px;
@@ -180,7 +180,7 @@ hr {
 	padding: 0;
 }
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-	background-color: orange;
+	background-color: #F8A055;
 }
 .userReviews{
 	color: purple;
