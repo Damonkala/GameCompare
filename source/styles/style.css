@@ -3,11 +3,9 @@
 	display: inline-block;
 	width: 75%;
 }
-@font-face {
-	font-family: Ponderosa; src: url('./styles/ponde.ttf');
-	font-family: Zig;  src:local("zig"), url(zig.ttf);
-	font-family: Charybdis; src: url('./styles/chary.ttf');
-}
+@font-face { font-family: Zig; src: url('zig.ttf');}
+	/*font-family: Ponderosa; src: url('./styles/ponde.ttf');*/
+	/*font-family: Charybdis; src: url('./styles/chary.ttf');*/
 #game1{
 	display: inline-block;
 	border: 3px solid #F8A055;
@@ -145,7 +143,7 @@ a:hover{
 	margin-right: 10px;
 }
 h1{
-	font-family: Ponderosa;
+	font-family: Zig;
 	text-align: center;
 	font-weight: bold;
 	-webkit-text-stroke-width: 1px;
