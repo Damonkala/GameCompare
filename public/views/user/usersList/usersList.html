@@ -1,0 +1,40 @@
+<h1>List of Users</h1>
+<div ng-if="isLoggedIn">
+  <div class="userList-titleHeader"><h1>User List</h1></div>
+  <div class="userList-titleSearch">
+    <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)">
+  </div>
+  <br>
+  <div class="container">
+    <div class="col-xs-2 col-centered"></div>
+    <div id="user-list-container" class="col-xs-8 col-centered">
+      <table class="userListTable table table-hover">
+        <div ng-if="!isUser(user)" ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users track by $index'>
+          <div class="userListProfilePicDiv col-xs-4">
+            <img ng-if="!user.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail"></img>
+            <img ng-if="user.avatar"src="data:image/jpeg;base64,{{user.avatar}}" class="userThumbnail"></img>
+            <br>
+            <a class="userList-username" ui-sref='userPage({username: user.username})'><h5 class="userList-username">{{user.username}}</h5></a>
+          </div>
+          <div class="userListInfoContainer col-xs-8">
+            <div class="col-xs-8 userList-EmailAndName">
+              <h6>{{user.name}}</h6>
+              <p>{{user.email}}</p>
+            </div>
+            <div class="col-xs-4">
+              <button class="pull-right btn btn-primary" id="userList-favoriteButton" ng-click="addFavorite(user._id)" ng-if="!favorited(user)">Favorite</button>
+              <button class="pull-right btn btn-primary" id="userList-unFavoriteButton" ng-click="removeFavorite(user._id)" ng-if="favorited(user)">Unfavorite</button>
+            </div>
+          </div>
+        </div>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-2 col-centered"></div>
+
+  <div ng-if="isAdmin">
+    <button ng-click="eraseUser(user._id)">Delete</button>
+  </div>
+</div>
+</div>
+</div>
