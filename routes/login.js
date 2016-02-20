@@ -5,6 +5,8 @@ var jwt = require('jwt-simple')
 
 
 router.post('/', function(req, res){
+  console.log("Made it to the route");
+  console.log("3: IS THERE A USER", req.body);
   User.login(req.body, function(err, user){
     if(user){
       console.log("4: IS THERE A USER", user);
