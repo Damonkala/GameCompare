@@ -12,7 +12,7 @@ angular.module('gameCompare')
 			if(res.data=="login succesfull"){
 				UserService.loggedIn = 'true';
 				$scope.$emit('loggedIn');
-				$state.go('userPage', {"username": user.username})
+				// $state.go('userPage', {"username": user.username})
 			} else if (res.data === "Incorrect Username or Password!"){
 				swal({
 					type: "error",
@@ -23,6 +23,7 @@ angular.module('gameCompare')
 				});
 			}
 			var token = $cookies.get('token');
+			console.log("This Here is a Token:", token);
 			var decoded = jwtHelper.decodeToken(token);
 		}, function(err) {
 			console.error(err);
