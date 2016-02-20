@@ -5,8 +5,10 @@ var jwt = require('jwt-simple')
 
 
 router.post('/', function(req, res){
+  console.log("3: IS THERE A USER", req.body);
   User.login(req.body, function(err, user){
     if(user){
+      console.log("4: IS THERE A USER", user);
       var token = jwt.encode(user, process.env.JWT_SECRET);
 
       console.log(token)
