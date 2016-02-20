@@ -307,22 +307,6 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 
 'use strict';
 
-angular.module('gameCompare')
-
-.controller('listCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.compareTwoGames = function() {
-		console.log("Hello");
-	}
-})
-
-'use strict';
-
 var app = angular.module('gameCompare');
 
 app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
@@ -330,6 +314,7 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		return $http.post(`${ENV.API_URL}/register`, user);
 	};
 	this.login = function(user){
+		console.log("2: IS THERE A USER", user);
 		return $http.post(`${ENV.API_URL}/login`, user);
 	};
 	this.list = function(){
@@ -384,10 +369,27 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 'use strict';
 
 angular.module('gameCompare')
+
+.controller('listCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.compareTwoGames = function() {
+		console.log("Hello");
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
 .controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
 	console.log("LOADAED");
 	$scope.submit = function(user){
 		debugger;
+		console.log("1: IS THERE A USER", user);
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)
