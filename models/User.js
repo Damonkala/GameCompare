@@ -9,9 +9,9 @@ var User;
 
 var userSchema = Schema({
 	email:{type: String, required: true, unique: true},
-  username: { type: String, required: true, unique: true},
+	username: { type: String, required: true, unique: true},
 	name: {type: String, required: true},
-  password: { type: String, required: true },
+	password: { type: String, required: true },
 	avatar: {type: String, data:Buffer, default: ''},
 	deathMatches: [{type: Schema.Types.ObjectId, ref: "DeathMatch"}],
 	reviews: [{type: Schema.Types.ObjectId, ref: "UserReview"}],
@@ -19,31 +19,32 @@ var userSchema = Schema({
 
 
 userSchema.statics.register = function(user, cb){
-  var username = user.username;
-  var email = user.email;
-  var name = user.name;
+	console.log("THIS IS THE NEW USER WE'RE REGISTERING", user);
+	var username = user.username;
+	var email = user.email;
+	var name = user.name;
 	bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, function(err, password) {
-      User.find({$or: [{username: username}, {email: email}] }, function(err, user){
-        if (err || user[0]){return console.log(err) || console.log("Username or email already exists")}
-        console.log(user);
-        var newUser = new User;
-        newUser.username = username;
-        newUser.email = email;
-        newUser.name = name;
-        newUser.password = password;
-        console.log(newUser)
-        newUser.save(function(err, savedUser){
-          console.log('saved user: ', savedUser)
+		bcrypt.hash(user.password, salt, function(err, password) {
+			User.find({$or: [{username: username}, {email: email}] }, function(err, user){
+				if (err || user[0]){return console.log(err) || console.log("Username or email already exists")}
+				console.log("HEY! WE GOTA  NEW USER!!!!!!!", user);
+				var newUser = new User;
+				newUser.username = username;
+				newUser.email = email;
+				newUser.name = name;
+				newUser.password = password;
+				console.log(newUser)
+				newUser.save(function(err, savedUser){
+					console.log('saved user: ', savedUser)
 					console.log(err);
+					console.log("HEY! WE SAVED A NEW USER INTO THE DATABASE YO!!!!!!!", savedUser);
+					savedUser.password = null;
+					cb(err, savedUser)
+				})
+			})
 
-          savedUser.password = null;
-          cb(err, savedUser)
-        })
-      })
-
-    });
-});
+		});
+	});
 
 
 }
@@ -58,7 +59,7 @@ userSchema.statics.login = function(user, cb){
 		bcrypt.compare(user.password, dbUser.password, function(err, correct){
 			if(err || !correct) return cb(err || 'Incorrect username or password');
 			dbUser.password = null;
-      dbUser.avatar = null
+			dbUser.avatar = null
 			cb(null, dbUser);
 		})
 	})
@@ -73,7 +74,7 @@ userSchema.statics.login = function(user, cb){
 	// 	}else{cb('no user found', null)}
 	// 	if(err){return console.log(err)}
 	// 	})
-	}
+}
 
 User = mongoose.model('User', userSchema);
 

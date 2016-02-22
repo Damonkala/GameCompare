@@ -307,6 +307,22 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 
 'use strict';
 
+angular.module('gameCompare')
+
+.controller('listCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.compareTwoGames = function() {
+		console.log("Hello");
+	}
+})
+
+'use strict';
+
 var app = angular.module('gameCompare');
 
 app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
@@ -369,26 +385,9 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 'use strict';
 
 angular.module('gameCompare')
-
-.controller('listCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.compareTwoGames = function() {
-		console.log("Hello");
-	}
-})
-
-'use strict';
-
-angular.module('gameCompare')
 .controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
 	console.log("LOADAED");
 	$scope.submit = function(user){
-		debugger;
 		console.log("1: IS THERE A USER", user);
 		UserService.login(user)
 		.then(function(res){
@@ -396,7 +395,7 @@ angular.module('gameCompare')
 			if(res.data=="login succesfull"){
 				UserService.loggedIn = 'true';
 				$scope.$emit('loggedIn');
-				$state.go('userPage', {"username": user.username})
+				// $state.go('userPage', {"username": user.username})
 			} else if (res.data === "Incorrect Username or Password!"){
 				swal({
 					type: "error",
@@ -407,6 +406,7 @@ angular.module('gameCompare')
 				});
 			}
 			var token = $cookies.get('token');
+			console.log("This Here is a Token:", token);
 			var decoded = jwtHelper.decodeToken(token);
 		}, function(err) {
 			console.error(err);
