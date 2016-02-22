@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -389,10 +389,12 @@ angular.module('gameCompare')
 	console.log("LOADAED");
 	$scope.submit = function(user){
 		console.log("1: IS THERE A USER", user);
+		// debugger;
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)
-			if(res.data=="login succesfull"){
+			if(res.data=="log"){
+				console.log("DID WE TRY TO LOGIN?");
 				UserService.loggedIn = 'true';
 				$scope.$emit('loggedIn');
 				// $state.go('userPage', {"username": user.username})

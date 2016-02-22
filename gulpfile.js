@@ -9,18 +9,18 @@ var concat = require('gulp-concat')
 var addsrc = require('gulp-add-src');
 var nodemon = require('gulp-nodemon')
 
-gulp.task('default', ['build', 'start', 'watch'])
+gulp.task('default', ['build', 'watch'])
 
 gulp.task('watch', function() {
-	gulp.watch('source/**/*', ['build', 'start']);
+	gulp.watch('source/**/*', ['build']);
 });
-gulp.task('start', function () {
-  nodemon({
-    script: 'app.js'
-  , ext: 'js html'
-  , env: { 'NODE_ENV': 'development' }
-  })
-})
+// gulp.task('start', function () {
+//   nodemon({
+//     script: 'app.js'
+//   , ext: 'js html'
+//   , env: { 'NODE_ENV': 'development' }
+//   })
+// })
 gulp.task('build', ['clean'], function(){
 	gulp.src('source/module.js')
 		.pipe(addsrc("source/services/*.js"))

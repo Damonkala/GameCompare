@@ -5,7 +5,7 @@ angular.module('gameCompare')
 	console.log("LOADAED");
 	$scope.submit = function(user){
 		console.log("1: IS THERE A USER", user);
-		debugger;
+		// debugger;
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)

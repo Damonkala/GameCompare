@@ -3,7 +3,6 @@ var router = express.Router();
 var User = require('../models/User')
 var jwt = require('jwt-simple')
 
-
 router.post('/', function(req, res){
   console.log("Made it to the route");
   console.log("3: IS THERE A USER", req.body);
