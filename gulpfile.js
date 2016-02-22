@@ -7,7 +7,7 @@ var gutil = require('gulp-util');
 var run = require('gulp-run')
 var concat = require('gulp-concat')
 var addsrc = require('gulp-add-src');
-var nodemon = require('gulp-nodemon')
+// var nodemon = require('gulp-nodemon')
 
 gulp.task('default', ['build', 'watch'])
 
