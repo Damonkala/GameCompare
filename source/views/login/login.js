@@ -8,7 +8,7 @@ angular.module('gameCompare')
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)
-			if(res.data=="login succesfull"){
+			if(res.data=="log"){
 				console.log("DID WE TRY TO LOGIN?");
 				UserService.loggedIn = 'true';
 				$scope.$emit('loggedIn');

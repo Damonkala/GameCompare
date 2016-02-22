@@ -12,7 +12,7 @@ router.post('/', function(req, res){
       console.log("4: IS THERE A USER", user);
       var token = jwt.encode(user, process.env.JWT_SECRET);
       console.log(token)
-      res.cookie('token', token).send('login succesfull')
+      res.cookie('token', token).send('log')
     } else{
       res.send('Incorrect Username or Password!')
     }
