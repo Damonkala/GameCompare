@@ -32,17 +32,17 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
     $scope.userInfo = (jwtHelper.decodeToken(cookies))
   }
 
-  UserService.isAuthed(cookies)
+  UserService.isAuthed()
   .then(function(res , err){
     console.log(res.data)
-    if (res.data !== "authRequired"){
-      // $state.go('usersList');
-      $scope.isLoggedIn = true;
-      console.log("LOGGED IN!")
-    } else {
-      $scope.isLoggedIn = false;
-      // $state.go('game');
-    }
+    // if (res.data !== "authRequired"){
+    //   // $state.go('usersList');
+    //   $scope.isLoggedIn = true;
+    //   console.log("LOGGED IN!")
+    // } else {
+    //   $scope.isLoggedIn = false;
+    //   // $state.go('game');
+    // }
   })
   $scope.$on('loggedIn', function(){
     $scope.isLoggedIn = true;
@@ -327,10 +327,10 @@ var app = angular.module('gameCompare');
 
 app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
 	this.register = function(user){
-		return $http.post(`${ENV.API_URL}/register`, user);
+		return $http.post(`${ENV.API_URL}/user/register`, user);
 	};
 	this.login = function(user){
-		return $http.post(`${ENV.API_URL}/login`, user);
+		return $http.post(`${ENV.API_URL}/user/login`, user);
 	};
 	this.list = function(){
 		return $http.get(`${ENV.API_URL}/user/list`);
@@ -368,50 +368,19 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		return $http.post(`${ENV.API_URL}/user/erase`, data)
 	}
 	this.loggedIn = function(isLoggedIn){
-			if(isLoggedIn){ return true }
+		if(isLoggedIn){ return true }
 	};
-  this.uploadImage = function(image, userId){
-    return $http.post(`${ENV.API_URL}/imageUpload`, {
-      userId: userId,
-      image: image
-    })
-  }
+	this.uploadImage = function(image, userId){
+		return $http.post(`${ENV.API_URL}/imageUpload`, {
+			userId: userId,
+			image: image
+		})
+	}
 	this.isAuthed = function(token){
-		return $http.post(`${ENV.API_URL}/auth`, {token:token})
+		// return $http.post(`${ENV.API_URL}/auth`, {token:token})
+		return $http.get(`${ENV.API_URL}/auth`)
 	};
 })
-
-'use strict';
-
-angular.module('gameCompare')
-.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	$scope.submit = function(user){
-		UserService.login(user)
-		.then(function(res){
-			console.log('res', res.data)
-			if(res.data=="login succesfull"){
-				console.log("DID WE TRY TO LOGIN?");
-				UserService.loggedIn = 'true';
-				$scope.$emit('loggedIn');
-				// $state.go('userPage', {"username": user.username})
-			} else if (res.data === "Incorrect Username or Password!"){
-				swal({
-					type: "error",
-					title: "Uh-Oh!",
-					text: res.data,
-					showConfirmButton: true,
-					confirmButtonText: "I hear ya.",
-				});
-			}
-			var token = $cookies.get('token');
-			console.log("This Here is a Token:", token);
-			var decoded = jwtHelper.decodeToken(token);
-		}, function(err) {
-			console.error(err);
-		});
-	}
-
-});
 
 'use strict';
 
@@ -454,6 +423,38 @@ angular.module('gameCompare')
 			console.log(err);
 		});
 	}
+});
+
+'use strict';
+
+angular.module('gameCompare')
+.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
+	$scope.submit = function(user){
+		UserService.login(user)
+		.then(function(res){
+			console.log('res', res.data)
+			if(res.data=="login succesfull"){
+				console.log("DID WE TRY TO LOGIN?");
+				UserService.loggedIn = 'true';
+				$scope.$emit('loggedIn');
+				// $state.go('userPage', {"username": user.username})
+			} else if (res.data === "Incorrect Username or Password!"){
+				swal({
+					type: "error",
+					title: "Uh-Oh!",
+					text: res.data,
+					showConfirmButton: true,
+					confirmButtonText: "I hear ya.",
+				});
+			}
+			var token = $cookies.get('token');
+			console.log("This Here is a Token:", token);
+			var decoded = jwtHelper.decodeToken(token);
+		}, function(err) {
+			console.error(err);
+		});
+	}
+
 });
 
 'use strict';

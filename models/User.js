@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 var jwt = require('jwt-simple');
+var moment = require('moment');
+var JWT_SECRET = process.env.JWT_SECRET;
 
 var User;
 
@@ -17,66 +19,76 @@ var userSchema = Schema({
 	reviews: [{type: Schema.Types.ObjectId, ref: "UserReview"}],
 });
 
-
-userSchema.statics.register = function(user, cb){
-	console.log("THIS IS THE NEW USER WE'RE REGISTERING", user);
-	var username = user.username;
+userSchema.statics.register = function(user, cb) {
 	var email = user.email;
-	var name = user.name;
-	bcrypt.genSalt(10, function(err, salt) {
-		bcrypt.hash(user.password, salt, function(err, password) {
-			User.find({$or: [{username: username}, {email: email}] }, function(err, user){
-				if (err || user[0]){return console.log(err) || console.log("Username or email already exists")}
-				console.log("HEY! WE GOTA  NEW USER!!!!!!!", user);
-				var newUser = new User;
-				newUser.username = username;
+	var password = user.password;
+	User.findOne({email: email}, function(err, user){
+		if(err || user) return cb(err || 'Email already taken.');
+		bcrypt.genSalt(13, function(err1, salt) {
+			bcrypt.hash(password, salt, function(err2, hash) {
+				if(err1 || err2) return cb(err1 || err2);
+				var newUser = new User();
 				newUser.email = email;
-				newUser.name = name;
-				newUser.password = password;
-				console.log(newUser)
+				newUser.password = hash;
 				newUser.save(function(err, savedUser){
-					console.log('saved user: ', savedUser)
-					console.log(err);
-					console.log("HEY! WE SAVED A NEW USER INTO THE DATABASE YO!!!!!!!", savedUser);
 					savedUser.password = null;
-					cb(err, savedUser)
-				})
-			})
-
+					cb(err, savedUser);
+				});
+			});
 		});
 	});
+};
 
-
-}
-
-
-userSchema.statics.login = function(user, cb){
-	var username = user.username;
-	var password = user.password;
-
-	User.findOne({username: username}, function(err, dbUser){
-		if(err || !dbUser) return cb(err || 'Incorrect username or password');
-		bcrypt.compare(user.password, dbUser.password, function(err, correct){
-			if(err || !correct) return cb(err || 'Incorrect username or password');
+userSchema.statics.authenticate = function(inputUser, cb){
+	User.findOne({username: inputUser.username}, function(err, dbUser) {
+		if(err || !dbUser) return cb(err || 'Incorrect username or password.');
+		bcrypt.compare(inputUser.password, dbUser.password, function(err, isGood){
+			if(err || !isGood) return cb(err || 'Incorrect username or password.');
 			dbUser.password = null;
-			dbUser.avatar = null
 			cb(null, dbUser);
-		})
-	})
-	// User.find({$or: [{username: username}, {email: username}]}, function(err, userReturned){
-	// 	console.log(userReturned.length)
-	// 	if(userReturned.length){
-	// 		bcrypt.compare(password, userReturned[0].password, function(err, res){
-	// 			userReturned[0].password = null
-	// 			cb(null, userReturned[0])
-	// 		})
-	//
-	// 	}else{cb('no user found', null)}
-	// 	if(err){return console.log(err)}
-	// 	})
-}
+		});
+	});
+};
+
+// Generate JWT token for a user
+userSchema.methods.token = function() {
+	var payload = {
+		email: this.username,
+		_id: this._id,
+		exp: moment().add(1, 'day').unix()
+	};
+	var token = jwt.encode(payload, JWT_SECRET);
+	console.log("HELLO TOKEN", token);
+	return token;
+};
+
+// Authentication Middleware
+userSchema.statics.isAuthenticated = function(req, res, next) {
+	if (!req.headers.authorization) {
+		console.log("Auth Required");
+		return res.status(401).send('Authentication required.');
+	}
+	var auth = req.headers.authorization.split(' ');
+	if (auth[0] !== 'Bearer') {
+		return res.status(401).send('Authentication required.');
+	}
+	var token = auth[1];
+	try {
+		var payload = jwt.decode(token, JWT_SECRET);
+	} catch (err) {
+		return res.status(401).send('Authentication failed.  Invalid token.');
+	}
+	if(moment().isAfter(moment.unix(payload.exp))) {
+		return res.status(401).send('Authentication failed.  Token expired.');
+	}
+	var userId = payload._id;
+	User.findById(userId, function (err, user) {
+		if (err || !user) return res.status(401).send(err || 'Authentication failed.  User not found.');
+		user.password = null;
+		req.user = user;
+		next();
+	});
+};
 
 User = mongoose.model('User', userSchema);
-
-
 module.exports = User;

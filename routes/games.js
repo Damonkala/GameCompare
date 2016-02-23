@@ -10,6 +10,7 @@ var request = require('request');
 
 var api_key = process.env.IGDB_KEY;
 var api_key2 = process.env.MASH_KEY;
+
 var unirest = require('unirest');
 
 router.get('/', function(req, res){

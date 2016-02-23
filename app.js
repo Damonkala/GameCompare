@@ -42,8 +42,6 @@ app.use(express.static('public'));
 app.use(cookieParser())
 
 // ROUTES
-app.use('/register', require('./routes/register'))
-app.use('/login', require('./routes/login'))
 app.use('/games', require('./routes/games'))
 app.use('/deathMatches', require('./routes/deathMatches'))
 app.use('/user', require('./routes/user'))
