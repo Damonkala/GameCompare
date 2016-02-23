@@ -331,8 +331,8 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 	};
 	this.login = function(user){
 		// console.log("2: IS THERE A USER", user);
-		// return $http.get(`${ENV.API_URL}/login/test`);
-		return $http.post(`${ENV.API_URL}/login`, user);
+		return $http.get(`${ENV.API_URL}/login/test`);
+		// return $http.post(`${ENV.API_URL}/login`, user);
 	};
 	this.list = function(){
 		return $http.get(`${ENV.API_URL}/user/list`);
@@ -553,24 +553,6 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
-	DeathMatchService.load()
-	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.deathMatches = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.comparing = function(score1, score2){
-		return GameService.compareGames(score1, score2)
-	}
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-
 .controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService, ScopeMaster){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
@@ -636,6 +618,24 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/death-match-view.html"
 	};
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
+	DeathMatchService.load()
+	.then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.deathMatches = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.comparing = function(score1, score2){
+		return GameService.compareGames(score1, score2)
+	}
 })
 
 'use strict';
