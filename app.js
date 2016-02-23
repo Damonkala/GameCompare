@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/gameCompare');
 
 app.set('views', 'templates');
 app.set('view engine', 'ejs');
-app.use(allowCrossDomain);
+// app.use(allowCrossDomain);
 
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
