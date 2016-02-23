@@ -5,6 +5,7 @@ var jwt = require('jwt-simple')
 
 
 router.get('/test', function(req,res){
+  res.cookie('token', "I AM A COOKIE")
   res.send("Hello there I am an example")
 })
 router.post('/', function(req, res){
