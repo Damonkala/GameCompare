@@ -7,11 +7,27 @@ var User = require('../models/User');
 
 var jwt = require('jwt-simple');
 
+router.post('/login', function(req, res){
+  User.login(req.body, function(err, user){
+    if(user){
+      var token = jwt.encode(user, process.env.JWT_SECRET);
+      res.send(token)
+    } else{
+      res.send('Incorrect Username or Password!')
+    }
+  })
+})
+
+router.post('/register', function(req, res){
+  User.register(req.body, function(err, user){
+    res.send(user)
+  })
+})
+
 router.get('/list', function(req, res){
   User.find({}, function(err, users) {
     res.status(err ? 400 : 200).send(err || users)
   })
-
 })
 router.get('/page/:username', function(req, res){
   User.findOne({'username' : req.params.username}, function(err, user) {
@@ -60,17 +76,17 @@ router.post("/edit", function(req, res){
     name: req.body.name
   }
 }, function(err, savedUser){
-      console.log('user that got changed during the edit api function...savedUser', savedUser)
-      User.findById(req.body._id, function(err, updatedUser){
-        console.log("comes back from findbyId of svedUser",updatedUser);
-        updatedUser.password = null;
-        updatedUser.avatar = null
-        if (!req.body.isAdmin){
-          res.cookie("token", jwt.encode(updatedUser, process.env.JWT_SECRET));
-        }
-        res.send(updatedUser);
-      })
+  console.log('user that got changed during the edit api function...savedUser', savedUser)
+  User.findById(req.body._id, function(err, updatedUser){
+    console.log("comes back from findbyId of svedUser",updatedUser);
+    updatedUser.password = null;
+    updatedUser.avatar = null
+    if (!req.body.isAdmin){
+      res.cookie("token", jwt.encode(updatedUser, process.env.JWT_SECRET));
+    }
+    res.send(updatedUser);
   })
+})
 })
 router.put('/unfavorite', function(req, res){
   User.findByIdAndUpdate(req.body.myId, {$pull: {favorites : req.body.unFavoriteId}}, function(err, user) {
@@ -98,8 +114,8 @@ router.put('/unfavorite', function(req, res){
         console.log("USER RESPONSE BITCH!",responseUser)
         // res.cookie("token", newToken)
         res.send(responseUser)
-      // res.send(updatedUser)
-    })
+        // res.send(updatedUser)
+      })
     })
   })
 })

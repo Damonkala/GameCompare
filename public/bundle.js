@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -326,11 +326,11 @@ angular.module('gameCompare')
 var app = angular.module('gameCompare');
 
 app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.register = function(user){
-		return $http.post(`${ENV.API_URL}/register`, user);
-	};
 	this.login = function(user){
-		return $http.post(`${ENV.API_URL}/login`, user);
+		return $http.post(`${ENV.API_URL}/user/login`, user);
+	};
+	this.register = function(user){
+		return $http.post(`${ENV.API_URL}/user/register`, user);
 	};
 	this.list = function(){
 		return $http.get(`${ENV.API_URL}/user/list`);
@@ -338,9 +338,6 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 	this.page = function(username){
 		return $http.get(`${ENV.API_URL}/user/page/${username}`)
 	}
-	this.auth = function(){
-		return $http.get(`${ENV.API_URL}/auth`)
-	};
 	this.favoriteUser = function(userId){
 		var data = {};
 		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
@@ -402,11 +399,11 @@ angular.module('gameCompare')
 				console.log("DID WE TRY TO LOGIN?");
 				UserService.loggedIn = 'true';
 				$scope.$emit('loggedIn');
-				// $state.go('userPage', {"username": user.username})
 				document.cookie = 'token' + "=" + res.data;
 				var token = $cookies.get('token');
 				console.log("This Here is a Token:", token);
 				var decoded = jwtHelper.decodeToken(token);
+				$state.go('userPage', {"username": user.username})
 			}
 		}, function(err) {
 			console.error(err);

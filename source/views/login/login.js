@@ -19,11 +19,11 @@ angular.module('gameCompare')
 				console.log("DID WE TRY TO LOGIN?");
 				UserService.loggedIn = 'true';
 				$scope.$emit('loggedIn');
-				// $state.go('userPage', {"username": user.username})
 				document.cookie = 'token' + "=" + res.data;
 				var token = $cookies.get('token');
 				console.log("This Here is a Token:", token);
 				var decoded = jwtHelper.decodeToken(token);
+				$state.go('userPage', {"username": user.username})
 			}
 		}, function(err) {
 			console.error(err);
