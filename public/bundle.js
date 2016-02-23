@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -331,8 +331,8 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 	};
 	this.login = function(user){
 		// console.log("2: IS THERE A USER", user);
-		return $http.get(`${ENV.API_URL}/login/test`);
-		// return $http.post(`${ENV.API_URL}/login`, user);
+		// return $http.get(`${ENV.API_URL}/login/test`);
+		return $http.post(`${ENV.API_URL}/login`, user);
 	};
 	this.list = function(){
 		return $http.get(`${ENV.API_URL}/user/list`);
