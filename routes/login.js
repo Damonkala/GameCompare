@@ -9,7 +9,7 @@ router.post('/', function(req, res){
       var token = jwt.encode(user, process.env.JWT_SECRET);
       console.log(token)
       res.cookie('token', token)
-      res.send('login succesfull')
+      // res.send('login succesfull')
     } else{
       res.send('Incorrect Username or Password!')
     }
