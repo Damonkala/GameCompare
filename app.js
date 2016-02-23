@@ -16,23 +16,23 @@ var request = require('request');
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1/gameCompare');
 
-// var allowCrossDomain = function(req, res, next) {
-// 	res.header('Access-Control-Allow-Origin', '*');
-// 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-// 	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-//
-// 	// intercept OPTIONS method
-// 	if ('OPTIONS' == req.method) {
-// 		res.send(200);
-// 	}
-// 	else {
-// 		next();
-// 	}
-// };
+var allowCrossDomain = function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+	// intercept OPTIONS method
+	if ('OPTIONS' == req.method) {
+		res.send(200);
+	}
+	else {
+		next();
+	}
+};
 
 app.set('views', 'templates');
 app.set('view engine', 'ejs');
-// app.use(allowCrossDomain);
+app.use(allowCrossDomain);
 
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
