@@ -14,7 +14,6 @@
   <div ng-controller="MasterController">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
@@ -24,17 +23,12 @@
           </button>
           <a class="navbar-brand" ui-sref="home">Game Compare</a>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <!-- <li><a class="navbar-brand" ui-sref="home">Game Compare</a></li> -->
             <li><a class="navbar-brand" ui-sref="search">Search</a></li>
             <li><a class="navbar-brand" ui-sref="deathMatchList">Matches</a></li>
             <li><a class="navbar-brand" ui-sref="game">Game</a></li>
             <li><a class="navbar-brand" ui-sref="list">List</a></li>
-            <!-- <li></li> -->
-            <!-- <li></li> -->
             <ul class="nav navbar-nav" ng-if="!isLoggedIn">
               <li><a class="navbar-brand" ui-sref='login'>Login</a></li>
               <li><a class="navbar-brand" ui-sref='register'>Register</a></li>
@@ -44,35 +38,11 @@
               <li><a class="navbar-brand" id="logout" ng-click="logout()">Logout</a></li>
             </ul>
           </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
+        </div>
+      </div>
     </nav>
-    <!-- <nav class="navbar navbar-default">
-    <div class="container-fluid">
-    <div class="navbar-header">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-  </button>
-  <a class="navbar-brand" ui-sref="home">Game Compare</a>
-  <a class="navbar-brand" ui-sref="search">Search</a>
-  <a class="navbar-brand" ui-sref="deathMatchList">Matches</a>
-  <a class="navbar-brand" ui-sref="game">Game</a>
-  <a class="navbar-brand" ui-sref='list'>List</a>
-  <ul class="nav navbar-nav" ng-if="!isLoggedIn">
-  <li><a ui-sref='login'>Login</a></li>
-  <li><a ui-sref='register'>Register</a></li>
-</ul>
-<ul class="nav navbar-nav" ng-if="isLoggedIn">
-<li><a id="home-link"ng-click="goHome()">Home</a></li>
-<li><a id="logout" ng-click="logout()">Logout</a></li>
-</ul>
-</div>
-</nav> -->
-</div>
-<div ui-view></div>
+  </div>
+  <div ui-view></div>
 </div>
 <h5>Game information was freely provided by <a href="https://www.igdb.com/">
   IGDB.com
