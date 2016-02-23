@@ -7,8 +7,9 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		return $http.post(`${ENV.API_URL}/register`, user);
 	};
 	this.login = function(user){
-		console.log("2: IS THERE A USER", user);
-		return $http.post(`${ENV.API_URL}/login`, user);
+		// console.log("2: IS THERE A USER", user);
+		return $http.get(`${ENV.API_URL}/login/test`);
+		// return $http.post(`${ENV.API_URL}/login`, user);
 	};
 	this.list = function(){
 		return $http.get(`${ENV.API_URL}/user/list`);
