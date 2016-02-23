@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  // API_URL: 'https://game-compare.herokuapp.com'
-  API_URL: 'http://localhost:3000'
+  API_URL: 'https://game-compare.herokuapp.com'
+  // API_URL: 'http://localhost:3000'
 });
 
 
@@ -386,10 +386,7 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 .controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	console.log("LOADAED");
 	$scope.submit = function(user){
-		console.log("1: IS THERE A USER", user);
-		// debugger;
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)
@@ -555,6 +552,24 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
+	DeathMatchService.load()
+	.then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.deathMatches = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.comparing = function(score1, score2){
+		return GameService.compareGames(score1, score2)
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+
 .controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService, ScopeMaster){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
@@ -620,24 +635,6 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/death-match-view.html"
 	};
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
-	DeathMatchService.load()
-	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.deathMatches = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.comparing = function(score1, score2){
-		return GameService.compareGames(score1, score2)
-	}
 })
 
 'use strict';

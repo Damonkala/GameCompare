@@ -2,10 +2,7 @@
 
 angular.module('gameCompare')
 .controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	console.log("LOADAED");
 	$scope.submit = function(user){
-		console.log("1: IS THERE A USER", user);
-		// debugger;
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)
