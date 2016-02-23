@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -98,63 +98,6 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 
 angular.module('gameCompare')
 
-.controller('homeCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-
-	$scope.compare = function(){
-		console.log("CLICKITY CLACK");
-		console.log("A THANG!", $scope.check);
-	}
-
-})
-
-'use strict';
-
-var app = angular.module('gameCompare');
-
-app.service('GameService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.load = function(){
-		return $http.get(`${ENV.API_URL}/games/`)
-	};
-	this.openGame = function(id){
-		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
-	};
-	this.searchGame = function(term){
-		return $http.get(`${ENV.API_URL}/games/search/${term}`)
-	};
-	this.startBattle = function(deathmatch){
-		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
-	};
-	this.startBattle = function(games){
-		return $http.post(`${ENV.API_URL}/games/compare`, games)
-	};
-	this.getScore = function(name){
-		return $http.get(`${ENV.API_URL}/games/page/scores/${name}`)
-	};
-	this.saveGame = function(newGame){
-		return $http.post(`${ENV.API_URL}/games`, newGame)
-	};
-	this.compareGames = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
-	}
-	// this.totalScore = function()
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster){
 	console.log("STARTING GAME ONE SCOPE", $scope.gameOne);
 	GameService.load()
@@ -215,6 +158,63 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/game-view.html"
 	};
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('GameService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`${ENV.API_URL}/games/`)
+	};
+	this.openGame = function(id){
+		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
+	};
+	this.searchGame = function(term){
+		return $http.get(`${ENV.API_URL}/games/search/${term}`)
+	};
+	this.startBattle = function(deathmatch){
+		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
+	};
+	this.startBattle = function(games){
+		return $http.post(`${ENV.API_URL}/games/compare`, games)
+	};
+	this.getScore = function(name){
+		return $http.get(`${ENV.API_URL}/games/page/scores/${name}`)
+	};
+	this.saveGame = function(newGame){
+		return $http.post(`${ENV.API_URL}/games`, newGame)
+	};
+	this.compareGames = function(score1, score2){
+		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
+			return "isGreaterThan"
+		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
+			return "isLessThan"
+		} else {
+			return "isEqualTo"
+		}
+	}
+	// this.totalScore = function()
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+.controller('homeCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
+	}
+
 })
 
 'use strict';
@@ -308,34 +308,18 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 'use strict';
 
 angular.module('gameCompare')
-.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	$scope.submit = function(user){
-		UserService.login(user)
-		.then(function(res){
-			console.log('res', res.data)
-			if(res.data=="login succesfull"){
-				console.log("DID WE TRY TO LOGIN?");
-				UserService.loggedIn = 'true';
-				$scope.$emit('loggedIn');
-				// $state.go('userPage', {"username": user.username})
-			} else if (res.data === "Incorrect Username or Password!"){
-				swal({
-					type: "error",
-					title: "Uh-Oh!",
-					text: res.data,
-					showConfirmButton: true,
-					confirmButtonText: "I hear ya.",
-				});
-			}
-			var token = $cookies.get('token');
-			console.log("This Here is a Token:", token);
-			var decoded = jwtHelper.decodeToken(token);
-		}, function(err) {
-			console.error(err);
-		});
-	}
 
-});
+.controller('listCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.compareTwoGames = function() {
+		console.log("Hello");
+	}
+})
 
 'use strict';
 
@@ -346,9 +330,7 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		return $http.post(`${ENV.API_URL}/register`, user);
 	};
 	this.login = function(user){
-		// console.log("2: IS THERE A USER", user);
-		return $http.get(`${ENV.API_URL}/login/test`);
-		// return $http.post(`${ENV.API_URL}/login`, user);
+		return $http.post(`${ENV.API_URL}/login`, user);
 	};
 	this.list = function(){
 		return $http.get(`${ENV.API_URL}/user/list`);
@@ -402,18 +384,34 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 'use strict';
 
 angular.module('gameCompare')
-
-.controller('listCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.compareTwoGames = function() {
-		console.log("Hello");
+.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
+	$scope.submit = function(user){
+		UserService.login(user)
+		.then(function(res){
+			console.log('res', res.data)
+			if(res.data=="login succesfull"){
+				console.log("DID WE TRY TO LOGIN?");
+				UserService.loggedIn = 'true';
+				$scope.$emit('loggedIn');
+				// $state.go('userPage', {"username": user.username})
+			} else if (res.data === "Incorrect Username or Password!"){
+				swal({
+					type: "error",
+					title: "Uh-Oh!",
+					text: res.data,
+					showConfirmButton: true,
+					confirmButtonText: "I hear ya.",
+				});
+			}
+			var token = $cookies.get('token');
+			console.log("This Here is a Token:", token);
+			var decoded = jwtHelper.decodeToken(token);
+		}, function(err) {
+			console.error(err);
+		});
 	}
-})
+
+});
 
 'use strict';
 

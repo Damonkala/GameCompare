@@ -4,13 +4,6 @@ var User = require('../models/User')
 var jwt = require('jwt-simple')
 
 
-router.get('/test', function(req,res){
-  var secretCode = "qwerty"
-  res.cookie('potato', secretCode)
-  setTimeout(function(){
-    res.send("Hello there I am an example")
-  }, 5000);
-})
 router.post('/', function(req, res){
   User.login(req.body, function(err, user){
     if(user){
