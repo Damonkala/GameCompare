@@ -52,14 +52,14 @@ angular.module('gameCompare')
 			console.log(err);
 		})
 	}
-	.directive("gameDirective", function() {
-		return {
-			restrict: 'AE',
-			scope: {
-				gameOne: "=",
-				gameTwo: "=",
-			},
-			templateUrl: "views/game-view.html"
-		};
-	})
+})
+.directive("gameDirective", function() {
+	return {
+		restrict: 'AE',
+		scope: {
+			gameOne: "=",
+			gameTwo: "=",
+		},
+		templateUrl: "views/game-view.html"
+	};
 })
