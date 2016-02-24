@@ -184,7 +184,8 @@ input{
 }
 body{
 	/*background-color: #283655;*/
-	background-color: #fcfcfc;
+	/*background-color: #fcfcfc;*/
+	background-color: #f2f2f2;
 }
 hr {
 	display: block;
@@ -218,3 +219,37 @@ option{
 	vertical-align: text-bottom !important;
 }
 .navbar-custom { color: orange; background-color: #283655; }
+.navbar-nav li a {
+ line-height: 40px;
+}
+.navbar-nav > li{
+  padding-left:15px;
+  padding-right:10px;
+}
+.navbar .nav>li>a, .active{
+	color: #f2f2f2;
+	/*border-bottom: 1px solid*/
+}
+/*.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #f8a055;
+}*/
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #f8a055;
+	border: 1px solid #f8a055;
+	height: 63px;
+}
+/*.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #f8a055;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #f8a055;
+}
+.navbar-default .navbar-link:hover {
+  color: #f8a055;
+}*/
