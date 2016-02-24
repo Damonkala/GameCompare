@@ -165,7 +165,8 @@ h1{
 }
 *{
 	font-size: 20px;
-	color: white;
+	/*color: white;*/
+	/*color: #283655;*/
 }
 p, div, h5{
 	font-size: 20px;
@@ -182,7 +183,8 @@ input{
 	color: black;
 }
 body{
-	background-color: #283655;
+	/*background-color: #283655;*/
+	background-color: #fcfcfc;
 }
 hr {
 	display: block;
@@ -191,6 +193,14 @@ hr {
 	border-top: 3px solid #F8A055;
 	margin: 1em 0;
 	padding: 0;
+}
+.table {
+	background-color: #283655;
+	color: #fcfcfc;
+	border: 5px solid #F8A055;
+	width: 75%;
+	margin: auto;
+	border-radius: 10px;
 }
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
 	background-color: #F8A055;
@@ -207,3 +217,4 @@ option{
 .navbar-brand{
 	vertical-align: text-bottom !important;
 }
+.navbar-custom { color: orange; background-color: #283655; }

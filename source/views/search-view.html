@@ -2,28 +2,6 @@
 <button ng-click="search(searchBox)">Find</button>
 <button ng-click="saveGame()">Save Game</button>
 <h1 ng-if="1 > 1000000">FARSJFSKFODS:ASDS</h1>
-<table class="table table-hover" ng-if="games">
-	<tr>
-		<th>
-			Name
-		</th>
-		<th>
-			Release Date
-		</th>
-	</tr>
-	<tr ng-repeat="game in games track by $index" ng-click="openGame(game.id, game.name)" ng-if="games">
-		<script>
-		var realTime = moment(game.release_date).format('MMMM Do YYYY');
-		console.log("UN REAL TIME!",realTime);
-		</script>
-		<td>
-			{{game.name}}
-		</td>
-		<td>
-			{{game.release_date | cmdate:'MM/dd/yyyy'}}
-		</td>
-	</tr>
-</table>
 <img src="{{loadingImage}}" alt="" ng-if="!reviews && loading || !games && loading">
 <div ng-if="gameInfo && reviews" class="happyBox">
 	<img src="https:{{gameInfo.cover.url}}" alt="">
@@ -94,3 +72,25 @@
 		<button class="magicButton" ng-click="saveGame()">Save Game</button>
 	</div>
 </div>
+<table class="table table-hover" ng-if="games && !loading">
+	<tr>
+		<th>
+			Name
+		</th>
+		<th>
+			Release Date
+		</th>
+	</tr>
+	<tr ng-repeat="game in games track by $index" ng-click="openGame(game.id, game.name)" ng-if="games">
+		<script>
+		var realTime = moment(game.release_date).format('MMMM Do YYYY');
+		console.log("UN REAL TIME!",realTime);
+		</script>
+		<td>
+			{{game.name}}
+		</td>
+		<td>
+			{{game.release_date | cmdate:'MM/dd/yyyy'}}
+		</td>
+	</tr>
+</table>

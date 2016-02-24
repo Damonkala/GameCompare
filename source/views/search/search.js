@@ -45,6 +45,7 @@ angular.module('gameCompare')
 				$scope.gamesradar = scoreData.gamesradar
 				$scope.ign = scoreData.ign
 				$scope.metacritic = scoreData.metacritic
+				$scope.loading = false;
 			}
 			$scope.choices = resp.data.possibleChoices
 		}, function failure(err) {
