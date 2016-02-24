@@ -32,7 +32,7 @@ router.get('/list', function(req, res){
 router.get('/page/:username', function(req, res){
   User.findOne({'username' : req.params.username}, function(err, user) {
     res.status(err ? 400 : 200).send(err || user)
-  }).populate('favorites')
+  }).populate('reviews deathMatches')
 })
 router.post('/erase', function(req, res){
   console.log("REQBAOCTYS:", req.body)

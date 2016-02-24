@@ -1,4 +1,9 @@
-
+.userInfo{
+	color: green;
+	background-color: white;
+	border: 3px solid #F8A055;
+	border-radius: 10px;
+}
 .dm{
 	display: inline-block;
 	width: 75%;
