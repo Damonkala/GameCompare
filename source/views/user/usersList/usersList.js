@@ -10,7 +10,9 @@ angular.module('gameCompare')
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
-		 if (res.data === "authRequired"){$location.path('/login')}
+		 if (res.data === "authRequired"){
+			//  $location.path('/login')
+		 }
 		 else{$scope.isLoggedIn = true;}
 	})
 	UserService.list()
@@ -60,7 +62,7 @@ angular.module('gameCompare')
 				return (false)
 		} else {return true}
 	}
-		$scope.isAdmin = $scope.userInfo.isAdmin;
+		// $scope.isAdmin = $scope.userInfo.isAdmin;
 
 	$scope.updateSearch = function(searchTerm){
 		// $scope.searchTerm = searchTerm

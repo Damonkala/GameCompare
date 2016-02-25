@@ -43,7 +43,19 @@ angular.module('gameCompare')
 			review.user = $scope.userInfo._id;
 			review.review = content;
 			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
-				console.log("HOORA", resp);
+				DeathMatchService.openMatch(resp.data._id)
+				.then( function victory(resp) {
+					console.log("INFO:", resp.data);
+					$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
+					$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
+
+					$scope.game1UserReviews = resp.data.game1UserReviews
+					$scope.game2UserReviews = resp.data.game2UserReviews
+
+
+				}, function failure(err) {
+					console.log(err);
+				});
 			}), function failure(err){
 				console.log("O no ", err);
 			}

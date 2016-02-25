@@ -6,6 +6,7 @@ angular.module('gameCompare')
 		UserService.login(user)
 		.then(function(res){
 			console.log('res', res.data)
+			$scope.$emit('loggedIn');
 			if(res.data === "Incorrect Username or Password!"){
 				swal({
 					type: "error",
@@ -15,14 +16,11 @@ angular.module('gameCompare')
 					confirmButtonText: "I hear ya.",
 				});
 			} else{
-				console.log("Here is the data, the data is here", res.data);
-				console.log("DID WE TRY TO LOGIN?");
-				UserService.loggedIn = 'true';
-				$scope.$emit('loggedIn');
 				document.cookie = 'token' + "=" + res.data;
 				var token = $cookies.get('token');
 				console.log("This Here is a Token:", token);
 				var decoded = jwtHelper.decodeToken(token);
+				UserService.loggedIn = 'true';
 				$state.go('userPage', {"username": user.username})
 			}
 		}, function(err) {

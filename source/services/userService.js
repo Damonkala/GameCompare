@@ -42,14 +42,17 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		return $http.post(`${ENV.API_URL}/user/erase`, data)
 	}
 	this.loggedIn = function(isLoggedIn){
-			if(isLoggedIn){ return true }
+		if(isLoggedIn){
+			$scope.$emit('loggedIn');
+			return true
+		}
 	};
-  this.uploadImage = function(image, userId){
-    return $http.post(`${ENV.API_URL}/imageUpload`, {
-      userId: userId,
-      image: image
-    })
-  }
+	this.uploadImage = function(image, userId){
+		return $http.post(`${ENV.API_URL}/imageUpload`, {
+			userId: userId,
+			image: image
+		})
+	}
 	this.isAuthed = function(token){
 		return $http.post(`${ENV.API_URL}/auth`, {token:token})
 	};

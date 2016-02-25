@@ -12,12 +12,12 @@ router.get('/', function(req, res){
 	console.log("RETURNING ALL DEATH MATCHES");
 	DeathMatch.find({}, function(err, deathMatch){
 		res.send(deathMatch)
-	}).populate('game1 game2')
+	}).populate('game1 game2 user')
 })
 router.post('/', function(req, res){
 	console.log("MAKING A NEW DEATH MATCH", req.body);
 	DeathMatch.make(req.body, function(err, deathMatch){
-			// res.send(deathMatch)
+		// res.send(deathMatch)
 		User.findByIdAndUpdate(deathMatch.user, { $push: { deathMatches: deathMatch }}, function(err, deathMatch) {
 			res.status(err ? 400 : 200).send(err || deathMatch)
 		})
@@ -36,16 +36,16 @@ router.put('/:id', function(req, res){
 	UserReview.make(req.body, function(err, newReview){
 		console.log("WE GOT A NEW REVIEW!!", newReview);
 		if(game === 1){
-			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game1UserReviews: newReview }}, function(err, deathMatch) {
-				// res.status(err ? 400 : 200).send(err || deathMatch)
+			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game1UserReviews: newReview }}).deepPopulate("game1UserReviews.user game2UserReviews.user game1 game2 user game1UserReviews game2UserReviews").exec(function(err, deathMatch) {
+				res.status(err ? 400 : 200).send(err || deathMatch)
 			})
 		}else {
-			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game2UserReviews: newReview }}, function(err, deathMatch) {
-				// res.status(err ? 400 : 200).send(err || deathMatch)
+			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game2UserReviews: newReview }}).deepPopulate("game1UserReviews.user game2UserReviews.user game1 game2 user game1UserReviews game2UserReviews").exec(function(err, deathMatch) {
+				res.status(err ? 400 : 200).send(err || deathMatch)
 			})
 		}
 		User.findByIdAndUpdate(newReview.user, { $push: { reviews: newReview }}, function(err, deathMatch) {
-			res.status(err ? 400 : 200).send(err || deathMatch)
+			// res.status(err ? 400 : 200).send(err || deathMatch)
 		})
 	})
 })
