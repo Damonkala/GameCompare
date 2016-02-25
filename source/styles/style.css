@@ -228,28 +228,15 @@ option{
 }
 .navbar .nav>li>a, .active{
 	color: #f2f2f2;
-	/*border-bottom: 1px solid*/
 }
-/*.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-  color: #f8a055;
-}*/
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
   color: #f8a055;
 	border: 1px solid #f8a055;
 	height: 63px;
 }
-/*.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #f8a055;
+.gameReview{
+	border: 3px solid #F8A055;
+	border-radius: 10px;
+	background-color: #FCFDFE;
 }
-.navbar-default .navbar-nav > .open > a,
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
-  color: #f8a055;
-}
-.navbar-default .navbar-link:hover {
-  color: #f8a055;
-}*/

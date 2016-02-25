@@ -15,9 +15,9 @@ angular.module('gameCompare')
 	UserService.isAuthed(cookies)
 	.then(function(res, err){
 		console.log(res.data)
-		 if (res.data === "authRequired"){
-			 $location.path('/login')
-		 } else{$scope.isLoggedIn = true;}
+		if (res.data === "authRequired"){
+			$location.path('/login')
+		} else{$scope.isLoggedIn = true;}
 	})
 	UserService.page($state.params.username)
 	.then(function(res) {
@@ -42,22 +42,22 @@ angular.module('gameCompare')
 			console.log($scope.hasNoPhoneNumber)
 		}
 
-    console.log($scope.isEditing)
+		console.log($scope.isEditing)
 		console.log("edit Payload", $scope.editPayload)
 		console.log('token:',token);
 		console.log('scope user username: ', $scope.user.username);
-    if(res.data.avatar){
-      $scope.profileImageSrc = `data:image/jpeg;base64,${res.data.avatar}`
-    } else {
-      $scope.profileImageSrc = `http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg`
-    }
+		if(res.data.avatar){
+			$scope.profileImageSrc = `data:image/jpeg;base64,${res.data.avatar}`
+		} else {
+			$scope.profileImageSrc = `http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg`
+		}
 
 	}, function(err) {
 		console.error(err)
 	});
-  $scope.test = function(){
-    console.log("TESTING")
-  }
+	$scope.test = function(){
+		console.log("TESTING")
+	}
 	$scope.removeFavorite = function (userId){
 		UserService.unFavoriteUser(userId)
 		.then(function(res){
@@ -72,7 +72,7 @@ angular.module('gameCompare')
 	}
 
 	$scope.toggleEdit = function(){
-    console.log($scope.isEditing)
+		console.log($scope.isEditing)
 		$scope.isEditing = !$scope.isEditing
 	}
 
@@ -91,26 +91,28 @@ angular.module('gameCompare')
 
 	}
 
-  $scope.uploadImage = function(image){
-    console.log(image)
-    UserService.uploadImage(image, $scope.user._id)
-    .then(function(res){
-      console.log(res.data)
-      $scope.profileImageSrc = `data:image/jpeg;base64,${res.data.avatar}`;
-      console.log($scope.profileImageSrc)
+	$scope.uploadImage = function(image){
+		console.log(image)
+		UserService.uploadImage(image, $scope.user._id)
+		.then(function(res){
+			console.log(res.data)
+			$scope.profileImageSrc = `data:image/jpeg;base64,${res.data.avatar}`;
+			console.log($scope.profileImageSrc)
 
-    })
-  }
+		})
+	}
 
-
+	$scope.getToMatch = function(id){
+		$state.go('deathMatchPage', {"id": id})
+	}
 
 
 	$scope.exposeData = function(){console.log($scope.myFile)}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
 		console.log(res.data)
-		 if (res.data === "authRequired"){$location.path('/login')}
-		 else{$scope.isLoggedIn = true;}
+		if (res.data === "authRequired"){$location.path('/login')}
+		else{$scope.isLoggedIn = true;}
 	})
 
 });

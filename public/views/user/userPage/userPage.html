@@ -52,14 +52,21 @@
 					<h1>Stats</h1>
 					<div id="profileDetails" class="userInfo">
 						<h2   ng-if="!isEditing" id="profileDetails">Game Reviews:    {{user.reviews.length}}</h2>
-						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:    {{user.deathMatches.length}}</h2>
-						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.reviews.length + user.deathMatches.length}}</h2>
-						<div ng-repeat="deathMatch in user.deathMatches">
-							<h2>Game1: {{deathMatch["game1"].name}}</h2>
-							<h2>Game2: {{deathMatch["game2"].name}}</h2>
-
+						<button ng-click="showGames = !showGames">Show Reviews</button>
+						<div ng-repeat="review in user.reviews" ng-if="showGames">
+							<h2 ng-click="getToMatch(review.deathMatch._id)">
+								<div class="gameReview">
+									{{review.game}}:
+									{{review.review}}
+								</div>
+							</h2>
 						</div>
-						<!-- <h2>Some other third thing {{user.deathMatches[0]["game1"]}}</h2> -->
+						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:    {{user.deathMatches.length}}</h2>
+						<button ng-click="showMatches = !showMatches">Show Matches</button>
+						<div ng-repeat="deathMatch in user.deathMatches" ng-if="showMatches">
+							<h2>{{deathMatch["game1"].name}} V.S {{deathMatch["game2"].name}}</h2>
+						</div>
+						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.reviews.length + user.deathMatches.length}}</h2>
 					</div>
 				</div>
 				<div>

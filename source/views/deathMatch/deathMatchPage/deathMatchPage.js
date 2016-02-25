@@ -32,10 +32,12 @@ angular.module('gameCompare')
 	}, function failure(err) {
 		console.log(err);
 	});
-	$scope.writeReview = function(content, game){
+	$scope.writeReview = function(content, game, gameName){
+		console.log("GORM!", gameName);
 		if(content){
 			console.log("is it game", game);
 			var review = {}
+			review.gameName = gameName;
 			review.game = game
 			review.deathMatch = $state.params.id;
 			review.user = $scope.userInfo._id;
@@ -64,7 +66,8 @@ angular.module('gameCompare')
 			gameOne: "=",
 			gameTwo: "=",
 			userReviews: "=",
-			gameNum: "="
+			gameNum: "=",
+			gameName: "=",
 		},
 		templateUrl: "views/death-match-view.html"
 	};

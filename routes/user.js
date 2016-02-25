@@ -30,7 +30,7 @@ router.get('/list', function(req, res){
   })
 })
 router.get('/page/:username', function(req, res){
-  User.findOne({'username' : req.params.username}).deepPopulate("reviews deathMatches deathMatches.game1 deathMatches.game2 ").exec(function(err, user) {
+  User.findOne({'username' : req.params.username}).deepPopulate("reviews deathMatches deathMatches.game1 deathMatches.game2 reviews.deathMatch ").exec(function(err, user) {
     res.status(err ? 400 : 200).send(err || user)
   })
 })
