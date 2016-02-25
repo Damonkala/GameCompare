@@ -54,6 +54,12 @@
 						<h2   ng-if="!isEditing" id="profileDetails">Game Reviews:    {{user.reviews.length}}</h2>
 						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:    {{user.deathMatches.length}}</h2>
 						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.reviews.length + user.deathMatches.length}}</h2>
+						<div ng-repeat="deathMatch in user.deathMatches">
+							<h2>Game1: {{deathMatch["game1"].name}}</h2>
+							<h2>Game2: {{deathMatch["game2"].name}}</h2>
+
+						</div>
+						<!-- <h2>Some other third thing {{user.deathMatches[0]["game1"]}}</h2> -->
 					</div>
 				</div>
 				<div>

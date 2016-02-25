@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt');
 var jwt = require('jwt-simple');
 
 var User;
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var userSchema = Schema({
 	email:{type: String, required: true, unique: true},
@@ -15,8 +16,10 @@ var userSchema = Schema({
 	avatar: {type: String, data:Buffer, default: ''},
 	deathMatches: [{type: Schema.Types.ObjectId, ref: "DeathMatch"}],
 	reviews: [{type: Schema.Types.ObjectId, ref: "UserReview"}],
+	joinDate: { type : Date, default: Date.now }
 });
 
+userSchema.plugin(deepPopulate);
 
 userSchema.statics.register = function(user, cb){
 	console.log("THIS IS THE NEW USER WE'RE REGISTERING", user);
