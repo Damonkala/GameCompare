@@ -8,13 +8,13 @@ angular.module('gameCompare')
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
 	}
-	UserService.isAuthed(cookies)
-	.then(function(res , err){
-		 if (res.data === "authRequired"){
-			//  $location.path('/login')
-		 }
-		 else{$scope.isLoggedIn = true;}
-	})
+	// UserService.isAuthed(cookies)
+	// .then(function(res , err){
+	// 	 if (res.data === "authRequired"){
+	// 		//  $location.path('/login')
+	// 	 }
+	// 	 else{$scope.isLoggedIn = true;}
+	// })
 	UserService.list()
 	.then(function(res) {
 		users = res.data;

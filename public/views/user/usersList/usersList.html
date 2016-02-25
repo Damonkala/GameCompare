@@ -9,7 +9,7 @@
     <div class="col-xs-2 col-centered"></div>
     <div id="user-list-container" class="col-xs-8 col-centered">
       <table class="userListTable table table-hover">
-        <tr ng-if="!isUser(user)" ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users track by $index'>
+        <tr ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users track by $index'>
           <td class="userListProfilePicDiv col-xs-4">
             <img ng-if="!user.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail"></img>
             <img ng-if="user.avatar"src="data:image/jpeg;base64,{{user.avatar}}" class="userThumbnail"></img>

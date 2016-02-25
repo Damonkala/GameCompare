@@ -594,6 +594,24 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
+	DeathMatchService.load()
+	.then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.deathMatches = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.comparing = function(score1, score2){
+		return GameService.compareGames(score1, score2)
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+
 .controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService, ScopeMaster){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
@@ -674,24 +692,6 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/death-match-view.html"
 	};
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
-	DeathMatchService.load()
-	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.deathMatches = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.comparing = function(score1, score2){
-		return GameService.compareGames(score1, score2)
-	}
 })
 
 'use strict';
@@ -823,13 +823,13 @@ angular.module('gameCompare')
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
 	}
-	UserService.isAuthed(cookies)
-	.then(function(res , err){
-		 if (res.data === "authRequired"){
-			//  $location.path('/login')
-		 }
-		 else{$scope.isLoggedIn = true;}
-	})
+	// UserService.isAuthed(cookies)
+	// .then(function(res , err){
+	// 	 if (res.data === "authRequired"){
+	// 		//  $location.path('/login')
+	// 	 }
+	// 	 else{$scope.isLoggedIn = true;}
+	// })
 	UserService.list()
 	.then(function(res) {
 		users = res.data;
