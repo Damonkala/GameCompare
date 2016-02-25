@@ -64,7 +64,7 @@
 						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:    {{user.deathMatches.length}}</h2>
 						<button ng-click="showMatches = !showMatches">Show Matches</button>
 						<div ng-repeat="deathMatch in user.deathMatches" ng-if="showMatches">
-							<h2>{{deathMatch["game1"].name}} V.S {{deathMatch["game2"].name}}</h2>
+							<h2 class="gameReview" ng-click="getToMatch(deathMatch._id)">{{deathMatch["game1"].name}} V.S {{deathMatch["game2"].name}}</h2>
 						</div>
 						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.reviews.length + user.deathMatches.length}}</h2>
 					</div>
