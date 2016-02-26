@@ -1,3 +1,4 @@
+
 .userInfo{
 	color: green;
 	background-color: white;
@@ -9,8 +10,9 @@
 	width: 75%;
 }
 @font-face { font-family: Zig; src: url('/zig.ttf');}
-	/*font-family: Ponderosa; src: url('./styles/ponde.ttf');*/
-	/*font-family: Charybdis; src: url('./styles/chary.ttf');*/
+@font-face { font-family: GlacialIndifference; src: url('/GlacialIndifference-Regular.ttf');}
+/*font-family: Ponderosa; src: url('./styles/ponde.ttf');*/
+/*font-family: Charybdis; src: url('./styles/chary.ttf');*/
 #game1{
 	display: inline-block;
 	border: 3px solid #F8A055;
@@ -21,6 +23,9 @@
 	/*color: black;*/
 	/*background: blue;*/
 	/*float: left;*/
+}
+death-match-directive{
+	display: inline-block;
 }
 game-directive{
 	display: inline-block;
@@ -55,6 +60,7 @@ game-directive{
 	margin-right:auto;
 }
 .table-center{
+	font-family: GlacialIndifference;
 	margin: 0 auto !important;
 	float: none !important;
 }
@@ -163,10 +169,8 @@ h1{
 	-webkit-text-stroke-color: black;
 	color: #F8A055;./styles
 }
-*{
-	font-size: 20px;
-	/*color: white;*/
-	/*color: #283655;*/
+h2{
+	font-family: GlacialIndifference;
 }
 p, div, h5{
 	font-size: 20px;
@@ -175,6 +179,7 @@ p, div, h5{
 .stats{
 	font-family: Verdana, Geneva, sans-serif;
 	color: black;
+	font-family: GlacialIndifference;
 }
 #selected{
 	display: inline-block;
@@ -187,6 +192,11 @@ body{
 	/*background-color: #fcfcfc;*/
 	background-color: #f2f2f2;
 }
+*{
+	font-size: 20px;
+	/*color: white;*/
+	/*color: #283655;*/
+}
 hr {
 	display: block;
 	height: 1px;
@@ -196,6 +206,7 @@ hr {
 	padding: 0;
 }
 .table {
+	font-family: GlacialIndifference;
 	background-color: #283655;
 	color: #fcfcfc;
 	border: 5px solid #F8A055;
@@ -204,6 +215,7 @@ hr {
 	border-radius: 10px;
 }
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+	font-family: GlacialIndifference;
 	background-color: #F8A055;
 }
 .userReviews{
@@ -220,18 +232,19 @@ option{
 }
 .navbar-custom { color: orange; background-color: #283655; }
 .navbar-nav li a {
- line-height: 40px;
+	line-height: 40px;
 }
 .navbar-nav > li{
-  padding-left:15px;
-  padding-right:10px;
+	padding-left:15px;
+	padding-right:10px;
 }
 .navbar .nav>li>a, .active{
 	color: #f2f2f2;
+	font-family: GlacialIndifference;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #f8a055;
+	color: #f8a055;
 	border: 1px solid #f8a055;
 	height: 63px;
 }
