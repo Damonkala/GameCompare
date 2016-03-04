@@ -671,10 +671,10 @@ angular.module('gameCompare')
 	$scope.user = {};
 	$scope.editPayload = {};
 	var cookies = $cookies.get('token');
-	var token = jwtHelper.decodeToken(cookies)
-	// if(cookies){
-	// 	$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	// }
+	if(cookies){
+		var token = jwtHelper.decodeToken(cookies)
+		$scope.userInfo = (jwtHelper.decodeToken(cookies))
+	}
 	console.log("COOKIES", cookies)
 	UserService.isAuthed(cookies)
 	.then(function(res, err){
