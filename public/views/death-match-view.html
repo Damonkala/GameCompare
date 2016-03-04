@@ -1,4 +1,4 @@
-<div ng-controller="gameCtrl">
+<div ng-controller="deathMatchListCtrl">
 	<div id="game1" ng-if="gameOne">
 		<a href="{{gameOne.url}}">
 			<h1 class="title">
@@ -109,7 +109,7 @@
 		<div ng-controller="deathMatchPageCtrl">
 			<div ng-repeat="userReview in userReviews track by $index">
 				<div class="userReviews">
-					<img src="data:image/jpeg;base64,{{userReview.user["avatar"]}}" alt="">
+					<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" alt="">
 					{{userReview.user["username"]}}:
 					{{userReview.review}}
 				</div>
