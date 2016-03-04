@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -411,39 +411,7 @@ angular.module('gameCompare')
 			console.error(err);
 		});
 	}
-
 });
-// 'use strict';
-//
-// angular.module('gameCompare')
-// .controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-// 	$scope.submit = function(user){
-// 		UserService.login(user)
-// 		.then(function(res){
-// 			console.log('res', res.data)
-// 			if(res.data=="login succesfull"){
-// 				console.log("DID WE TRY TO LOGIN?");
-// 				UserService.loggedIn = 'true';
-// 				$scope.$emit('loggedIn');
-// 				// $state.go('userPage', {"username": user.username})
-// 			} else if (res.data === "Incorrect Username or Password!"){
-// 				swal({
-// 					type: "error",
-// 					title: "Uh-Oh!",
-// 					text: res.data,
-// 					showConfirmButton: true,
-// 					confirmButtonText: "I hear ya.",
-// 				});
-// 			}
-// 			var token = $cookies.get('token');
-// 			console.log("This Here is a Token:", token);
-// 			var decoded = jwtHelper.decodeToken(token);
-// 		}, function(err) {
-// 			console.error(err);
-// 		});
-// 	}
-//
-// });
 
 'use strict';
 

@@ -219,7 +219,10 @@ hr {
 	background-color: #F8A055;
 }
 .userReviews{
-	color: purple;
+	border: 3px solid #283655;
+	vertical-align: top;
+	border-radius: 10px;
+	background-color: #FCFDFE;
 }
 textarea{
 	color: black;
@@ -255,4 +258,7 @@ option{
 }
 .username{
 	color: #f2f2f2;
+}
+.userThumbnail{
+	width: 200px;
 }

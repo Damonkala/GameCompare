@@ -112,9 +112,7 @@ router.put('/unfavorite', function(req, res){
         responseUser.password = null;
         responseUser.avatar = null;
         console.log("USER RESPONSE BITCH!",responseUser)
-        // res.cookie("token", newToken)
         res.send(responseUser)
-        // res.send(updatedUser)
       })
     })
   })

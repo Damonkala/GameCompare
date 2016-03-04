@@ -56,7 +56,6 @@ userSchema.statics.register = function(user, cb){
 userSchema.statics.login = function(user, cb){
 	var username = user.username;
 	var password = user.password;
-
 	User.findOne({username: username}, function(err, dbUser){
 		if(err || !dbUser) return cb(err || 'Incorrect username or password');
 		bcrypt.compare(user.password, dbUser.password, function(err, correct){
@@ -66,17 +65,6 @@ userSchema.statics.login = function(user, cb){
 			cb(null, dbUser);
 		})
 	})
-	// User.find({$or: [{username: username}, {email: username}]}, function(err, userReturned){
-	// 	console.log(userReturned.length)
-	// 	if(userReturned.length){
-	// 		bcrypt.compare(password, userReturned[0].password, function(err, res){
-	// 			userReturned[0].password = null
-	// 			cb(null, userReturned[0])
-	// 		})
-	//
-	// 	}else{cb('no user found', null)}
-	// 	if(err){return console.log(err)}
-	// 	})
 }
 
 User = mongoose.model('User', userSchema);
