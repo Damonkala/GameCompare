@@ -260,5 +260,14 @@ option{
 	color: #f2f2f2;
 }
 .userThumbnail{
-	width: 100px;
+	width: 25%;
+	height: 25%;
+}
+.user{
+	display: block;
+	width: 25%;
+	border: 3px solid #F8A055;
+}
+blockquote{
+	width: auto;
 }

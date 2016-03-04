@@ -109,8 +109,10 @@
 		<div ng-controller="deathMatchPageCtrl">
 			<div ng-repeat="userReview in userReviews track by $index">
 				<div class="userReviews">
-					<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
-					{{userReview.user["username"]}}:
+					{{userReview.user["username"]}}
+					<div class="user">
+						<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
+					</div>
 					{{userReview.review}}
 				</div>
 			</div>
