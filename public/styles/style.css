@@ -266,7 +266,7 @@ option{
 .user{
 	display: block;
 	width: 25%;
-	border: 3px solid #F8A055;
+	/*border: 3px solid #F8A055;*/
 }
 blockquote{
 	width: auto;
