@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies','naif.base64', 'base64'])
+var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies','naif.base64', 'base64', 'checklist-model'])
 
 
 app.constant('ENV', {
