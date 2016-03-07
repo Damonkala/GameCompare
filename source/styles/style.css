@@ -31,15 +31,10 @@ game-directive{
 	display: inline-block;
 }
 .happyBox{
-	/*display: inline-block;*/
 	border: 3px solid #F8A055;
-	/*width: 75%;*/
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #FCFDFE;
-	/*color: black;*/
-	/*background: blue;*/
-	/*float: left;*/
 }
 .magicButton{
 	color: pink;
@@ -83,7 +78,7 @@ game-directive{
 .review{
 	border: 1px solid black;
 	color: white;
-	width: 75%;
+	width: 367.547px;
 	border-radius: 10px;
 	margin-top: 10px;
 	margin-right: 10px;
@@ -219,10 +214,17 @@ hr {
 	background-color: #F8A055;
 }
 .userReviews{
-	border: 3px solid #283655;
+	border: 3px solid black;
 	vertical-align: top;
 	border-radius: 10px;
-	background-color: #FCFDFE;
+	background-color: #283655;
+	font-family: GlacialIndifference;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+	color: #FCFDFE;
+	width: 367.547px;
+	/*width: 75%;*/
 }
 textarea{
 	color: black;
@@ -271,3 +273,10 @@ option{
 blockquote{
 	width: auto;
 }
+.sideBySide{
+	display: inline-block;
+}
+/*#userImage{
+	width: 50%;
+	height: 50%;
+}*/

@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-12" id="profile">
 			<div>
-				<div ng-if="isLoggedIn" class="col-sm-4 col-xs-12" id="profileA">
+				<div class="col-sm-4 col-xs-12" id="profileA">
 					<h1 id="userHeader">{{user.username}}</h1>
 					<div id="imageHolder">
 						<div>
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<h1>Info</h1>
-					<div id="profileDetails" class="userInfo">
+					<div id="profileDetails" class="userInfo dtborder">
 						<h2 ng-if="!isEditing" id="profileDetails">Email:    {{user.email}}</h2>
 						<h2 ng-if="!isEditing" id="profileDetails">Name:    {{user.name}}</h2>
 						<h2 ng-if="!isEditing" id="profileDetails">Username:    {{user.username}}</h2>
@@ -70,7 +70,7 @@
 					</div>
 				</div>
 				<div>
-					<div class="col-sm-4 col-sx-12" id="profile">
+					<!-- <div class="col-sm-4 col-sx-12" id="profile">
 						<div ng-repeat="favorite in favorites track by $index" class="col-xs-12">
 							<div id="FavoritesImageDiv">
 								<img ng-if="favorite.avatar"src="data:image/jpeg;base64,{{favorite.avatar}}" class="userThumbnail" id="favoriteImage"></img>
@@ -82,7 +82,7 @@
 								<button ng-click="eraseUser(user._id)">Delete</button>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

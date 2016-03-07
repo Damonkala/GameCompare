@@ -680,40 +680,36 @@ angular.module('gameCompare')
 	.then(function(res, err){
 		console.log(res.data)
 		if (res.data === "authRequired"){
-			$location.path('/login')
-		} else{$scope.isLoggedIn = true;}
+			// $location.path('/login')
+		} else{
+			$scope.isLoggedIn = true;
+		}
 	})
 	UserService.page($state.params.username)
 	.then(function(res) {
 		console.log("PARAMS", $state.params.name)
 		console.log(res.data.favorites)
 		$scope.user = res.data;
+		console.log("HELLO THIS IS ", $scope.user);
 		$scope.favorites = res.data.favorites;
-		$scope.isOwnPage = $scope.user.username === token.username || token.isAdmin === true;
-		$scope.isEditing = false;
-		$scope.editPayload.username = $scope.user.username;
-		$scope.editPayload.email = $scope.user.email;
+		if(token){
+			$scope.isOwnPage = $scope.user.username === token.username || token.isAdmin === true;
+			$scope.isEditing = false;
+			$scope.editPayload.username = $scope.user.username;
+			$scope.editPayload.email = $scope.user.email;
 
-		$scope.editPayload.phone = $scope.user.phone;
-		$scope.editPayload.name = $scope.user.name
-		$scope.editPayload.address = $scope.user.address
-		$scope.editPayload._id = $scope.user._id
-		$scope.editPayload.isAdmin = token.isAdmin
-
-		if ($scope.user.phone ==0){
-			console.log("number is zero")
-			$scope.hasNoPhoneNumber = true;
-			console.log($scope.hasNoPhoneNumber)
+			$scope.editPayload.phone = $scope.user.phone;
+			$scope.editPayload.name = $scope.user.name
+			$scope.editPayload.address = $scope.user.address
+			$scope.editPayload._id = $scope.user._id
+			$scope.editPayload.isAdmin = token.isAdmin
 		}
-
-		console.log($scope.isEditing)
-		console.log("edit Payload", $scope.editPayload)
-		console.log('token:',token);
-		console.log('scope user username: ', $scope.user.username);
 		if(res.data.avatar){
-			$scope.profileImageSrc = `data:image/jpeg;base64,${res.data.avatar}`
+			$scope.profileImageSrc = `data:image/jpeg;base64,${$scope.user.avatar}`;
+			console.log("Alright, there should be an image, but it's not showing up, sorry", $scope.profileImageSrc);
 		} else {
 			$scope.profileImageSrc = `http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg`
+			console.log("Alright, there isn't an image, but nothing is showing up, what the fuck!?");
 		}
 
 	}, function(err) {
@@ -775,8 +771,12 @@ angular.module('gameCompare')
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
 		console.log(res.data)
-		if (res.data === "authRequired"){$location.path('/login')}
-		else{$scope.isLoggedIn = true;}
+		if (res.data === "authRequired"){
+			// $location.path('/login')
+		}
+		else{
+			$scope.isLoggedIn = true;
+		}
 	})
 
 });
