@@ -8,6 +8,7 @@ var morgan = require('morgan');
 var path = require('path');
 var app = express();
 var cookieParser = require("cookie-parser");
+var favicon = require('serve-favicon');
 
 // var moment = require('moment');
 
@@ -32,6 +33,7 @@ app.set('views', 'templates');
 app.set('view engine', 'ejs');
 app.use(allowCrossDomain);
 
+app.use(favicon(__dirname + '/etc/favicon.ico'));
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded( {extended: true} ));

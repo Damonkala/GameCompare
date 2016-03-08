@@ -323,8 +323,8 @@ angular.module('gameCompare')
 	}
 
 	$scope.compareTwoGames = function() {
-		// console.log("Hello");
-		console.log($scope.game);
+		var randomPair = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+		console.log(randomPair.name);
 	}
 
 
