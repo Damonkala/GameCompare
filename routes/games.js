@@ -17,6 +17,17 @@ router.get('/', function(req, res){
 		res.send(game)
 	})
 })
+router.post('/getTwoGames', function(req, res){
+	console.log("Are we okay on the REQUEST part?:", req.body);
+	var returnGames = {};
+	Game.find({name: req.body.game1}, function(err, game){
+		returnGames.game1 = game;
+		Game.find({name: req.body.game2}, function(err, game){
+			returnGames.game2 = game;
+			res.send(returnGames)
+		})
+	})
+})
 router.post('/compare', function(req, res){
 	console.log("GET REQED!", req.body);
 	console.log("REQED LENGTH!", req.body.length);

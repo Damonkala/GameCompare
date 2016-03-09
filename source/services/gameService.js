@@ -24,6 +24,10 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	this.saveGame = function(newGame){
 		return $http.post(`${ENV.API_URL}/games`, newGame)
 	};
+	this.getGames = function(games){
+		console.log("Games?", games);
+		return $http.post(`${ENV.API_URL}/games/getTwoGames`, games)
+	}
 	this.compareGames = function(score1, score2){
 		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
 			return "isGreaterThan"

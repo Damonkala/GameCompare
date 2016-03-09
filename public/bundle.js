@@ -16,7 +16,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
   .state('home', {url: '/', templateUrl: 'views/home/home.html', controller: 'homeCtrl'})
   .state('search', {url: '/search', templateUrl: 'views/search/search.html', controller: 'searchCtrl'})
   .state('list', {url: '/list', templateUrl: 'views/list/list.html', controller: 'listCtrl'})
-  .state('game', {url: '/game', templateUrl: 'views/game/game.html', controller: 'gameCtrl'})
+  .state('game', {url: '/game/{game1}/{game2}', templateUrl: 'views/game/game.html', controller: 'gameCtrl'})
   .state('login', {url: '/login', templateUrl: 'views/login/login.html', controller: 'loginCtrl'})
   .state('register', {url: '/register', templateUrl: 'views/register/register.html', controller: 'registerCtrl'})
   .state('usersList', {url: '/userslist', templateUrl: 'views/user/usersList/usersList.html', controller: 'usersListCtrl'})
@@ -99,15 +99,21 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster){
-	console.log("STARTING GAME ONE SCOPE", $scope.gameOne);
-	GameService.load()
-	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
+.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
+	var games = {};
+	games.game1 = $state.params.game1
+	games.game2 = $state.params.game2
+	GameService.getGames(games)
+	.then(function(res) {;
+		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
+		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
+	}, function(err) {
+		console.log("Something went wrong, whoops");
+		console.error(err)
+	})
+$scope.readGame2 = function(){
+	console.log("Is game two okay?", $scope.gameTwo);
+}
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -123,7 +129,6 @@ angular.module('gameCompare')
 		return GameService.compareGames(score1, score2)
 	}
 	$scope.startBattle = function(){
-		console.log($scope.gameOne, " V.S ", $scope.gameTwo);
 		var deathmatch = {};
 		deathmatch.user = $scope.userInfo._id;
 		deathmatch.game1 = $scope.gameOne;
@@ -133,20 +138,6 @@ angular.module('gameCompare')
 			console.log("HOORAY", resp);
 		}, function failure(err){
 			console.log("OH NO!", err);
-		})
-	}
-	$scope.compare = function(game1, game2){
-		var games = {}
-		games.game1 = game1;
-		games.game2 = game2;
-		GameService.startBattle(games).then(function victory(resp){
-			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
-			console.log("WHOAH THERE BOY", typeof $scope.gameOne);
-			console.log("GAME ONE SCOPE", $scope.gameOne);
-			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
-			console.log("GAME TWO SCOPE", $scope.gameTwo);
-		}, function failure(err){
-			console.log(err);
 		})
 	}
 })
@@ -187,6 +178,10 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 	this.saveGame = function(newGame){
 		return $http.post(`${ENV.API_URL}/games`, newGame)
 	};
+	this.getGames = function(games){
+		console.log("Games?", games);
+		return $http.post(`${ENV.API_URL}/games/getTwoGames`, games)
+	}
 	this.compareGames = function(score1, score2){
 		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
 			return "isGreaterThan"
@@ -225,27 +220,27 @@ var app = angular.module('gameCompare');
 app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
 	this.setScopes = function(data){
 		var trueGame = data;
-		console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
+		// console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
 		var noReview = {criticScore: 0, userScore: 0, url:null}
 		trueGame.cover = data.cover ? data.cover[0].url : '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
 
-		console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
+		// console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
 		trueGame.gameSpotCriticScore = data.gamespot.length ? data.gamespot[0].criticScore : 0
 		trueGame.gameSpotUserScore = data.gamespot.length ? data.gamespot[0].userScore : 0
 		trueGame.gameSpotUrl = data.gamespot.length ? data.gamespot[0].url : undefined
 
-		console.log("DO WE HAVE GAMESRADAR!?", data.gamesradar);
+		// console.log("DO WE HAVE GAMESRADAR!?", data.gamesradar);
 		trueGame.gamesRadarCriticScore = data.gamesradar.length ? data.gamesradar[0].criticScore : 0
 		trueGame.gamesRadarUserScore = data.gamesradar.length ? data.gamesradar[0].userScore : 0
 		trueGame.gamesRadarUrl = data.gamesradar.length ? data.gamesradar[0].url : undefined
 
-		console.log("DO WE HAVE METACRITIC!?", data.metacritic);
+		// console.log("DO WE HAVE METACRITIC!?", data.metacritic);
 
 		trueGame.metacriticCriticScore = data.metacritic.length ? data.metacritic[0].criticScore : 0
 		trueGame.metacriticUserScore = data.metacritic.length ? data.metacritic[0].userScore : 0
 		trueGame.metacriticUrl = data.metacritic.length ? data.metacritic[0].url : undefined
 
-		console.log("DO WE HAVE IGN!?", data.ign);
+		// console.log("DO WE HAVE IGN!?", data.ign);
 		trueGame.ignCriticScore = data.ign.length ? data.ign[0].criticScore : 0
 		trueGame.ignUserScore = data.ign.length ? data.ign[0].userScore : 0
 		trueGame.ignUrl = data.ign.length ? data.ign[0].url : undefined
@@ -276,20 +271,20 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 
 		function totalScore(scores) {
 			var total = [];
-			console.log("DO WE REALLY HAVE SCORE!?", scores);
+			// console.log("DO WE REALLY HAVE SCORE!?", scores);
 			for(var i = 0; i<scores.length;i++){
 				if(!Number(scores[i])){
-					console.log("Not a real score", Number(scores[i]), scores[i]);
+					// console.log("Not a real score", Number(scores[i]), scores[i]);
 					total.push(0)
-					console.log("Current total: fail:", total);
+					// console.log("Current total: fail:", total);
 				} else {
-					console.log("Is a real score", Number(scores[i]), scores[i]);
+					// console.log("Is a real score", Number(scores[i]), scores[i]);
 					total.push(Number(scores[i]))
-					console.log("Current total: success:", total);
+					// console.log("Current total: success:", total);
 				}
 			}
 			return total.reduce(function(a, b){
-				console.log("We totaled up, what's the problem?", a + b);
+				// console.log("We totaled up, what's the problem?", a + b);
 				return a + b;
 			})
 		}
@@ -298,10 +293,10 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 		trueGame.totalUser = totalScore(userScore)
 		// trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
 
-		console.log("DO WE HAVE CRITIC SCORE?", criticScore);
-		console.log("DO WE HAVE A REAL CRITIC SCORE?", trueGame.totalCritic);
-		console.log("DO WE HAVE A REAL USER SCORE?", trueGame.totalUser);
-		console.log("TRUE FORM!", trueGame);
+		// console.log("DO WE HAVE CRITIC SCORE?", criticScore);
+		// console.log("DO WE HAVE A REAL CRITIC SCORE?", trueGame.totalCritic);
+		// console.log("DO WE HAVE A REAL USER SCORE?", trueGame.totalUser);
+		// console.log("TRUE FORM!", trueGame);
 		return trueGame
 	}
 })
@@ -310,7 +305,7 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, ENV){
+.controller('listCtrl', function($scope, $http, ENV, $state){
 	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
 		$scope.dbGames = resp.data;
 
@@ -322,15 +317,20 @@ angular.module('gameCompare')
 		names: []
 	}
 	$scope.compareTwoGames = function() {
-		var randomPair = {};
-		randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-		randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-		if(randomPair.game1.name === randomPair.game2.name){
-			console.log("A failure occured");
-			$scope.compareTwoGames();
+		if($scope.game.names.length > 2){
+			var randomPair = {};
+			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			if(randomPair.game1.name === randomPair.game2.name){
+				console.log("A failure occured");
+				$scope.compareTwoGames();
+			} else {
+				console.log("Random Game 1",randomPair.game1.name.replace(/\s+/g, '+').toLowerCase());
+				console.log("Random Game 2",randomPair.game2.name.replace(/\s+/g, '+').toLowerCase());
+				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
+			}
 		} else {
-			console.log("Random Game 1",randomPair.game1.name);
-			console.log("Random Game 2",randomPair.game2.name);
+			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
 		}
 	}
 })
@@ -680,90 +680,6 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
-	var cookies = $cookies.get('token');
-	if(cookies){
-		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	}
-	// UserService.isAuthed(cookies)
-	// .then(function(res , err){
-	// 	 if (res.data === "authRequired"){
-	// 		//  $location.path('/login')
-	// 	 }
-	// 	 else{$scope.isLoggedIn = true;}
-	// })
-	UserService.list()
-	.then(function(res) {
-		users = res.data;
-		$scope.users = users;
-	}, function(err) {
-		console.error(err)
-	});
-	var users;
-
-	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
-		$scope.updateSearch();
-	})
-
-	$scope.addFavorite = function (userId){
-		UserService.favoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.removeFavorite = function (userId){
-		UserService.unFavoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.eraseUser = function (userId){
-		UserService.eraseUser(userId)
-		.then(function(res){
-			$scope.users = res.data
-			users = res.data
-		})
-	}
-
-	$scope.favorited = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-			return ($scope.userInfo.favorites).some(function(favorite){
-				return (user._id === favorite)
-			})
-		} else {return true}
-	}
-	$scope.isUser = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-				return (false)
-		} else {return true}
-	}
-		// $scope.isAdmin = $scope.userInfo.isAdmin;
-
-	$scope.updateSearch = function(searchTerm){
-		// $scope.searchTerm = searchTerm
-		console.log(searchTerm)
-		if(searchTerm){
-			console.log(searchTerm)
-		$scope.users = $scope.users.filter(function(user){
-			if (user.username.match(searchTerm)){
-				return true
-			} else{
-				return false
-			}
-		})
-		} else{
-			$scope.users = users
-		}
-	}
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-
 .controller('userPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64){
 	$scope.user = {};
 	$scope.editPayload = {};
@@ -877,3 +793,87 @@ angular.module('gameCompare')
 	})
 
 });
+
+'use strict';
+
+angular.module('gameCompare')
+
+
+.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
+	var cookies = $cookies.get('token');
+	if(cookies){
+		$scope.userInfo = (jwtHelper.decodeToken(cookies))
+	}
+	// UserService.isAuthed(cookies)
+	// .then(function(res , err){
+	// 	 if (res.data === "authRequired"){
+	// 		//  $location.path('/login')
+	// 	 }
+	// 	 else{$scope.isLoggedIn = true;}
+	// })
+	UserService.list()
+	.then(function(res) {
+		users = res.data;
+		$scope.users = users;
+	}, function(err) {
+		console.error(err)
+	});
+	var users;
+
+	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
+		$scope.updateSearch();
+	})
+
+	$scope.addFavorite = function (userId){
+		UserService.favoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.removeFavorite = function (userId){
+		UserService.unFavoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.eraseUser = function (userId){
+		UserService.eraseUser(userId)
+		.then(function(res){
+			$scope.users = res.data
+			users = res.data
+		})
+	}
+
+	$scope.favorited = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+			return ($scope.userInfo.favorites).some(function(favorite){
+				return (user._id === favorite)
+			})
+		} else {return true}
+	}
+	$scope.isUser = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+				return (false)
+		} else {return true}
+	}
+		// $scope.isAdmin = $scope.userInfo.isAdmin;
+
+	$scope.updateSearch = function(searchTerm){
+		// $scope.searchTerm = searchTerm
+		console.log(searchTerm)
+		if(searchTerm){
+			console.log(searchTerm)
+		$scope.users = $scope.users.filter(function(user){
+			if (user.username.match(searchTerm)){
+				return true
+			} else{
+				return false
+			}
+		})
+		} else{
+			$scope.users = users
+		}
+	}
+})

@@ -2,15 +2,21 @@
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster){
-	console.log("STARTING GAME ONE SCOPE", $scope.gameOne);
-	GameService.load()
-	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
+.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
+	var games = {};
+	games.game1 = $state.params.game1
+	games.game2 = $state.params.game2
+	GameService.getGames(games)
+	.then(function(res) {;
+		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
+		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
+	}, function(err) {
+		console.log("Something went wrong, whoops");
+		console.error(err)
+	})
+$scope.readGame2 = function(){
+	console.log("Is game two okay?", $scope.gameTwo);
+}
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -26,7 +32,6 @@ angular.module('gameCompare')
 		return GameService.compareGames(score1, score2)
 	}
 	$scope.startBattle = function(){
-		console.log($scope.gameOne, " V.S ", $scope.gameTwo);
 		var deathmatch = {};
 		deathmatch.user = $scope.userInfo._id;
 		deathmatch.game1 = $scope.gameOne;
@@ -36,20 +41,6 @@ angular.module('gameCompare')
 			console.log("HOORAY", resp);
 		}, function failure(err){
 			console.log("OH NO!", err);
-		})
-	}
-	$scope.compare = function(game1, game2){
-		var games = {}
-		games.game1 = game1;
-		games.game2 = game2;
-		GameService.startBattle(games).then(function victory(resp){
-			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
-			console.log("WHOAH THERE BOY", typeof $scope.gameOne);
-			console.log("GAME ONE SCOPE", $scope.gameOne);
-			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
-			console.log("GAME TWO SCOPE", $scope.gameTwo);
-		}, function failure(err){
-			console.log(err);
 		})
 	}
 })
