@@ -1,22 +1,21 @@
 <div ng-if="isLoggedIn">
 	<button class="btn btn-danger name" ng-click="startBattle()" ng-if="gameOne && gameTwo"> BATTLE BEGIN!</button>
 </div>
-<select ng-model="game1">
-	<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
-		{{games.name}}
-	</option>
+<!-- <select ng-model="game1">
+<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
+{{games.name}}
+</option>
 </select>
 <select ng-model="game2">
-	<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
-		{{games.name}}
-	</option>
+<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
+{{games.name}}
+</option>
 </select>
 <button class="btn btn-primary" ng-click="compare(game1, game2)">Compare</button>
 <br>
-
+-->
 
 <!-- <div ng-app="gameCompare" ng-controller="gameCtrl"> -->
-<h1>{{gameOne.name}} V.S {{gameTwo.name}}</h1>
 	<game-directive game-one="gameOne" game-two="gameTwo"></game-directive>
-	<game-directive game-one="gameTwo" game-two="gameOne"></game-directive>
+	<!-- <game-directive game-one="gameTwo" game-two="gameOne"></game-directive> -->
 <!-- </div> -->

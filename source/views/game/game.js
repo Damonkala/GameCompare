@@ -3,18 +3,14 @@
 angular.module('gameCompare')
 
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
-	GameService.load();
-	var games = {};
-	games.game1 = $state.params.game1
-	games.game2 = $state.params.game2
-	GameService.getGames(games)
-	.then(function(res) {;
-		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
-		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
-	}, function(err) {
-		console.log("Something went wrong, whoops");
-		console.error(err)
-	})
+	// GameService.load()
+	// .then( function victory(resp) {
+	// 	console.log("INFO:", resp.data);
+	// 	$scope.dbGames = resp.data;
+	// }, function failure(err) {
+	// 	console.log(err);
+	// });
+
 	$scope.readGame2 = function(){
 		console.log("Is game two okay?", $scope.gameTwo);
 	}
@@ -44,27 +40,35 @@ angular.module('gameCompare')
 			console.log("OH NO!", err);
 		})
 	}
-	$scope.compare = function(game1, game2){
-		var games = {}
-		games.game1 = game1;
-		games.game2 = game2;
-		GameService.startBattle(games).then(function victory(resp){
-			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
-			console.log("WHOAH THERE BOY", typeof $scope.gameOne);
-			console.log("GAME ONE SCOPE", $scope.gameOne);
-			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
-			console.log("GAME TWO SCOPE", $scope.gameTwo);
-		}, function failure(err){
-			console.log(err);
-		})
-	}
+	// $scope.compare = function(game1, game2){
+	// 	var games = {}
+	// 	games.game1 = game1;
+	// 	games.game2 = game2;
+	// 	GameService.startBattle(games).then(function victory(resp){
+	// 		$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
+	// 		$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
+	// 	}, function failure(err){
+	// 		console.log(err);
+	// 	})
+	// }
+	var games = {};
+	games.game1 = $state.params.game1;
+	games.game2 = $state.params.game2;
+	GameService.getGames(games)
+	.then(function(res) {
+		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
+		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
+	}, function(err) {
+		console.log("Something went wrong, whoops");
+		console.error(err)
+	})
 })
 .directive("gameDirective", function() {
 	return {
 		restrict: 'AE',
 		scope: {
-			gameOne: "=",
-			gameTwo: "=",
+			gameOne: "=gameOne",
+			gameTwo: "=gameTwo",
 		},
 		templateUrl: "views/game-view.html"
 	};

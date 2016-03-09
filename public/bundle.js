@@ -100,18 +100,14 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 angular.module('gameCompare')
 
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
-	GameService.load();
-	var games = {};
-	games.game1 = $state.params.game1
-	games.game2 = $state.params.game2
-	GameService.getGames(games)
-	.then(function(res) {;
-		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
-		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
-	}, function(err) {
-		console.log("Something went wrong, whoops");
-		console.error(err)
-	})
+	// GameService.load()
+	// .then( function victory(resp) {
+	// 	console.log("INFO:", resp.data);
+	// 	$scope.dbGames = resp.data;
+	// }, function failure(err) {
+	// 	console.log(err);
+	// });
+
 	$scope.readGame2 = function(){
 		console.log("Is game two okay?", $scope.gameTwo);
 	}
@@ -141,27 +137,35 @@ angular.module('gameCompare')
 			console.log("OH NO!", err);
 		})
 	}
-	$scope.compare = function(game1, game2){
-		var games = {}
-		games.game1 = game1;
-		games.game2 = game2;
-		GameService.startBattle(games).then(function victory(resp){
-			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
-			console.log("WHOAH THERE BOY", typeof $scope.gameOne);
-			console.log("GAME ONE SCOPE", $scope.gameOne);
-			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
-			console.log("GAME TWO SCOPE", $scope.gameTwo);
-		}, function failure(err){
-			console.log(err);
-		})
-	}
+	// $scope.compare = function(game1, game2){
+	// 	var games = {}
+	// 	games.game1 = game1;
+	// 	games.game2 = game2;
+	// 	GameService.startBattle(games).then(function victory(resp){
+	// 		$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
+	// 		$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
+	// 	}, function failure(err){
+	// 		console.log(err);
+	// 	})
+	// }
+	var games = {};
+	games.game1 = $state.params.game1;
+	games.game2 = $state.params.game2;
+	GameService.getGames(games)
+	.then(function(res) {
+		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
+		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
+	}, function(err) {
+		console.log("Something went wrong, whoops");
+		console.error(err)
+	})
 })
 .directive("gameDirective", function() {
 	return {
 		restrict: 'AE',
 		scope: {
-			gameOne: "=",
-			gameTwo: "=",
+			gameOne: "=gameOne",
+			gameTwo: "=gameTwo",
 		},
 		templateUrl: "views/game-view.html"
 	};
@@ -213,34 +217,19 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, ENV, $state){
+.controller('homeCtrl', function($scope, $http, ENV){
 	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;
-
 	}, function failure(err) {
 		console.log(err);
 	});
 
-	$scope.game = {
-		names: []
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
 	}
-	$scope.compareTwoGames = function() {
-		if($scope.game.names.length > 2){
-			var randomPair = {};
-			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-			if(randomPair.game1.name === randomPair.game2.name){
-				console.log("A failure occured");
-				$scope.compareTwoGames();
-			} else {
-				console.log("Random Game 1",randomPair.game1.name.replace(/\s+/g, '+').toLowerCase());
-				console.log("Random Game 2",randomPair.game2.name.replace(/\s+/g, '+').toLowerCase());
-				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
-			}
-		} else {
-			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
-		}
-	}
+
 })
 
 'use strict';
@@ -335,19 +324,34 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('homeCtrl', function($scope, $http, ENV){
+.controller('listCtrl', function($scope, $http, ENV, $state){
 	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;
+
 	}, function failure(err) {
 		console.log(err);
 	});
 
-	$scope.compare = function(){
-		console.log("CLICKITY CLACK");
-		console.log("A THANG!", $scope.check);
+	$scope.game = {
+		names: []
 	}
-
+	$scope.compareTwoGames = function() {
+		if($scope.game.names.length > 2){
+			var randomPair = {};
+			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			if(randomPair.game1.name === randomPair.game2.name){
+				console.log("A failure occured");
+				$scope.compareTwoGames();
+			} else {
+				console.log("Random Game 1",randomPair.game1.name.replace(/\s+/g, '+').toLowerCase());
+				console.log("Random Game 2",randomPair.game2.name.replace(/\s+/g, '+').toLowerCase());
+				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
+			}
+		} else {
+			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
+		}
+	}
 })
 
 'use strict';
