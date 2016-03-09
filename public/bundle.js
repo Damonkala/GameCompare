@@ -111,9 +111,9 @@ angular.module('gameCompare')
 		console.log("Something went wrong, whoops");
 		console.error(err)
 	})
-$scope.readGame2 = function(){
-	console.log("Is game two okay?", $scope.gameTwo);
-}
+	$scope.readGame2 = function(){
+		console.log("Is game two okay?", $scope.gameTwo);
+	}
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -138,6 +138,20 @@ $scope.readGame2 = function(){
 			console.log("HOORAY", resp);
 		}, function failure(err){
 			console.log("OH NO!", err);
+		})
+	}
+	$scope.compare = function(game1, game2){
+		var games = {}
+		games.game1 = game1;
+		games.game2 = game2;
+		GameService.startBattle(games).then(function victory(resp){
+			$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
+			console.log("WHOAH THERE BOY", typeof $scope.gameOne);
+			console.log("GAME ONE SCOPE", $scope.gameOne);
+			$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
+			console.log("GAME TWO SCOPE", $scope.gameTwo);
+		}, function failure(err){
+			console.log(err);
 		})
 	}
 })
