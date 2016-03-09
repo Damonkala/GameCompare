@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  // API_URL: 'https://game-compare.herokuapp.com'
-  API_URL: 'http://localhost:3000'
+  API_URL: 'https://game-compare.herokuapp.com'
+  // API_URL: 'http://localhost:3000'
 });
 
 
@@ -148,6 +148,9 @@ angular.module('gameCompare')
 	// 		console.log(err);
 	// 	})
 	// }
+	if(!$state.params.game1 || !$state.params.game2){
+		$state.go('list');
+	}
 	var games = {};
 	games.game1 = $state.params.game1;
 	games.game2 = $state.params.game2;

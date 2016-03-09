@@ -51,6 +51,9 @@ angular.module('gameCompare')
 	// 		console.log(err);
 	// 	})
 	// }
+	if(!$state.params.game1 || !$state.params.game2){
+		$state.go('list');
+	}
 	var games = {};
 	games.game1 = $state.params.game1;
 	games.game2 = $state.params.game2;
