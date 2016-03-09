@@ -3,6 +3,7 @@
 angular.module('gameCompare')
 
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
+	GameService.load();
 	var games = {};
 	games.game1 = $state.params.game1
 	games.game2 = $state.params.game2
