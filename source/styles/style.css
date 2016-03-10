@@ -204,11 +204,21 @@ hr {
 	font-family: GlacialIndifference;
 	background-color: #283655;
 	color: #fcfcfc;
-	border: 5px solid #F8A055;
+	/*border: 3px solid #F8A055;*/
 	width: 75%;
 	margin: auto;
-	border-radius: 10px;
+	/*border-radius: 20px;*/
+	/*border: 3px solid #F8A055;*/
+	/*border-color: #F8A055;*/
 }
+.differentTable, .differentTable td{
+   border-color: #F8A055;
+}
+/*.outerTable{*/
+/*border-radius: 20px;*/
+	/*width: 75%;*/
+/*}*/
+
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
 	font-family: GlacialIndifference;
 	background-color: #F8A055;

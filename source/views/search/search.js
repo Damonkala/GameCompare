@@ -28,6 +28,7 @@ angular.module('gameCompare')
 		console.log("LOADING?", $scope.loading);
 		GameService.openGame(id).then( function victory(resp) {
 			console.log("NEW INFO:", resp);
+			$scope.loading = false;
 			$scope.url = `https://www.igdb.com/games/${resp.data.game.slug}`;
 			$scope.gameInfo = resp.data.game;
 		}, function failure(err) {
@@ -36,16 +37,16 @@ angular.module('gameCompare')
 		$scope.reviews = false;
 		GameService.getScore(name)
 		.then( function victory(resp) {
-			$scope.reviews = false;
+			// $scope.reviews = false;
+			$scope.reviews = true;
 			if(!resp.data.message){
-				$scope.reviews = true;
 				var scoreData = resp.data.result;
 				console.log("This just in ", scoreData);
 				$scope.gamespot = scoreData.gamespot
 				$scope.gamesradar = scoreData.gamesradar
 				$scope.ign = scoreData.ign
 				$scope.metacritic = scoreData.metacritic
-				$scope.loading = false;
+				// $scope.loading = false;
 			}
 			$scope.choices = resp.data.possibleChoices
 		}, function failure(err) {

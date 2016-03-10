@@ -2,7 +2,9 @@
 <button type="button" name="button" ng-click="compareTwoGames()">Compare</button>
 
 <label>Search: <input ng-model="searchText"></label>
-<table class="table table-hover">
+<div class="outerTable">
+
+<table class="table table-hover table-bordered differentTable">
 	<tr>
 		<th>Name</th>
 		<th>Console(s)</th>
@@ -24,8 +26,12 @@
 			</div>
 		</td>
 		<td>
-			<input type="checkbox" checklist-model="game.names" checklist-value="games">
+			<input type="checkbox" checklist-model="game.names" checklist-value="games" class="checkbox">
 			<!-- <input type="checkbox" name="name" value="{{games.name}}"> -->
 		</td>
 	</tr>
 </table>
+</div>
+<div ng-controller="listCtrl">
+	<search-directive></search-directive>
+</div>
