@@ -26,6 +26,7 @@ gulp.task('build', ['clean'], function(){
 		.pipe(addsrc("source/services/*.js"))
 		.pipe(addsrc("source/views/**/*.js"))
 		.pipe(concat("bundle.js"))
+		.pipe(addsrc("./etc/**.png"))
 		.pipe(addsrc("source/**/*.html"))
     .pipe(addsrc("./source/**/*.css"))
     .pipe(addsrc("./source/styles/*.ttf"))

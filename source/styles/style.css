@@ -209,33 +209,27 @@ hr {
 	margin: auto;
 	/*border-radius: 20px;*/
 	/*border: 3px solid #F8A055;*/
-	/*border-color: #F8A055;*/
+	border-color: #F8A055;
 }
-.differentTable, .differentTable td{
-   border-color: #F8A055;
-}
-/*.outerTable{*/
-/*border-radius: 20px;*/
-	/*width: 75%;*/
-/*}*/
+
+
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
 	font-family: GlacialIndifference;
 	background-color: #F8A055;
 }
 .userReviews{
-	border: 3px solid black;
+	border: 3px solid #F8A055;
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #283655;
 	font-family: GlacialIndifference;
 	margin-top: 20px;
 	margin-bottom: 20px;
-	margin-left: 20px;
 	color: #FCFDFE;
 	width: 367.547px;
-	/*width: 75%;*/
 }
+
 textarea{
 	color: black;
 }
@@ -266,14 +260,15 @@ option{
 .gameReview{
 	border: 3px solid #F8A055;
 	border-radius: 10px;
+	width: 351.562px;
 	background-color: #FCFDFE;
 }
 .username{
 	color: #f2f2f2;
 }
 .userThumbnail{
-	width: 25%;
-	height: 25%;
+	width: 30%;
+	height: 30%;
 }
 .user{
 	display: block;
@@ -287,6 +282,6 @@ blockquote{
 	display: inline-block;
 }
 /*#userImage{
-	width: 50%;
-	height: 50%;
+width: 50%;
+height: 50%;
 }*/
