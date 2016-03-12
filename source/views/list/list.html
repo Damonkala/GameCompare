@@ -1,7 +1,11 @@
 <h1>Game list</h1>
 <button type="button" name="button" ng-click="compareTwoGames()">Compare</button>
 
-<label>Search: <input ng-model="searchText"></label>
+<div ng-controller="listCtrl">
+	<search-directive></search-directive>
+</div>
+<!-- <br> -->
+<!-- <label>Search: <input ng-model="searchText"></label> -->
 <div class="outerTable">
 
 <table class="table table-hover table-bordered differentTable">
@@ -11,7 +15,7 @@
 		<th>Date</th>
 		<th>Compare</th>
 	</tr>
-	<tr ng-repeat="games in dbGames | filter:searchText ">
+	<tr ng-repeat="games in dbGames | filter:searchBox ">
 		<td>
 			{{games.name}}
 		</td>
@@ -31,7 +35,4 @@
 		</td>
 	</tr>
 </table>
-</div>
-<div ng-controller="listCtrl">
-	<search-directive></search-directive>
 </div>
