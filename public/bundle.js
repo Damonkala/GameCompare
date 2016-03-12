@@ -6,7 +6,6 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 app.constant('ENV', {
   // API_URL: 'https://game-compare.herokuapp.com'
   API_URL: 'http://localhost:3000'
-  
 });
 
 
