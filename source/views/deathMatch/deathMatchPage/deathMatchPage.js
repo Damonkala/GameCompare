@@ -15,9 +15,22 @@ angular.module('gameCompare')
 		// console.log(res.data)
 		if (res.data === "authRequired"){
 			//  $location.path('/login')
-		} else
-		{$scope.isLoggedIn = true;}
+		} else {
+			$scope.isLoggedIn = true;
+			$scope.hasWrittenReview($scope.userInfo._id, $state.params.id)
+		}
 	})
+	$scope.hasWrittenReview = function(userId, deathMatchId){
+		UserService.wroteReview(userId, deathMatchId)
+		.then(function(res , err){
+			if (res.data === "written"){
+				$scope.wroteReview = true;
+			} else {
+				$scope.wroteReview = false;
+			}
+		})
+	}
+
 	DeathMatchService.openMatch($state.params.id)
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);

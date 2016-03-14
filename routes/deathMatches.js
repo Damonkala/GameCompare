@@ -23,6 +23,15 @@ router.post('/', function(req, res){
 		})
 	})
 })
+router.post('/wroteReview', function(req, res){
+	console.log(`has ${req.body.userInfo} wrote a review for ${req.body.deathMatch}`);
+	UserReview.find({$and: [{user: req.body.userInfo}, {deathMatch: req.body.deathMatch}] }, function(err, userReview){
+		if (err || userReview[0]){return console.log(err) || res.send("written")}
+		else{
+			res.send("good to go")
+		}
+	})
+})
 router.get('/:id', function(req, res){
 	console.log("DE ID", req.params.id);
 	DeathMatch.findById(req.params.id).deepPopulate("game1UserReviews.user game2UserReviews.user game1 game2 user game1UserReviews game2UserReviews").exec(function(err, deathMatch) {

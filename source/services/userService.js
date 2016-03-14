@@ -56,4 +56,8 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 	this.isAuthed = function(token){
 		return $http.post(`${ENV.API_URL}/auth`, {token:token})
 	};
+	this.wroteReview = function(userInfoId, deathMatchId){
+		console.log("Made it to service!");
+		return $http.post(`${ENV.API_URL}/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+	};
 })

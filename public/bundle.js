@@ -1,27 +1,11 @@
 'use strict';
 
-var app = angular.module('gameCompare');
-
-app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.load = function(){
-		return $http.get(`${ENV.API_URL}/deathMatches/`)
-	};
-	this.openMatch = function(id){
-		return $http.get(`${ENV.API_URL}/deathMatches/${id}`)
-	};
-	this.writeReview = function(id, review){
-		return $http.put(`${ENV.API_URL}/deathMatches/${id}`, review)
-	};
-})
-
-'use strict';
-
 var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies','naif.base64', 'base64', 'checklist-model'])
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -93,6 +77,22 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
     console.log("ISUSERNAME", username)
     $state.go('userPage', {"username": username})
   }
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`${ENV.API_URL}/deathMatches/`)
+	};
+	this.openMatch = function(id){
+		return $http.get(`${ENV.API_URL}/deathMatches/${id}`)
+	};
+	this.writeReview = function(id, review){
+		return $http.put(`${ENV.API_URL}/deathMatches/${id}`, review)
+	};
 })
 
 'use strict';
@@ -498,6 +498,10 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 	this.isAuthed = function(token){
 		return $http.post(`${ENV.API_URL}/auth`, {token:token})
 	};
+	this.wroteReview = function(userInfoId, deathMatchId){
+		console.log("Made it to service!");
+		return $http.post(`${ENV.API_URL}/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+	};
 })
 
 'use strict';
@@ -711,9 +715,22 @@ angular.module('gameCompare')
 		// console.log(res.data)
 		if (res.data === "authRequired"){
 			//  $location.path('/login')
-		} else
-		{$scope.isLoggedIn = true;}
+		} else {
+			$scope.isLoggedIn = true;
+			$scope.hasWrittenReview($scope.userInfo._id, $state.params.id)
+		}
 	})
+	$scope.hasWrittenReview = function(userId, deathMatchId){
+		UserService.wroteReview(userId, deathMatchId)
+		.then(function(res , err){
+			if (res.data === "written"){
+				$scope.wroteReview = true;
+			} else {
+				$scope.wroteReview = false;
+			}
+		})
+	}
+
 	DeathMatchService.openMatch($state.params.id)
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
