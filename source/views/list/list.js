@@ -6,6 +6,31 @@ angular.module('gameCompare')
 	$scope.loading = false;
 	console.log("LOADING?", $scope.loading);
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.game = {
+		names: []
+	}
+	$scope.compareTwoGames = function() {
+		if($scope.game.names.length > 2){
+			var randomPair = {};
+			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			if(randomPair.game1.name === randomPair.game2.name){
+				console.log("A failure occured");
+				$scope.compareTwoGames();
+			} else {
+				console.log("Random Game 1",randomPair.game1.name.replace(/\s+/g, '+').toLowerCase());
+				console.log("Random Game 2",randomPair.game2.name.replace(/\s+/g, '+').toLowerCase());
+				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
+			}
+		} else {
+			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
+		}
+	}
 	$scope.search = function(term){
 		$scope.loading = true;
 		$scope.loadingImage = loadingPics[Math.floor(Math.random() * loadingPics.length)];
@@ -65,47 +90,15 @@ angular.module('gameCompare')
 		newGame.releases = $scope.gameInfo.release_dates
 		newGame.summary = $scope.gameInfo.summary
 		newGame.themes = $scope.gameInfo.themes
-
 		newGame.gamespot = $scope.gamespot
 		newGame.gamesradar = $scope.gamesradar
 		newGame.ign = $scope.ign
 		newGame.metacritic = $scope.metacritic
-		console.log("spot", newGame.gamespot);
-		console.log("radar", newGame.gamesradar);
-		console.log("ign", newGame.ign);
-		console.log("meta", newGame.metacritic);
 		GameService.saveGame(newGame).then( function victory(resp) {
 			console.log(resp.data)
 		}, function failure(err) {
 			console.log(err);
 		});
-	}
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		$scope.dbGames = resp.data;
-
-	}, function failure(err) {
-		console.log(err);
-	});
-
-	$scope.game = {
-		names: []
-	}
-	$scope.compareTwoGames = function() {
-		if($scope.game.names.length > 2){
-			var randomPair = {};
-			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-			if(randomPair.game1.name === randomPair.game2.name){
-				console.log("A failure occured");
-				$scope.compareTwoGames();
-			} else {
-				console.log("Random Game 1",randomPair.game1.name.replace(/\s+/g, '+').toLowerCase());
-				console.log("Random Game 2",randomPair.game2.name.replace(/\s+/g, '+').toLowerCase());
-				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
-			}
-		} else {
-			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
-		}
 	}
 })
 .filter('cmdate', [
@@ -115,9 +108,9 @@ angular.module('gameCompare')
 		};
 	}
 ])
-// .directive("searchDirective", function() {
-// 	return {
-// 		restrict: 'AE',
-// 		templateUrl: "views/search-view.html"
-// 	}
-// })
+.directive("searchDirective", function() {
+	return {
+		restrict: 'AE',
+		templateUrl: "views/search-view.html"
+	}
+})

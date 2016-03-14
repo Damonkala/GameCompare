@@ -1,6 +1,5 @@
 <input type="text" placeholder="Game Name" ng-model="searchBox">
-<button ng-click="search(searchBox)">Find</button>
-<button ng-click="saveGame()">Save Game</button>
+<button ng-click="search(searchBox)" class="btn btn-primary">Find</button>
 <img src="{{loadingImage}}" alt="" ng-if="!reviews && loading || !games && loading">
 <div ng-if="gameInfo && reviews" class="happyBox">
 	<img src="https:{{gameInfo.cover.url}}" alt="">
@@ -94,31 +93,3 @@
 	</tr>
 </table>
 <br>
-<div class="outerTable">
-	<table class="table table-hover table-bordered differentTable" ng-if="!games">
-		<tr>
-			<th>Name</th>
-			<th>Console(s)</th>
-			<th>Date</th>
-			<th>Compare</th>
-		</tr>
-		<tr ng-repeat="games in dbGames | filter:searchBox ">
-			<td>
-				{{games.name}}
-			</td>
-			<td>
-				<div ng-repeat="release in games.releases">
-					{{release.platform_name}}
-				</div>
-			</td>
-			<td>
-				<div ng-repeat="release in games.releases">
-					{{release.release_date}}
-				</div>
-			</td>
-			<td>
-				<input type="checkbox" checklist-model="game.names" checklist-value="games" class="checkbox">
-			</td>
-		</tr>
-	</table>
-</div>

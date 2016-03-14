@@ -10,7 +10,8 @@ var userReviewSchema = Schema({
 	deathMatch: {type: Schema.Types.ObjectId, ref: "DeathMatch"},
 	user: {type: Schema.Types.ObjectId, ref: "User"},
 	review: {type: String},
-	game: {type: String}
+	game: {type: String},
+	timestamp : { type : Date, default: Date.now }
 });
 
 userReviewSchema.statics.make = function(userReview, cb){
