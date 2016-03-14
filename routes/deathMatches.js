@@ -56,6 +56,23 @@ router.put('/upvote', function(req, res){
 		}
 	})
 })
+router.put('/downvote', function(req, res){
+	User.find({$and: [{_id: req.body.userInfo}, {votes: req.body.deathMatch}] }, function(err, userReview){
+		if (err || userReview[0]){return console.log(err) || console.log("ALREADY VOTED");}
+		else{
+			console.log("Here we are");
+			UserReview.findByIdAndUpdate(req.body.review, { $inc: {score: -1}}, function(err, userReview){
+				console.log(userReview);
+				User.findByIdAndUpdate(req.body.criticId, { $inc: {score: -1}}, function(err, user) {
+					console.log(user);
+					User.findByIdAndUpdate(req.body.userInfo,  {$pull: {votes: req.body.deathMatch}}, function(err, user){
+						console.log(user);
+					})
+				})
+			})
+		}
+	})
+})
 router.put('/:id', function(req, res){
 	var game = req.body.game;
 	UserReview.make(req.body, function(err, newReview){

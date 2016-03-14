@@ -15,4 +15,7 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 	this.upvote = function(userId, deathMatch, review, criticId){
 		return $http.put(`${ENV.API_URL}/deathMatches/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
 	}
+	this.downvote = function(userId, deathMatch, review, criticId){
+		return $http.put(`${ENV.API_URL}/deathMatches/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+	}
 })
