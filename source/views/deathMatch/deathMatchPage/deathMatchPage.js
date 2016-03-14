@@ -33,6 +33,7 @@ angular.module('gameCompare')
 
 	DeathMatchService.openMatch($state.params.id)
 	.then( function victory(resp) {
+		$scope.deathMatchId = $state.params.id;
 		console.log("INFO:", resp.data);
 		$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
 		$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
@@ -41,9 +42,11 @@ angular.module('gameCompare')
 	}, function failure(err) {
 		console.log(err);
 	});
-	$scope.upvote = function(id){
-		console.log(id);
+
+	$scope.upvote = function(gameId, criticId){
+		DeathMatchService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 	}
+
 	$scope.writeReview = function(content, game, gameName){
 		console.log("GORM!", gameName);
 		if(content){

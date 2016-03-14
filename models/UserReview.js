@@ -15,6 +15,8 @@ var userReviewSchema = Schema({
 	score: {type: Number, default: 0}
 });
 
+
+
 userReviewSchema.statics.make = function(userReview, cb){
 	var deathMatch = userReview.deathMatch
 	var user = userReview.user
