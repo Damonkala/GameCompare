@@ -11,7 +11,8 @@ var userReviewSchema = Schema({
 	user: {type: Schema.Types.ObjectId, ref: "User"},
 	review: {type: String},
 	game: {type: String},
-	timestamp : { type : Date, default: Date.now }
+	timestamp : { type : Date, default: Date.now },
+	score: {type: Number, default: 0}
 });
 
 userReviewSchema.statics.make = function(userReview, cb){

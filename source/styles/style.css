@@ -287,3 +287,14 @@ blockquote{
 width: 50%;
 height: 50%;
 }*/
+.votes{
+	border-radius: 30000000px;
+}
+.voting{
+	display: block;
+	font-family: Zig;
+}
+label{
+	color: #F8A055;
+	font-size: 15px;
+}

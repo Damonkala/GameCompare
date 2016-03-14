@@ -66,7 +66,7 @@
 							<h2 class="gameReview" ng-click="getToMatch(deathMatch._id)">{{deathMatch["game1"].name}} V.S {{deathMatch["game2"].name}}</h2>
 						</div>
 						<button class="magicButton" ng-click="showMatches = !showMatches" >Toggle Matches</button>
-						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.reviews.length + user.deathMatches.length}}</h2>
+						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.score}}</h2>
 					</div>
 				</div>
 				<div>

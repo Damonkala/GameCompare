@@ -82,6 +82,13 @@
 						<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
 					</div>
 					{{userReview.review}}
+					<div ng-controller="deathMatchPageCtrl">
+						<span class="voting" ng-if="isLoggedIn">
+							<button class="btn btn-success votes" ng-click="upvote(userReview._id)">+</button>
+							<button class="btn btn-danger votes" ng-click="downvote(userReview._id)">-</button>
+							{{userReview.score}}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -120,19 +127,10 @@
 			</p>
 		</div>
 		<div ng-controller="deathMatchPageCtrl">
-			<!-- <div ng-repeat="userReview in userReviews track by $index">
-			<div class="userReviews">
-			{{userReview.user["username"]}}
-			<div class="user">
-			<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
+			<ng-form ng-if="isLoggedIn">
+				<textarea rows="8" cols="40" ng-model='reviewBox'></textarea>
+				<button class="btn btn-success" ng-click="writeReview(reviewBox, gameNum, gameName)">Write a review</button>
+			</ng-form>
 		</div>
-		{{userReview.review}}
 	</div>
-</div> -->
-<ng-form ng-if="isLoggedIn">
-	<textarea rows="8" cols="40" ng-model='reviewBox'></textarea>
-	<button class="btn btn-success" ng-click="writeReview(reviewBox, gameNum, gameName)">Write a review</button>
-</ng-form>
-</div>
-</div>
 </div>

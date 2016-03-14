@@ -4,35 +4,32 @@
 <div ng-controller="listCtrl">
 	<search-directive></search-directive>
 </div>
-<br>
-<div class="outerTable">
-	<table class="table table-hover table-bordered differentTable" ng-if="!games">
-		<tr>
-			<th>Name</th>
-			<th>Console(s)</th>
-			<th>Date</th>
-			<th>Compare</th>
-		</tr>
-		<tr ng-repeat="games in dbGames | filter:searchBox ">
-			<td>
-				{{games.name}}
-			</td>
-			<td>
-				<div ng-repeat="release in games.releases">
-					{{release.platform_name}}
-				</div>
-			</td>
-			<td>
-				<div ng-repeat="release in games.releases">
-					{{release.release_date}}
-				</div>
-			</td>
-			<td>
-				<input type="checkbox" checklist-model="game.names" checklist-value="games" class="checkbox">
-			</td>
-		</tr>
-	</table>
-</div>
+<table class="table table-hover table-bordered" ng-if="!games">
+	<tr>
+		<th>Name</th>
+		<th>Console(s)</th>
+		<th>Date</th>
+		<th>Compare</th>
+	</tr>
+	<tr ng-repeat="games in dbGames | filter:searchBox ">
+		<td>
+			{{games.name}}
+		</td>
+		<td>
+			<div ng-repeat="release in games.releases">
+				{{release.platform_name}}
+			</div>
+		</td>
+		<td>
+			<div ng-repeat="release in games.releases">
+				{{release.release_date}}
+			</div>
+		</td>
+		<td>
+			<input type="checkbox" checklist-model="game.names" checklist-value="games" class="checkbox">
+		</td>
+	</tr>
+</table>
 <!-- <label>Search: <input ng-model="searchText"></label> -->
 
 <!-- <div class="outerTable">

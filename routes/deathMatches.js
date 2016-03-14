@@ -17,9 +17,9 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
 	console.log("MAKING A NEW DEATH MATCH", req.body);
 	DeathMatch.make(req.body, function(err, deathMatch){
-		// res.send(deathMatch)
-		User.findByIdAndUpdate(deathMatch.user, { $push: { deathMatches: deathMatch }}, function(err, deathMatch) {
-			res.status(err ? 400 : 200).send(err || deathMatch)
+		res.send(deathMatch)
+		User.findByIdAndUpdate(deathMatch.user, { $push: { deathMatches: deathMatch }, $inc: {score: 1}}, function(err, deathMatch) {
+			// res.status(err ? 400 : 200).send(err || deathMatch)
 		})
 	})
 })
@@ -44,12 +44,16 @@ router.put('/:id', function(req, res){
 				res.status(err ? 400 : 200).send(err || deathMatch)
 			})
 		}
-		User.findByIdAndUpdate(newReview.user, { $push: { reviews: newReview }}, function(err, deathMatch) {
+		User.findByIdAndUpdate(newReview.user, { $push: { reviews: newReview }, $inc: {score: 1}}, function(err, deathMatch) {
 			// res.status(err ? 400 : 200).send(err || deathMatch)
 		})
 	})
 })
+router.put('/:deathmatchId', function(req, res){
+	UserReview.findById(req.params.deathmatchId, { $inc: {score: 1}}, function(err, review){
 
+	})
+})
 
 
 module.exports = router;

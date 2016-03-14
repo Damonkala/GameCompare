@@ -1,11 +1,27 @@
 'use strict';
 
+var app = angular.module('gameCompare');
+
+app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`${ENV.API_URL}/deathMatches/`)
+	};
+	this.openMatch = function(id){
+		return $http.get(`${ENV.API_URL}/deathMatches/${id}`)
+	};
+	this.writeReview = function(id, review){
+		return $http.put(`${ENV.API_URL}/deathMatches/${id}`, review)
+	};
+})
+
+'use strict';
+
 var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies','naif.base64', 'base64', 'checklist-model'])
 
 
 app.constant('ENV', {
-  // API_URL: 'https://game-compare.herokuapp.com'
-  API_URL: 'http://localhost:3000'
+  API_URL: 'https://game-compare.herokuapp.com'
+  // API_URL: 'http://localhost:3000'
 });
 
 
@@ -81,22 +97,6 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
 'use strict';
 
-var app = angular.module('gameCompare');
-
-app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.load = function(){
-		return $http.get(`${ENV.API_URL}/deathMatches/`)
-	};
-	this.openMatch = function(id){
-		return $http.get(`${ENV.API_URL}/deathMatches/${id}`)
-	};
-	this.writeReview = function(id, review){
-		return $http.put(`${ENV.API_URL}/deathMatches/${id}`, review)
-	};
-})
-
-'use strict';
-
 angular.module('gameCompare')
 
 .controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
@@ -132,7 +132,7 @@ angular.module('gameCompare')
 		deathmatch.game2 = $scope.gameTwo;
 		// GameService.startBattle(deathmatch)
 		$http.post(`${ENV.API_URL}/deathMatches`, deathmatch).then(function victory(resp){
-			console.log("HOORAY", resp);
+			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
 			console.log("OH NO!", err);
 		})
@@ -717,17 +717,16 @@ angular.module('gameCompare')
 	DeathMatchService.openMatch($state.params.id)
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
-		// $scope.deathMatch = resp.data;
 		$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
 		$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
-
 		$scope.game1UserReviews = resp.data.game1UserReviews
 		$scope.game2UserReviews = resp.data.game2UserReviews
-
-
 	}, function failure(err) {
 		console.log(err);
 	});
+	$scope.upvote = function(id){
+		console.log(id);
+	}
 	$scope.writeReview = function(content, game, gameName){
 		console.log("GORM!", gameName);
 		if(content){
@@ -744,11 +743,9 @@ angular.module('gameCompare')
 					console.log("INFO:", resp.data);
 					$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
 					$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
-
 					$scope.game1UserReviews = resp.data.game1UserReviews
 					$scope.game2UserReviews = resp.data.game2UserReviews
-
-
+					$state.go($state.current, {}, {reload: true});
 				}, function failure(err) {
 					console.log(err);
 				});

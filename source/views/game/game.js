@@ -35,7 +35,7 @@ angular.module('gameCompare')
 		deathmatch.game2 = $scope.gameTwo;
 		// GameService.startBattle(deathmatch)
 		$http.post(`${ENV.API_URL}/deathMatches`, deathmatch).then(function victory(resp){
-			console.log("HOORAY", resp);
+			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
 			console.log("OH NO!", err);
 		})
