@@ -69,8 +69,10 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 				}
 			}
 			return total.reduce(function(a, b){
-				// console.log("We totaled up, what's the problem?", a + b);
-				return a + b;
+				var nonWholeNumber = a + b;
+				return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
+				// return a + b;
+
 			})
 		}
 		// trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])

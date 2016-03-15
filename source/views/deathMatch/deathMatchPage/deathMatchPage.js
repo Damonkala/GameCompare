@@ -45,9 +45,11 @@ angular.module('gameCompare')
 
 	$scope.upvote = function(gameId, criticId){
 		DeathMatchService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		.then($state.go($state.current, {}, {reload: true}))
 	}
 	$scope.downvote = function(gameId, criticId){
 		DeathMatchService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		.then($state.go($state.current, {}, {reload: true}))
 	}
 
 	$scope.writeReview = function(content, game, gameName){

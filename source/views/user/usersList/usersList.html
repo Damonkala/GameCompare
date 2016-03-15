@@ -12,7 +12,7 @@
         <tr ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users track by $index'>
           <td class="userListProfilePicDiv col-xs-4">
             <img ng-if="!user.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail"></img>
-            <img ng-if="user.avatar"src="data:image/jpeg;base64,{{user.avatar}}" ></img>
+            <img ng-if="user.avatar"src="data:image/jpeg;base64,{{user.avatar}}" class="userThumbnail"></img>
             <br>
             <a class="userList-username" ui-sref='userPage({username: user.username})'><h5 class="userList-username">{{user.username}}</h5></a>
           </td>
