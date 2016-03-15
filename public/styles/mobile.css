@@ -1,0 +1,304 @@
+
+.userInfo{
+	color: green;
+	background-color: white;
+	border: 3px solid #F8A055;
+	border-radius: 10px;
+}
+.dm{
+	display: inline-block;
+	width: 75%;
+}
+@font-face { font-family: Zig; src: url('/zig.ttf');}
+@font-face { font-family: GlacialIndifference; src: url('/GlacialIndifference-Regular.ttf');}
+/*font-family: Ponderosa; src: url('./styles/ponde.ttf');*/
+/*font-family: Charybdis; src: url('./styles/chary.ttf');*/
+#game1{
+	display: inline-block;
+	border: 3px solid #F8A055;
+	/*width: 10%;*/
+	vertical-align: top;
+	border-radius: 10px;
+	background-color: #FCFDFE;
+	/*color: black;*/
+	/*background: blue;*/
+	/*float: left;*/
+}
+
+death-match-directive{
+	display: inline-block;
+}
+game-directive{
+	display: inline-block;
+}
+.happyBox{
+	border: 3px solid #F8A055;
+	vertical-align: top;
+	border-radius: 10px;
+	background-color: #FCFDFE;
+	color: black;
+}
+.magicButton{
+	color: pink;
+	font-size: 2rem;
+	padding: 2px;
+	letter-spacing: 5px;
+	border: 3px solid transparent;
+	border-image: linear-gradient(45deg, pink, skyblue);
+	border-image-slice: 1;
+	background: -webkit-linear-gradient(45deg, pink, skyblue);
+	-webkit-background-clip: text;
+	transition: all 0.2s ease;
+}
+.deathMatch{
+	border: 1px solid black;
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+}
+.table-center{
+	font-family: GlacialIndifference;
+	margin: 0 auto !important;
+	float: none !important;
+}
+#game2{
+	display: inline-block;
+	border: 3px solid #F8A055;
+	width: 700px;
+	vertical-align: top;
+	border-radius: 10px;
+	background-color: #FCFDFE;
+	/*color: black;*/
+	/*background: blue;*/
+	/*float: left;*/
+}
+.radar{
+	background-color: #33383E;
+	border: 1px solid black;
+	color: white;
+}
+.review{
+	border: 1px solid black;
+	color: white;
+	width: 75%;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+.review:hover{
+	border: 2px solid black;
+	box-shadow: 10px 10px 5px #888888;
+}
+.ign{
+	background-color: #d3222a;
+
+}
+.metacritic{
+	background-color: #FFCD34;
+}
+.gamespot{
+	background-color:#5ba4a4;
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: none;
+}
+.better{
+	color: green;
+}
+.isGreaterThan{
+	color: #33cc33;
+	font-weight: bold;
+
+}
+.isLessThan{
+	color: red;
+	/*font-size: 20px;*/
+	font-weight: lighter;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+}
+.isEqualTo{
+	color: blue;
+}
+.reviews{
+	/*display: inline-block;*/
+	font-family: Zig;
+	font-size: 20px;
+	/*float: right;*/
+	vertical-align: top;
+}
+.title{
+	text-align: center;
+	font-weight: bold;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+	color: white;
+	font-family: Zig;
+}
+.total{
+	border: 1px solid black;
+	background-color: #6699ff;
+	display: inline-block;
+	font-size: 20px;
+	font-family: Zig;
+	color: white;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+	width: 75%;
+}
+h1{
+	font-family: Zig;
+	text-align: center;
+	font-weight: bold;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+	color: #F8A055;./styles
+}
+.superTitle{
+	font-family: Zig;
+	text-align: center;
+	font-weight: bold;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+	color: #F8A055;./styles
+}
+h2{
+	font-family: GlacialIndifference;
+}
+p, div, h5{
+	font-size: 20px;
+	color:inherit;
+}
+.stats{
+	font-family: Verdana, Geneva, sans-serif;
+	color: black;
+	font-family: GlacialIndifference;
+}
+#selected{
+	display: inline-block;
+}
+input{
+	color: black;
+}
+body{
+	/*background-color: #283655;*/
+	/*background-color: #fcfcfc;*/
+	background-color: #f2f2f2;
+}
+*{
+	font-size: 20px;
+	/*color: white;*/
+	/*color: #283655;*/
+}
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 3px solid #F8A055;
+	margin: 1em 0;
+	padding: 0;
+}
+.table {
+	font-family: GlacialIndifference;
+	background-color: #283655;
+	color: #fcfcfc;
+	/*border: 3px solid #F8A055;*/
+	width: 75%;
+	margin: auto;
+	/*border-radius: 20px;*/
+	/*border: 3px solid #F8A055;*/
+	border-color: #F8A055;
+}
+
+
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+	font-family: GlacialIndifference;
+	background-color: #F8A055;
+}
+.userReviews{
+	border: 3px solid #F8A055;
+	vertical-align: top;
+	border-radius: 10px;
+	background-color: #283655;
+	font-family: GlacialIndifference;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	color: #FCFDFE;
+	width: 75%;
+}
+
+textarea{
+	color: black;
+	width: 50%;
+}
+option{
+	color: green;
+}
+.navbar-brand{
+	vertical-align: text-bottom !important;
+}
+.navbar-custom { color: orange; background-color: #283655; }
+.navbar-nav li a {
+	line-height: 40px;
+}
+.navbar-nav > li{
+	padding-left:15px;
+	padding-right:10px;
+}
+.navbar .nav>li>a, .active{
+	color: #f2f2f2;
+	font-family: GlacialIndifference;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+	color: #f8a055;
+	border: 1px solid #f8a055;
+	height: 63px;
+}
+.gameReview{
+	border: 3px solid #F8A055;
+	border-radius: 10px;
+	width: 50%;
+	background-color: #FCFDFE;
+}
+.username{
+	color: #f2f2f2;
+}
+.userThumbnail{
+	/*width: 100px;*/
+	/*height: 150px;*/
+	width: 75%;
+	/*height: 100%;*/
+}
+.user{
+	display: block;
+	width: 25%;
+	/*border: 3px solid #F8A055;*/
+}
+blockquote{
+	width: auto;
+}
+.sideBySide{
+	display: inline-block;
+}
+/*#userImage{
+width: 50%;
+height: 50%;
+}*/
+.votes{
+	border-radius: 30000000px;
+}
+.voting{
+	display: block;
+	font-family: Zig;
+}
+label{
+	color: #F8A055;
+	font-size: 15px;
+}

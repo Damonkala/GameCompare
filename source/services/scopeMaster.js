@@ -69,9 +69,9 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 				}
 			}
 			return total.reduce(function(a, b){
-				var nonWholeNumber = a + b;
-				return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
-				// return a + b;
+				// var nonWholeNumber = a + b;
+				// return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
+				return a + b;
 
 			})
 		}

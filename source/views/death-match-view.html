@@ -93,6 +93,7 @@
 		<div ng-controller="deathMatchPageCtrl">
 			<ng-form ng-if="isLoggedIn && !wroteReview">
 				<textarea rows="8" cols="40" ng-model='reviewBox'></textarea>
+				<br>
 				<button class="btn btn-success" ng-click="writeReview(reviewBox, gameNum, gameName)">Write a review</button>
 			</ng-form>
 		</div>

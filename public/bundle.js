@@ -312,9 +312,9 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 				}
 			}
 			return total.reduce(function(a, b){
-				var nonWholeNumber = a + b;
-				return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
-				// return a + b;
+				// var nonWholeNumber = a + b;
+				// return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
+				return a + b;
 
 			})
 		}
@@ -522,6 +522,37 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 'use strict';
 
 angular.module('gameCompare')
+.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
+	$scope.submit = function(user){
+		UserService.login(user)
+		.then(function(res){
+			console.log('res', res.data)
+			$scope.$emit('loggedIn');
+			if(res.data === "Incorrect Username or Password!"){
+				swal({
+					type: "error",
+					title: "Uh-Oh!",
+					text: res.data,
+					showConfirmButton: true,
+					confirmButtonText: "I hear ya.",
+				});
+			} else{
+				document.cookie = 'token' + "=" + res.data;
+				var token = $cookies.get('token');
+				console.log("This Here is a Token:", token);
+				var decoded = jwtHelper.decodeToken(token);
+				UserService.loggedIn = 'true';
+				$state.go('userPage', {"username": user.username})
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	}
+});
+
+'use strict';
+
+angular.module('gameCompare')
 
 
 .controller('registerCtrl', function($scope, $state, UserService){
@@ -558,37 +589,6 @@ angular.module('gameCompare')
 			});			$state.go('login');
 		}, function(err){
 			console.log(err);
-		});
-	}
-});
-
-'use strict';
-
-angular.module('gameCompare')
-.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	$scope.submit = function(user){
-		UserService.login(user)
-		.then(function(res){
-			console.log('res', res.data)
-			$scope.$emit('loggedIn');
-			if(res.data === "Incorrect Username or Password!"){
-				swal({
-					type: "error",
-					title: "Uh-Oh!",
-					text: res.data,
-					showConfirmButton: true,
-					confirmButtonText: "I hear ya.",
-				});
-			} else{
-				document.cookie = 'token' + "=" + res.data;
-				var token = $cookies.get('token');
-				console.log("This Here is a Token:", token);
-				var decoded = jwtHelper.decodeToken(token);
-				UserService.loggedIn = 'true';
-				$state.go('userPage', {"username": user.username})
-			}
-		}, function(err) {
-			console.error(err);
 		});
 	}
 });
