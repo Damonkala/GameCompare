@@ -14,6 +14,13 @@ angular.module('gameCompare')
 	$scope.game = {
 		names: []
 	}
+	$scope.checkAll = function(){
+		console.log("CHECKING ALŁ");
+		$scope.game.names = angular.copy($scope.names);
+	}
+	$scope.uncheckAll = function() {
+		$scope.game.names = [];
+	};
 	$scope.compareTwoGames = function() {
 		if($scope.game.names.length > 2){
 			var randomPair = {};

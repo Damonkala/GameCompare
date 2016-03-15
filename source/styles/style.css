@@ -35,6 +35,7 @@ game-directive{
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #FCFDFE;
+	color: black;
 }
 .magicButton{
 	color: pink;
