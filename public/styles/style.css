@@ -78,11 +78,12 @@ game-directive{
 }
 .review{
 	border: 1px solid black;
-	color: white;
-	width: 367.547px;
+	width: 100%;
+	margin: auto;
+	/*width: 367.547px;*/
 	border-radius: 10px;
 	margin-top: 10px;
-	margin-right: 10px;
+	/*margin-right: 10px;*/
 }
 .review:hover{
 	border: 2px solid black;
@@ -124,8 +125,10 @@ a:hover{
 	color: blue;
 }
 .reviews{
+	text-align: center;
 	/*display: inline-block;*/
 	font-family: Zig;
+	width: 100%;
 	font-size: 20px;
 	/*float: right;*/
 	vertical-align: top;
@@ -139,6 +142,7 @@ a:hover{
 	font-family: Zig;
 }
 .total{
+	width: 100%;
 	border: 1px solid black;
 	background-color: #6699ff;
 	display: inline-block;
@@ -228,11 +232,14 @@ hr {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	color: #FCFDFE;
-	width: 367.547px;
+	/*width: 367.547px;*/
+	width: 100%;
 }
 
 textarea{
 	color: black;
+	resize: none;
+	width: 100%;
 }
 option{
 	color: green;
@@ -261,7 +268,8 @@ option{
 .gameReview{
 	border: 3px solid #F8A055;
 	border-radius: 10px;
-	width: 351.562px;
+	/*width: 351.562px;*/
+	width: 100%;
 	background-color: #FCFDFE;
 }
 .username{
@@ -298,4 +306,7 @@ height: 50%;
 label{
 	color: #F8A055;
 	font-size: 15px;
+}
+.table-bordered tr{
+	border: 3px solid #4E5D6C;
 }

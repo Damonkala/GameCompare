@@ -7,12 +7,16 @@
 </div>
 <table class="table table-hover table-bordered" ng-if="!games">
 	<tr>
+		<th>Cover</th>
 		<th>Name</th>
 		<th>Console(s)</th>
 		<th>Date</th>
 		<th>Compare</th>
 	</tr>
 	<tr ng-repeat="games in dbGames | filter:searchBox ">
+		<td>
+			<img src="https:{{games.cover[0].url}}" class="thumb">
+		</td>
 		<td>
 			{{games.name}}
 		</td>
