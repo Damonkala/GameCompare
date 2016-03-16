@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -226,6 +226,115 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
+.controller('homeCtrl', function($scope, $http, ENV){
+	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
+	}
+
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+	this.setScopes = function(data){
+		var trueGame = data;
+		// console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
+		var noReview = {criticScore: 0, userScore: 0, url:null}
+		trueGame.cover = data.cover ? data.cover[0].url : '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
+
+		// console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
+		trueGame.gameSpotCriticScore = data.gamespot.length ? data.gamespot[0].criticScore : 0
+		trueGame.gameSpotUserScore = data.gamespot.length ? data.gamespot[0].userScore : 0
+		trueGame.gameSpotUrl = data.gamespot.length ? data.gamespot[0].url : undefined
+
+		// console.log("DO WE HAVE GAMESRADAR!?", data.gamesradar);
+		trueGame.gamesRadarCriticScore = data.gamesradar.length ? data.gamesradar[0].criticScore : 0
+		trueGame.gamesRadarUserScore = data.gamesradar.length ? data.gamesradar[0].userScore : 0
+		trueGame.gamesRadarUrl = data.gamesradar.length ? data.gamesradar[0].url : undefined
+
+		// console.log("DO WE HAVE METACRITIC!?", data.metacritic);
+
+		trueGame.metacriticCriticScore = data.metacritic.length ? data.metacritic[0].criticScore : 0
+		trueGame.metacriticUserScore = data.metacritic.length ? data.metacritic[0].userScore : 0
+		trueGame.metacriticUrl = data.metacritic.length ? data.metacritic[0].url : undefined
+
+		// console.log("DO WE HAVE IGN!?", data.ign);
+		trueGame.ignCriticScore = data.ign.length ? data.ign[0].criticScore : 0
+		trueGame.ignUserScore = data.ign.length ? data.ign[0].userScore : 0
+		trueGame.ignUrl = data.ign.length ? data.ign[0].url : undefined
+		// if(data.gamespot){
+		// 	trueGame.gameSpot = data.gamespot[0];
+		// } else{
+		// 	trueGame.gameSpot = noReview;
+		// }
+		// if(data.gamesradar){
+		// 	trueGame.gamesRadar = data.gamesradar[0];
+		// } else{
+		// 	trueGame.gamesRadar = noReview;
+		// }
+		// trueGame.gamesRadarCriticScore = data.gamesradar[0].criticScore;
+		// trueGame.gamesRadarUserScore = data.gamesradar[0].userScore;
+		// trueGame.gamesRadarUrl = data.gamesradar[0].url;
+		//
+		// trueGame.ignCriticScore = data.ign[0].criticScore;
+		// trueGame.ignUserScore = data.ign[0].userScore;
+		// trueGame.ignUrl = data.ign[0].url;
+		//
+		// trueGame.metacriticCriticScore = data.metacritic[0].criticScore;
+		// trueGame.metacriticUserScore = data.metacritic[0].userScore;
+		// trueGame.metacriticUrl = data.metacritic[0].url;
+
+		var criticScore = [trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore]
+		var userScore = [trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore]
+
+		function totalScore(scores) {
+			var total = [];
+			// console.log("DO WE REALLY HAVE SCORE!?", scores);
+			for(var i = 0; i<scores.length;i++){
+				if(!Number(scores[i])){
+					// console.log("Not a real score", Number(scores[i]), scores[i]);
+					total.push(0)
+					// console.log("Current total: fail:", total);
+				} else {
+					// console.log("Is a real score", Number(scores[i]), scores[i]);
+					total.push(Number(scores[i]))
+					// console.log("Current total: success:", total);
+				}
+			}
+			return total.reduce(function(a, b){
+				// var nonWholeNumber = a + b;
+				// return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
+				return a + b;
+
+			})
+		}
+		// trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])
+		trueGame.totalCritic = totalScore(criticScore)
+		trueGame.totalUser = totalScore(userScore)
+		// trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
+
+		// console.log("DO WE HAVE CRITIC SCORE?", criticScore);
+		// console.log("DO WE HAVE A REAL CRITIC SCORE?", trueGame.totalCritic);
+		// console.log("DO WE HAVE A REAL USER SCORE?", trueGame.totalUser);
+		// console.log("TRUE FORM!", trueGame);
+		return trueGame
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
 .controller('listCtrl', function($scope, $http, ENV, $state, GameService){
 	$scope.loading = false;
 	console.log("LOADING?", $scope.loading);
@@ -326,7 +435,12 @@ angular.module('gameCompare')
 		newGame.ign = $scope.ign
 		newGame.metacritic = $scope.metacritic
 		GameService.saveGame(newGame).then( function victory(resp) {
-			console.log(resp.data)
+			swal({
+				type: "success",
+				title: "Game added to database",
+				text: `${newGame.name} has been added`,
+				imageUrl: "images/thumbs-up.jpg"
+			});
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -344,115 +458,6 @@ angular.module('gameCompare')
 		restrict: 'AE',
 		templateUrl: "views/search-view.html"
 	}
-})
-
-'use strict';
-
-var app = angular.module('gameCompare');
-
-app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
-	this.setScopes = function(data){
-		var trueGame = data;
-		// console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
-		var noReview = {criticScore: 0, userScore: 0, url:null}
-		trueGame.cover = data.cover ? data.cover[0].url : '//res.cloudinary.com/igdb/image/upload/t_thumb/nocover_qhhlj6.jpg';
-
-		// console.log("DO WE HAVE GAMESPOT!?", data.gamespot);
-		trueGame.gameSpotCriticScore = data.gamespot.length ? data.gamespot[0].criticScore : 0
-		trueGame.gameSpotUserScore = data.gamespot.length ? data.gamespot[0].userScore : 0
-		trueGame.gameSpotUrl = data.gamespot.length ? data.gamespot[0].url : undefined
-
-		// console.log("DO WE HAVE GAMESRADAR!?", data.gamesradar);
-		trueGame.gamesRadarCriticScore = data.gamesradar.length ? data.gamesradar[0].criticScore : 0
-		trueGame.gamesRadarUserScore = data.gamesradar.length ? data.gamesradar[0].userScore : 0
-		trueGame.gamesRadarUrl = data.gamesradar.length ? data.gamesradar[0].url : undefined
-
-		// console.log("DO WE HAVE METACRITIC!?", data.metacritic);
-
-		trueGame.metacriticCriticScore = data.metacritic.length ? data.metacritic[0].criticScore : 0
-		trueGame.metacriticUserScore = data.metacritic.length ? data.metacritic[0].userScore : 0
-		trueGame.metacriticUrl = data.metacritic.length ? data.metacritic[0].url : undefined
-
-		// console.log("DO WE HAVE IGN!?", data.ign);
-		trueGame.ignCriticScore = data.ign.length ? data.ign[0].criticScore : 0
-		trueGame.ignUserScore = data.ign.length ? data.ign[0].userScore : 0
-		trueGame.ignUrl = data.ign.length ? data.ign[0].url : undefined
-		// if(data.gamespot){
-		// 	trueGame.gameSpot = data.gamespot[0];
-		// } else{
-		// 	trueGame.gameSpot = noReview;
-		// }
-		// if(data.gamesradar){
-		// 	trueGame.gamesRadar = data.gamesradar[0];
-		// } else{
-		// 	trueGame.gamesRadar = noReview;
-		// }
-		// trueGame.gamesRadarCriticScore = data.gamesradar[0].criticScore;
-		// trueGame.gamesRadarUserScore = data.gamesradar[0].userScore;
-		// trueGame.gamesRadarUrl = data.gamesradar[0].url;
-		//
-		// trueGame.ignCriticScore = data.ign[0].criticScore;
-		// trueGame.ignUserScore = data.ign[0].userScore;
-		// trueGame.ignUrl = data.ign[0].url;
-		//
-		// trueGame.metacriticCriticScore = data.metacritic[0].criticScore;
-		// trueGame.metacriticUserScore = data.metacritic[0].userScore;
-		// trueGame.metacriticUrl = data.metacritic[0].url;
-
-		var criticScore = [trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore]
-		var userScore = [trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore]
-
-		function totalScore(scores) {
-			var total = [];
-			// console.log("DO WE REALLY HAVE SCORE!?", scores);
-			for(var i = 0; i<scores.length;i++){
-				if(!Number(scores[i])){
-					// console.log("Not a real score", Number(scores[i]), scores[i]);
-					total.push(0)
-					// console.log("Current total: fail:", total);
-				} else {
-					// console.log("Is a real score", Number(scores[i]), scores[i]);
-					total.push(Number(scores[i]))
-					// console.log("Current total: success:", total);
-				}
-			}
-			return total.reduce(function(a, b){
-				// var nonWholeNumber = a + b;
-				// return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
-				return a + b;
-
-			})
-		}
-		// trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])
-		trueGame.totalCritic = totalScore(criticScore)
-		trueGame.totalUser = totalScore(userScore)
-		// trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
-
-		// console.log("DO WE HAVE CRITIC SCORE?", criticScore);
-		// console.log("DO WE HAVE A REAL CRITIC SCORE?", trueGame.totalCritic);
-		// console.log("DO WE HAVE A REAL USER SCORE?", trueGame.totalUser);
-		// console.log("TRUE FORM!", trueGame);
-		return trueGame
-	}
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-.controller('homeCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-
-	$scope.compare = function(){
-		console.log("CLICKITY CLACK");
-		console.log("A THANG!", $scope.check);
-	}
-
 })
 
 'use strict';
@@ -700,6 +705,24 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
+	DeathMatchService.load()
+	.then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.deathMatches = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+	$scope.comparing = function(score1, score2){
+		return GameService.compareGames(score1, score2)
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+
 .controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService, ScopeMaster){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
@@ -803,108 +826,6 @@ $scope.comparing = function(score1, score2){
 		},
 		templateUrl: "views/death-match-view.html"
 	};
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
-	DeathMatchService.load()
-	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.deathMatches = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-	$scope.comparing = function(score1, score2){
-		return GameService.compareGames(score1, score2)
-	}
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
-
-.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
-	var cookies = $cookies.get('token');
-	if(cookies){
-		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	}
-	// UserService.isAuthed(cookies)
-	// .then(function(res , err){
-	// 	 if (res.data === "authRequired"){
-	// 		//  $location.path('/login')
-	// 	 }
-	// 	 else{$scope.isLoggedIn = true;}
-	// })
-	UserService.list()
-	.then(function(res) {
-		users = res.data;
-		$scope.users = users;
-	}, function(err) {
-		console.error(err)
-	});
-	var users;
-
-	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
-		$scope.updateSearch();
-	})
-
-	$scope.addFavorite = function (userId){
-		UserService.favoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.removeFavorite = function (userId){
-		UserService.unFavoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.eraseUser = function (userId){
-		UserService.eraseUser(userId)
-		.then(function(res){
-			$scope.users = res.data
-			users = res.data
-		})
-	}
-
-	$scope.favorited = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-			return ($scope.userInfo.favorites).some(function(favorite){
-				return (user._id === favorite)
-			})
-		} else {return true}
-	}
-	$scope.isUser = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-				return (false)
-		} else {return true}
-	}
-		// $scope.isAdmin = $scope.userInfo.isAdmin;
-
-	$scope.updateSearch = function(searchTerm){
-		// $scope.searchTerm = searchTerm
-		console.log(searchTerm)
-		if(searchTerm){
-			console.log(searchTerm)
-		$scope.users = $scope.users.filter(function(user){
-			if (user.username.match(searchTerm)){
-				return true
-			} else{
-				return false
-			}
-		})
-		} else{
-			$scope.users = users
-		}
-	}
 })
 
 'use strict';
@@ -1025,3 +946,87 @@ angular.module('gameCompare')
 	})
 
 });
+
+'use strict';
+
+angular.module('gameCompare')
+
+
+.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
+	var cookies = $cookies.get('token');
+	if(cookies){
+		$scope.userInfo = (jwtHelper.decodeToken(cookies))
+	}
+	// UserService.isAuthed(cookies)
+	// .then(function(res , err){
+	// 	 if (res.data === "authRequired"){
+	// 		//  $location.path('/login')
+	// 	 }
+	// 	 else{$scope.isLoggedIn = true;}
+	// })
+	UserService.list()
+	.then(function(res) {
+		users = res.data;
+		$scope.users = users;
+	}, function(err) {
+		console.error(err)
+	});
+	var users;
+
+	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
+		$scope.updateSearch();
+	})
+
+	$scope.addFavorite = function (userId){
+		UserService.favoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.removeFavorite = function (userId){
+		UserService.unFavoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.eraseUser = function (userId){
+		UserService.eraseUser(userId)
+		.then(function(res){
+			$scope.users = res.data
+			users = res.data
+		})
+	}
+
+	$scope.favorited = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+			return ($scope.userInfo.favorites).some(function(favorite){
+				return (user._id === favorite)
+			})
+		} else {return true}
+	}
+	$scope.isUser = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+				return (false)
+		} else {return true}
+	}
+		// $scope.isAdmin = $scope.userInfo.isAdmin;
+
+	$scope.updateSearch = function(searchTerm){
+		// $scope.searchTerm = searchTerm
+		console.log(searchTerm)
+		if(searchTerm){
+			console.log(searchTerm)
+		$scope.users = $scope.users.filter(function(user){
+			if (user.username.match(searchTerm)){
+				return true
+			} else{
+				return false
+			}
+		})
+		} else{
+			$scope.users = users
+		}
+	}
+})
