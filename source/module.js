@@ -4,8 +4,8 @@ var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies'
 
 
 app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
+  // API_URL: 'https://game-compare.herokuapp.com'
+  API_URL: 'http://localhost:3000'
 });
 
 
@@ -13,7 +13,9 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
   $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
   $stateProvider
-  .state('home', {url: '/', templateUrl: 'views/home/home.html', controller: 'homeCtrl'})
+  .state('home', {url: '/',
+  templateUrl: 'views/home/home.html',
+  controller: 'homeCtrl'})
   .state('search', {url: '/search', templateUrl: 'views/search/search.html', controller: 'searchCtrl'})
   .state('list', {url: '/list', templateUrl: 'views/list/list.html', controller: 'listCtrl'})
   .state('game', {url: '/game/{game1}/{game2}', templateUrl: 'views/game/game.html', controller: 'gameCtrl'})

@@ -13,7 +13,9 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
   $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
   $stateProvider
-  .state('home', {url: '/', templateUrl: 'views/home/home.html', controller: 'homeCtrl'})
+  .state('home', {url: '/',
+  templateUrl: 'views/home/home.html',
+  controller: 'homeCtrl'})
   .state('search', {url: '/search', templateUrl: 'views/search/search.html', controller: 'searchCtrl'})
   .state('list', {url: '/list', templateUrl: 'views/list/list.html', controller: 'listCtrl'})
   .state('game', {url: '/game/{game1}/{game2}', templateUrl: 'views/game/game.html', controller: 'gameCtrl'})
@@ -435,11 +437,17 @@ angular.module('gameCompare')
 		newGame.ign = $scope.ign
 		newGame.metacritic = $scope.metacritic
 		GameService.saveGame(newGame).then( function victory(resp) {
+			$scope.dbGames = null;
 			swal({
 				type: "success",
 				title: "Game added to database",
 				text: `${newGame.name} has been added`,
 				imageUrl: "images/thumbs-up.jpg"
+			});
+			$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+				$scope.dbGames = resp.data;
+			}, function failure(err) {
+				console.log(err);
 			});
 		}, function failure(err) {
 			console.log(err);

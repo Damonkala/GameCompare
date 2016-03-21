@@ -102,20 +102,20 @@ angular.module('gameCompare')
 		newGame.ign = $scope.ign
 		newGame.metacritic = $scope.metacritic
 		GameService.saveGame(newGame).then( function victory(resp) {
+			$scope.dbGames = null;
 			swal({
 				type: "success",
 				title: "Game added to database",
 				text: `${newGame.name} has been added`,
 				imageUrl: "images/thumbs-up.jpg"
 			});
-		}, function failure(err) {
-			swal({
-				type: "error",
-				title: "Sorry, this game is already in the database",
-				text: "I promise to get rid of the button, and even the game from the list one day",
-				showConfirmButton: true,
-				confirmButtonText: "Fine",
+			$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+				$scope.dbGames = resp.data;
+			}, function failure(err) {
+				console.log(err);
 			});
+		}, function failure(err) {
+			console.log(err);
 		});
 	}
 })
