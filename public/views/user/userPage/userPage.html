@@ -44,7 +44,7 @@
 					<div id="profileDetails" class="userInfo dtborder">
 						<h2 ng-if="!isEditing" id="profileDetails">Name:    {{user.name}}</h2>
 						<h2 ng-if="!isEditing" id="profileDetails">Username:    {{user.username}}</h2>
-						<h2 ng-if="!isEditing" id="profileDetails">Join Date:    {{user.joinDate}}</h2>
+						<h2 ng-if="!isEditing" id="profileDetails">Join Date:    {{user.joinDate | date:"MM/dd/yyyy 'at' h:mma"}}</h2>
 					</div>
 				</div>
 				<div class="col-xs-6 col-xs-12">
