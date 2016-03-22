@@ -60,4 +60,7 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		console.log("Made it to service!");
 		return $http.post(`${ENV.API_URL}/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
+	this.hasVoted = function(userId, reviewId){
+		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})
+	}
 })

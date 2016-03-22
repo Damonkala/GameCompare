@@ -77,7 +77,7 @@ router.post("/edit", function(req, res){
   }
 }, function(err, savedUser){
   console.log('user that got changed during the edit api function...savedUser', savedUser)
-  User.findById(req.body._id, function(err, updatedUser){
+  User.findById(req.body._id).deepPopulate("reviews deathMatches deathMatches.game1 deathMatches.game2 reviews.deathMatch ").exec(function(err, updatedUser){
     console.log("comes back from findbyId of svedUser",updatedUser);
     updatedUser.password = null;
     updatedUser.avatar = null

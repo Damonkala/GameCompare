@@ -32,6 +32,9 @@ router.post('/wroteReview', function(req, res){
 		}
 	})
 })
+router.post('/hasVoted', function(req, res){
+	User.find({$and: [{_id: req.body.userInfo}, {votes: req.body.deathMatch}]})
+})
 router.get('/:id', function(req, res){
 	console.log("DE ID", req.params.id);
 	DeathMatch.findById(req.params.id).deepPopulate("game1UserReviews.user game2UserReviews.user game1 game2 user game1UserReviews game2UserReviews").exec(function(err, deathMatch) {

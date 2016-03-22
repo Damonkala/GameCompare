@@ -530,6 +530,9 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		console.log("Made it to service!");
 		return $http.post(`${ENV.API_URL}/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
+	this.hasVoted = function(userId, reviewId){
+		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})
+	}
 })
 
 'use strict';
@@ -776,7 +779,16 @@ angular.module('gameCompare')
 			}
 		})
 	}
-
+	$scope.hasVoted = function(userId, reviewId){
+		UserService.hasVoted(userId, reviewId)
+		.then(function(res, err){
+			if(res.data === "voted"){
+				return "hasVoted";
+			} else {
+				return
+			}
+		})
+	}
 	DeathMatchService.openMatch($state.params.id)
 	.then( function victory(resp) {
 		$scope.deathMatchId = $state.params.id;
@@ -797,48 +809,48 @@ angular.module('gameCompare')
 		}, function failure(err) {
 			alert("You already voted")
 		});
-}
-$scope.downvote = function(gameId, criticId){
-	DeathMatchService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
-	.then($state.go($state.current, {}, {reload: true}))
-}
-
-$scope.writeReview = function(content, game, gameName){
-	console.log("GORM!", gameName);
-	if(content){
-		console.log("is it game", game);
-		var review = {}
-		review.gameName = gameName;
-		review.game = game
-		review.deathMatch = $state.params.id;
-		review.user = $scope.userInfo._id;
-		review.review = content;
-		DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
-			DeathMatchService.openMatch(resp.data._id)
-			.then( function victory(resp) {
-				console.log("INFO:", resp.data);
-				$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
-				$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
-				$scope.game1UserReviews = resp.data.game1UserReviews
-				$scope.game2UserReviews = resp.data.game2UserReviews
-				$state.go($state.current, {}, {reload: true});
-			}, function failure(err) {
-				console.log(err);
-			});
-		}), function failure(err){
-			console.log("O no ", err);
-		}
-	} else {
-		swal({
-			type: "error",
-			title: "I'm sorry",
-			text: "Did you want to write a review? Then write one."
-		});
 	}
-}
-$scope.comparing = function(score1, score2){
-	return GameService.compareGames(score1, score2)
-}
+	$scope.downvote = function(gameId, criticId){
+		DeathMatchService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		.then($state.go($state.current, {}, {reload: true}))
+	}
+
+	$scope.writeReview = function(content, game, gameName){
+		console.log("GORM!", gameName);
+		if(content){
+			console.log("is it game", game);
+			var review = {}
+			review.gameName = gameName;
+			review.game = game
+			review.deathMatch = $state.params.id;
+			review.user = $scope.userInfo._id;
+			review.review = content;
+			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
+				DeathMatchService.openMatch(resp.data._id)
+				.then( function victory(resp) {
+					console.log("INFO:", resp.data);
+					$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
+					$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
+					$scope.game1UserReviews = resp.data.game1UserReviews
+					$scope.game2UserReviews = resp.data.game2UserReviews
+					$state.go($state.current, {}, {reload: true});
+				}, function failure(err) {
+					console.log(err);
+				});
+			}), function failure(err){
+				console.log("O no ", err);
+			}
+		} else {
+			swal({
+				type: "error",
+				title: "I'm sorry",
+				text: "Did you want to write a review? Then write one."
+			});
+		}
+	}
+	$scope.comparing = function(score1, score2){
+		return GameService.compareGames(score1, score2)
+	}
 })
 .directive("deathMatchDirective", function() {
 	return {
