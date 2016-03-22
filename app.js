@@ -32,12 +32,12 @@ var allowCrossDomain = function(req, res, next) {
 app.set('views', 'templates');
 app.set('view engine', 'ejs');
 app.use(allowCrossDomain);
-
 app.use(favicon(__dirname + '/etc/favicon.ico'));
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(bodyParser.json());
+app.use(bodyParser({limit: '50mb'}));
 app.use(express.static('public'));
 app.use(cookieParser())
 
