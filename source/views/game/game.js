@@ -2,7 +2,7 @@
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
+.controller('gameCtrl', function($scope, $http, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
 	// GameService.load()
 	// .then( function victory(resp) {
 	// 	console.log("INFO:", resp.data);
@@ -34,7 +34,7 @@ angular.module('gameCompare')
 		deathmatch.game1 = $scope.gameOne;
 		deathmatch.game2 = $scope.gameTwo;
 		// GameService.startBattle(deathmatch)
-		$http.post(`${ENV.API_URL}/deathMatches`, deathmatch).then(function victory(resp){
+		$http.post(`/deathMatches`, deathmatch).then(function victory(resp){
 			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
 			console.log("OH NO!", err);

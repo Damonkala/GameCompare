@@ -2,7 +2,7 @@
 
 var app = angular.module('gameCompare');
 
-app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtHelper){
 	this.setScopes = function(data){
 		var trueGame = data;
 		// console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);

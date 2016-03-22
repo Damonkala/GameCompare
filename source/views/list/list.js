@@ -2,11 +2,11 @@
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, ENV, $state, GameService){
+.controller('listCtrl', function($scope, $http, $state, GameService){
 	$scope.loading = false;
 	console.log("LOADING?", $scope.loading);
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+	$http.get(`/games/`).then( function victory(resp) {
 		$scope.dbGames = resp.data;
 	}, function failure(err) {
 		console.log(err);
@@ -109,7 +109,7 @@ angular.module('gameCompare')
 				text: `${newGame.name} has been added`,
 				imageUrl: "images/thumbs-up.jpg"
 			});
-			$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+			$http.get(`/games/`).then( function victory(resp) {
 				$scope.dbGames = resp.data;
 			}, function failure(err) {
 				console.log(err);

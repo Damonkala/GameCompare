@@ -3,10 +3,10 @@
 var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies','naif.base64', 'base64', 'checklist-model'])
 
 
-app.constant('ENV', {
-  // API_URL: 'https://game-compare.herokuapp.com'
-  API_URL: 'http://localhost:3000'
-});
+// app.constant('ENV', {
+//   API_URL: 'https://game-compare.herokuapp.com'
+//   API_URL: 'http://localhost:3000'
+// });
 
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
@@ -85,21 +85,21 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
 
 var app = angular.module('gameCompare');
 
-app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+app.service('DeathMatchService', function($http, $location, $rootScope, $cookies, jwtHelper){
 	this.load = function(){
-		return $http.get(`${ENV.API_URL}/deathMatches/`)
+		return $http.get(`/deathMatches/`)
 	};
 	this.openMatch = function(id){
-		return $http.get(`${ENV.API_URL}/deathMatches/${id}`)
+		return $http.get(`/deathMatches/${id}`)
 	};
 	this.writeReview = function(id, review){
-		return $http.put(`${ENV.API_URL}/deathMatches/${id}`, review)
+		return $http.put(`/deathMatches/${id}`, review)
 	};
 	this.upvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`${ENV.API_URL}/deathMatches/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+		return $http.put(`/deathMatches/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
 	}
 	this.downvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`${ENV.API_URL}/deathMatches/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+		return $http.put(`/deathMatches/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
 	}
 })
 
@@ -107,7 +107,7 @@ app.service('DeathMatchService', function($http, ENV, $location, $rootScope, $co
 
 angular.module('gameCompare')
 
-.controller('gameCtrl', function($scope, $http, ENV, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
+.controller('gameCtrl', function($scope, $http, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
 	// GameService.load()
 	// .then( function victory(resp) {
 	// 	console.log("INFO:", resp.data);
@@ -139,7 +139,7 @@ angular.module('gameCompare')
 		deathmatch.game1 = $scope.gameOne;
 		deathmatch.game2 = $scope.gameTwo;
 		// GameService.startBattle(deathmatch)
-		$http.post(`${ENV.API_URL}/deathMatches`, deathmatch).then(function victory(resp){
+		$http.post(`/deathMatches`, deathmatch).then(function victory(resp){
 			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
 			console.log("OH NO!", err);
@@ -186,31 +186,31 @@ angular.module('gameCompare')
 
 var app = angular.module('gameCompare');
 
-app.service('GameService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+app.service('GameService', function($http, $location, $rootScope, $cookies, jwtHelper){
 	this.load = function(){
-		return $http.get(`${ENV.API_URL}/games/`)
+		return $http.get(`/games/`)
 	};
 	this.openGame = function(id){
-		return $http.get(`${ENV.API_URL}/games/page/stats/${id}`)
+		return $http.get(`/games/page/stats/${id}`)
 	};
 	this.searchGame = function(term){
-		return $http.get(`${ENV.API_URL}/games/search/${term}`)
+		return $http.get(`/games/search/${term}`)
 	};
 	this.startBattle = function(deathmatch){
-		return $http.post(`${ENV.API_URL}/deathMatches`, deathmatch)
+		return $http.post(`/deathMatches`, deathmatch)
 	};
 	this.startBattle = function(games){
-		return $http.post(`${ENV.API_URL}/games/compare`, games)
+		return $http.post(`/games/compare`, games)
 	};
 	this.getScore = function(name){
-		return $http.get(`${ENV.API_URL}/games/page/scores/${name}`)
+		return $http.get(`/games/page/scores/${name}`)
 	};
 	this.saveGame = function(newGame){
-		return $http.post(`${ENV.API_URL}/games`, newGame)
+		return $http.post(`/games`, newGame)
 	};
 	this.getGames = function(games){
 		console.log("Games?", games);
-		return $http.post(`${ENV.API_URL}/games/getTwoGames`, games)
+		return $http.post(`/games/getTwoGames`, games)
 	}
 	this.compareGames = function(score1, score2){
 		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
@@ -228,8 +228,8 @@ app.service('GameService', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('homeCtrl', function($scope, $http, ENV){
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+.controller('homeCtrl', function($scope, $http){
+	$http.get(`/games/`).then( function victory(resp) {
 		console.log("INFO:", resp.data);
 		$scope.dbGames = resp.data;
 	}, function failure(err) {
@@ -247,7 +247,7 @@ angular.module('gameCompare')
 
 var app = angular.module('gameCompare');
 
-app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtHelper){
 	this.setScopes = function(data){
 		var trueGame = data;
 		// console.log("WHY HAVEN'T I LOGGED THIS YET!?", data);
@@ -337,11 +337,11 @@ app.service('ScopeMaster', function($http, ENV, $location, $rootScope, $cookies,
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, ENV, $state, GameService){
+.controller('listCtrl', function($scope, $http, $state, GameService){
 	$scope.loading = false;
 	console.log("LOADING?", $scope.loading);
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
-	$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+	$http.get(`/games/`).then( function victory(resp) {
 		$scope.dbGames = resp.data;
 	}, function failure(err) {
 		console.log(err);
@@ -444,7 +444,7 @@ angular.module('gameCompare')
 				text: `${newGame.name} has been added`,
 				imageUrl: "images/thumbs-up.jpg"
 			});
-			$http.get(`${ENV.API_URL}/games/`).then( function victory(resp) {
+			$http.get(`/games/`).then( function victory(resp) {
 				$scope.dbGames = resp.data;
 			}, function failure(err) {
 				console.log(err);
@@ -472,28 +472,28 @@ angular.module('gameCompare')
 
 var app = angular.module('gameCompare');
 
-app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+app.service('UserService', function($http, $location, $rootScope, $cookies, jwtHelper){
 	this.login = function(user){
-		return $http.post(`${ENV.API_URL}/user/login`, user);
+		return $http.post(`/user/login`, user);
 	};
 	this.register = function(user){
-		return $http.post(`${ENV.API_URL}/user/register`, user);
+		return $http.post(`/user/register`, user);
 	};
 	this.list = function(){
-		return $http.get(`${ENV.API_URL}/user/list`);
+		return $http.get(`/user/list`);
 	};
 	this.page = function(username){
-		return $http.get(`${ENV.API_URL}/user/page/${username}`)
+		return $http.get(`/user/page/${username}`)
 	}
 	this.favoriteUser = function(userId){
 		var data = {};
 		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
 		data.myId = decoded._id;
 		data.favoriteId = userId
-		return $http.put(`${ENV.API_URL}/user/favorite`, data)
+		return $http.put(`/user/favorite`, data)
 	};
 	this.editAccount = function(data){
-		return $http.post(`${ENV.API_URL}/user/edit`, data)
+		return $http.post(`/user/edit`, data)
 	}
 	this.unFavoriteUser = function(userId){
 		console.log(userId)
@@ -503,13 +503,13 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		data.unFavoriteId = userId
 		console.log("MYID", data.myId)
 		console.log("THEIRID", data.unFavoriteId)
-		return $http.put(`${ENV.API_URL}/user/unfavorite`, data)
+		return $http.put(`/user/unfavorite`, data)
 	}
 	this.eraseUser = function(userId){
 		console.log("USERID", userId)
 		var data = {};
 		data.userId = userId
-		return $http.post(`${ENV.API_URL}/user/erase`, data)
+		return $http.post(`/user/erase`, data)
 	}
 	this.loggedIn = function(isLoggedIn){
 		if(isLoggedIn){
@@ -518,17 +518,17 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		}
 	};
 	this.uploadImage = function(image, userId){
-		return $http.post(`${ENV.API_URL}/imageUpload`, {
+		return $http.post(`/imageUpload`, {
 			userId: userId,
 			image: image
 		})
 	}
 	this.isAuthed = function(token){
-		return $http.post(`${ENV.API_URL}/auth`, {token:token})
+		return $http.post(`/auth`, {token:token})
 	};
 	this.wroteReview = function(userInfoId, deathMatchId){
 		console.log("Made it to service!");
-		return $http.post(`${ENV.API_URL}/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+		return $http.post(`/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
 	this.hasVoted = function(userId, reviewId){
 		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})
@@ -716,7 +716,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, DeathMatchService, GameService){
 	DeathMatchService.load()
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);
@@ -752,7 +752,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, ENV, DeathMatchService, GameService, ScopeMaster){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -864,6 +864,83 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/death-match-view.html"
 	};
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+
+.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
+	var cookies = $cookies.get('token');
+	if(cookies){
+		$scope.userInfo = (jwtHelper.decodeToken(cookies))
+	}
+	UserService.list()
+	.then(function(res) {
+		users = res.data;
+		$scope.users = users;
+	}, function(err) {
+		console.error(err)
+	});
+	var users;
+
+	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
+		$scope.updateSearch();
+	})
+
+	$scope.addFavorite = function (userId){
+		UserService.favoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.removeFavorite = function (userId){
+		UserService.unFavoriteUser(userId)
+		.then(function(res){
+			$scope.userInfo = (jwtHelper.decodeToken(res.data))
+		})
+	}
+	$scope.eraseUser = function (userId){
+		UserService.eraseUser(userId)
+		.then(function(res){
+			$scope.users = res.data
+			users = res.data
+		})
+	}
+
+	$scope.favorited = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+			return ($scope.userInfo.favorites).some(function(favorite){
+				return (user._id === favorite)
+			})
+		} else {return true}
+	}
+	$scope.isUser = function(user){
+		// console.log("USER", user);
+		if (user._id !== $scope.userInfo._id){
+				return (false)
+		} else {return true}
+	}
+		// $scope.isAdmin = $scope.userInfo.isAdmin;
+
+	$scope.updateSearch = function(searchTerm){
+		// $scope.searchTerm = searchTerm
+		console.log(searchTerm)
+		if(searchTerm){
+			console.log(searchTerm)
+		$scope.users = $scope.users.filter(function(user){
+			if (user.username.match(searchTerm)){
+				return true
+			} else{
+				return false
+			}
+		})
+		} else{
+			$scope.users = users
+		}
+	}
 })
 
 'use strict';
@@ -984,80 +1061,3 @@ angular.module('gameCompare')
 	})
 
 });
-
-'use strict';
-
-angular.module('gameCompare')
-
-
-.controller('usersListCtrl', function($scope, $location, $rootScope, $state, $cookies, UserService, jwtHelper){
-	var cookies = $cookies.get('token');
-	if(cookies){
-		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	}
-	UserService.list()
-	.then(function(res) {
-		users = res.data;
-		$scope.users = users;
-	}, function(err) {
-		console.error(err)
-	});
-	var users;
-
-	$scope.$watch(function(){return $scope.searchTerm}, function(n,o){
-		$scope.updateSearch();
-	})
-
-	$scope.addFavorite = function (userId){
-		UserService.favoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.removeFavorite = function (userId){
-		UserService.unFavoriteUser(userId)
-		.then(function(res){
-			$scope.userInfo = (jwtHelper.decodeToken(res.data))
-		})
-	}
-	$scope.eraseUser = function (userId){
-		UserService.eraseUser(userId)
-		.then(function(res){
-			$scope.users = res.data
-			users = res.data
-		})
-	}
-
-	$scope.favorited = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-			return ($scope.userInfo.favorites).some(function(favorite){
-				return (user._id === favorite)
-			})
-		} else {return true}
-	}
-	$scope.isUser = function(user){
-		// console.log("USER", user);
-		if (user._id !== $scope.userInfo._id){
-				return (false)
-		} else {return true}
-	}
-		// $scope.isAdmin = $scope.userInfo.isAdmin;
-
-	$scope.updateSearch = function(searchTerm){
-		// $scope.searchTerm = searchTerm
-		console.log(searchTerm)
-		if(searchTerm){
-			console.log(searchTerm)
-		$scope.users = $scope.users.filter(function(user){
-			if (user.username.match(searchTerm)){
-				return true
-			} else{
-				return false
-			}
-		})
-		} else{
-			$scope.users = users
-		}
-	}
-})

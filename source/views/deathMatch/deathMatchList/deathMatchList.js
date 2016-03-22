@@ -3,7 +3,7 @@
 angular.module('gameCompare')
 
 
-.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, ENV, DeathMatchService, GameService){
+.controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, DeathMatchService, GameService){
 	DeathMatchService.load()
 	.then( function victory(resp) {
 		console.log("INFO:", resp.data);

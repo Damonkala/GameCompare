@@ -2,28 +2,28 @@
 
 var app = angular.module('gameCompare');
 
-app.service('UserService', function($http, ENV, $location, $rootScope, $cookies, jwtHelper){
+app.service('UserService', function($http, $location, $rootScope, $cookies, jwtHelper){
 	this.login = function(user){
-		return $http.post(`${ENV.API_URL}/user/login`, user);
+		return $http.post(`/user/login`, user);
 	};
 	this.register = function(user){
-		return $http.post(`${ENV.API_URL}/user/register`, user);
+		return $http.post(`/user/register`, user);
 	};
 	this.list = function(){
-		return $http.get(`${ENV.API_URL}/user/list`);
+		return $http.get(`/user/list`);
 	};
 	this.page = function(username){
-		return $http.get(`${ENV.API_URL}/user/page/${username}`)
+		return $http.get(`/user/page/${username}`)
 	}
 	this.favoriteUser = function(userId){
 		var data = {};
 		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
 		data.myId = decoded._id;
 		data.favoriteId = userId
-		return $http.put(`${ENV.API_URL}/user/favorite`, data)
+		return $http.put(`/user/favorite`, data)
 	};
 	this.editAccount = function(data){
-		return $http.post(`${ENV.API_URL}/user/edit`, data)
+		return $http.post(`/user/edit`, data)
 	}
 	this.unFavoriteUser = function(userId){
 		console.log(userId)
@@ -33,13 +33,13 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		data.unFavoriteId = userId
 		console.log("MYID", data.myId)
 		console.log("THEIRID", data.unFavoriteId)
-		return $http.put(`${ENV.API_URL}/user/unfavorite`, data)
+		return $http.put(`/user/unfavorite`, data)
 	}
 	this.eraseUser = function(userId){
 		console.log("USERID", userId)
 		var data = {};
 		data.userId = userId
-		return $http.post(`${ENV.API_URL}/user/erase`, data)
+		return $http.post(`/user/erase`, data)
 	}
 	this.loggedIn = function(isLoggedIn){
 		if(isLoggedIn){
@@ -48,17 +48,17 @@ app.service('UserService', function($http, ENV, $location, $rootScope, $cookies,
 		}
 	};
 	this.uploadImage = function(image, userId){
-		return $http.post(`${ENV.API_URL}/imageUpload`, {
+		return $http.post(`/imageUpload`, {
 			userId: userId,
 			image: image
 		})
 	}
 	this.isAuthed = function(token){
-		return $http.post(`${ENV.API_URL}/auth`, {token:token})
+		return $http.post(`/auth`, {token:token})
 	};
 	this.wroteReview = function(userInfoId, deathMatchId){
 		console.log("Made it to service!");
-		return $http.post(`${ENV.API_URL}/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+		return $http.post(`/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
 	this.hasVoted = function(userId, reviewId){
 		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})

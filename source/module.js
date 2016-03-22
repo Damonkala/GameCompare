@@ -3,10 +3,10 @@
 var app = angular.module('gameCompare', ['ui.router', 'angular-jwt', 'ngCookies','naif.base64', 'base64', 'checklist-model'])
 
 
-app.constant('ENV', {
-  API_URL: 'https://game-compare.herokuapp.com'
-  // API_URL: 'http://localhost:3000'
-});
+// app.constant('ENV', {
+//   API_URL: 'https://game-compare.herokuapp.com'
+//   API_URL: 'http://localhost:3000'
+// });
 
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
