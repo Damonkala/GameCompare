@@ -75,7 +75,7 @@
 			<div ng-repeat="userReview in userReviews track by $index">
 				<div class="userReviews">
 					{{userReview.user["username"]}}
-					{{userReview.timestamp}}
+					{{userReview.timestamp | date:"MM/dd/yyyy 'at' h:mma"}}
 					<div class="user">
 						<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
 					</div>

@@ -280,7 +280,7 @@ option{
 .userThumbnail{
 	/*width: 100px;*/
 	/*height: 150px;*/
-	width: 75%;
+	width: 100%;
 	/*height: 100%;*/
 }
 .user{
@@ -322,4 +322,7 @@ label{
 	text-align: center;
 	margin: 0px;
 	width: 100%;
+}
+.mainzText>h3{
+	font-family: Zig;
 }
