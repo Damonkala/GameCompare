@@ -54,7 +54,8 @@
 					<h1>Stats</h1>
 					<div id="profileDetails" class="userInfo">
 						<h2   ng-if="!isEditing" id="profileDetails">Game Reviews:    {{user.reviews.length}}</h2>
-						<div ng-repeat="review in user.reviews" ng-if="showGames">
+						<button class="magicButton" ng-click="showGames = !showGames">Toggle Reviews</button>
+						<div ng-repeat="review in user.reviews" ng-if="showGames" class="animate">
 							<h2 ng-click="getToMatch(review.deathMatch._id)">
 								<div class="gameReview">
 									{{review.game}}:
@@ -62,32 +63,31 @@
 								</div>
 							</h2>
 						</div>
-						<button class="magicButton" ng-click="showGames = !showGames">Toggle Reviews</button>
 						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:    {{user.deathMatches.length}}</h2>
+						<button class="magicButton" ng-click="showMatches = !showMatches" >Toggle Matches</button>
 						<div ng-repeat="deathMatch in user.deathMatches" ng-if="showMatches">
 							<h2 class="gameReview" ng-click="getToMatch(deathMatch._id)">{{deathMatch["game1"].name}} V.S {{deathMatch["game2"].name}}</h2>
 						</div>
-						<button class="magicButton" ng-click="showMatches = !showMatches" >Toggle Matches</button>
 						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.score}}</h2>
 					</div>
 				</div>
 				<div>
 					<!-- <div class="col-sm-4 col-sx-12" id="profile">
-						<div ng-repeat="favorite in favorites track by $index" class="col-xs-12">
-							<div id="FavoritesImageDiv">
-								<img ng-if="favorite.avatar"src="data:image/jpeg;base64,{{favorite.avatar}}" class="userThumbnail" id="favoriteImage"></img>
-								<img ng-if="!favorite.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail" id="favoriteImage"></img>
-							</div>
-							<a ui-sref='userPage({username: favorite.username})'>{{favorite.username}}</a>
-							<button  class="btn btn-primary" ng-click="removeFavorite(favorite._id)">Unfavorite</button>
-							<div ng-if="isAdmin">
-								<button ng-click="eraseUser(user._id)">Delete</button>
-							</div>
-						</div>
-					</div> -->
+					<div ng-repeat="favorite in favorites track by $index" class="col-xs-12">
+					<div id="FavoritesImageDiv">
+					<img ng-if="favorite.avatar"src="data:image/jpeg;base64,{{favorite.avatar}}" class="userThumbnail" id="favoriteImage"></img>
+					<img ng-if="!favorite.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail" id="favoriteImage"></img>
 				</div>
+				<a ui-sref='userPage({username: favorite.username})'>{{favorite.username}}</a>
+				<button  class="btn btn-primary" ng-click="removeFavorite(favorite._id)">Unfavorite</button>
+				<div ng-if="isAdmin">
+				<button ng-click="eraseUser(user._id)">Delete</button>
 			</div>
 		</div>
-	</div>
+	</div> -->
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>

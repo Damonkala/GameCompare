@@ -37,7 +37,6 @@ app.use(favicon(__dirname + '/etc/favicon.ico'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(bodyParser.json());
-app.use(bodyParser({limit: '50mb'}));
 app.use(express.static('public'));
 app.use(cookieParser())
 

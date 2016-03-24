@@ -4,7 +4,7 @@
 </div>
 <table class="table table-hover table-center table-bordered">
   <tbody>
-    <tr ng-repeat="match in deathMatches" ui-sref="deathMatchPage({id: match._id})">
+    <tr ng-repeat="match in deathMatches" ui-sref="deathMatchPage({id: match._id})" class="">
       <td>
         <h2 class="username">
           {{match.user.name}}
@@ -13,16 +13,20 @@
       <td>
         <img src="https:{{match.game1.cover[0].url}}" class="thumb">
         <td ng-class="comparing(match.game1UserReviews.length, match.game2UserReviews.length)">
-          {{match.game1.name}}
+          <div class="battleText">
+            {{match.game1.name}}
+          </div>
         </td>
       </td>
-      <td>
+      <td class="battleText">
         V.S
       </td>
       <td>
         <img src="https:{{match.game2.cover[0].url}}" class="thumb">
         <td ng-class="comparing(match.game2UserReviews.length, match.game1UserReviews.length)">
-          {{match.game2.name}}
+          <div class="battleText">
+            {{match.game2.name}}
+          </div>
         </td>
       </td>
     </tr>
