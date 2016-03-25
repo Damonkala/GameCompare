@@ -76,7 +76,7 @@ angular.module('gameCompare')
 			if(!resp.data.message){
 				$scope.reviews = true;
 				var scoreData = resp.data.result;
-				console.log("This just in ", scoreData);
+				// console.log("This just in ", scoreData);
 				$scope.gamespot = scoreData.gamespot
 				$scope.gamesradar = scoreData.gamesradar
 				$scope.ign = scoreData.ign
@@ -90,7 +90,7 @@ angular.module('gameCompare')
 	}
 	$scope.saveGame = function(){
 		var badScore = {'criticScore': 0, 'userScore': 0}
-		console.log("Shaving");
+		// console.log("Shaving");
 		var newGame = {}
 		newGame.companies = $scope.gameInfo.companies
 		newGame.url = $scope.url

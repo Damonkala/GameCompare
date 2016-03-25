@@ -1,19 +1,24 @@
 <h1>Register</h1>
-<div>
+<div class="col-sm-8 col-sm-offset-2">
   <div class="form-group">
     <label for="email">Email:</label>
-    <input ng-model='user.email' type="email" id='email' class="form-control"></div>
-    <div class="form-group">
-      <label for="username">Username:</label>
-      <input ng-model='user.username' type="text" id='username' class="form-control"></div>
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input ng-model='user.name' type="text" id='name' class="form-control"></div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input ng-model='user.password' type="password" id='password' class="form-control"></div>
-          <div class="form-group">
-            <label for="password2">Confirm Password:</label>
-            <input ng-model='user.password2' type="password" id='password2' class="form-control"></div>
-            <button ng-click='submit(user)' class="btn btn-default" id="register">Register</button>
-          </div>
+    <input ng-model='user.email' type="email" id='email' class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input ng-model='user.username' type="text" id='username' class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input ng-model='user.name' type="text" id='name' class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input ng-model='user.password' type="password" id='password' class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="password2">Confirm Password:</label>
+    <input ng-model='user.password2' type="password" id='password2' class="form-control">
+  </div>
+  <button ng-click='submit(user)' class="btn btn-default" id="register">Register</button>
+</div>

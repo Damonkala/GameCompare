@@ -5,34 +5,31 @@
 				<div class="col-sm-4 col-xs-12" id="profileA">
 					<h1 id="userHeader">{{user.username}}</h1>
 					<div id="imageHolder">
-						<div>
-							<img class="img-rounded col-xs-6 col-sm-12 happyBox"
-							src={{profileImageSrc}} id="userImage"></img>
-						</div>
-						<div ng-show="isOwnPage" >
-							<div class="input-group">
-								<span class="input-group-btn">
-									<button class="btn btn-primary btn-file">
-										Browse Files<input type="file" ng-model="user.uploadedImage" base-sixty-four-input>
-									</button>
-								</span>
-								<input ng-model="user.uploadedImage.filename" class="form-control" type="text" readonly>
+						<img class="img-rounded col-xs-12 happyBox" src={{profileImageSrc}} id="userImage"></img>
+					</div>
+					<div ng-show="isOwnPage" class="avatar-upload col-sm-12">
+						<div class="input-group">
+							<div class="btn-file">
+								<label for="avatar">Browse Files</label>
+								<br>
+								<input name="avatar" class="avatar" type="file" ng-model="user.uploadedImage" base-sixty-four-input>
 							</div>
-							<button class="btn btn-primary"ng-disabled="!user.uploadedImage" ng-click="uploadImage(user.uploadedImage)">Submit</button>
-							<button  class="btn btn-primary" ng-if="!isEditing" ng-click="toggleEdit()">EDIT USER</button>
-							<div class="isLessThan">
-								Max size is 75kb
-							</div>
+							<span class="isLessThan">Max size is 75kb</span>
+							<br>
+							<!-- <input ng-model="user.uploadedImage.filename" class="form-control" type="text" readonly> -->
+							<button class="btn magicButton" ng-disabled="!user.uploadedImage" ng-click="uploadImage(user.uploadedImage)">Submit</button>
+							<br>
+							<button  class="btn magicButton" ng-if="!isEditing" ng-click="toggleEdit()">Edit Profile</button>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6 col-xs-12">
-					<div ng-if="isOwnPage" id="profile">
-						<button class="btn btn-primary" ng-if="isEditing" ng-click="saveEdits()">SAVE USER INFO</button>
-						<button  class="btn btn-primary" ng-if="isEditing" ng-click="toggleEdit()">CANCEL EDITING</button>
+				<div class="col-xs-12 col-sm-8">
+					
+					<h1 ng-show="isEditing">Edit Profile</h1>
+					<div ng-if="isOwnPage" ng-show="isEditing" id="profile" class="userInfo editInfo">
 						<div class="row">
-							<label ng-if="isEditing" for="email" id="profileHeader">New Email:</label>
-							<input ng-model="editPayload.email" value="{{user.email}}" ng-if="isEditing"/><br>
+							<label ng-if="isEditing" class="col-xs-4" for="email" id="profileHeader">New Email:</label>
+							<input ng-model="editPayload.email" class="col-xs-8" value="{{user.email}}" ng-if="isEditing"/><br>
 						</div>
 						<div class="row">
 							<label ng-if="isEditing" class="col-xs-4" for="name" id="profileHeader">New Name:</label>
@@ -42,33 +39,43 @@
 							<label ng-if="isEditing" class="col-xs-4" for="username" id="profileHeader">New Username:</label>
 							<input ng-if="isEditing" class="col-xs-8" ng-model="editPayload.username" value="{{user.username}}" />
 						</div>
+						<br>
+						<button class="btn magicButton" ng-if="isEditing" ng-click="saveEdits()">Save Changes</button>
+						<button  class="btn magicButton" ng-if="isEditing" ng-click="toggleEdit()">Cancel</button>
 					</div>
-					<h1>Info</h1>
-					<div id="profileDetails" class="userInfo dtborder">
-						<h2 ng-if="!isEditing" id="profileDetails">Name:    {{user.name}}</h2>
-						<h2 ng-if="!isEditing" id="profileDetails">Username:    {{user.username}}</h2>
-						<h2 ng-if="!isEditing" id="profileDetails">Join Date:    {{user.joinDate | date:"MM/dd/yyyy 'at' h:mma"}}</h2>
+
+					<h1 ng-hide="isEditing">Info</h1>
+					<div id="profileDetails" class="userInfo dtborder" ng-hide="isEditing">
+						<h2 ng-if="!isEditing" id="profileDetails">Name:</h2><span>{{user.name}}</span>
+						<h2 ng-if="!isEditing" id="profileDetails">Username:</h2><span>{{user.username}}</span>
+						<h2 ng-if="!isEditing" id="profileDetails">Join Date:</h2><span>{{user.joinDate | date:"MM/dd/yyyy 'at' h:mma"}}</span>
 					</div>
 				</div>
-				<div class="col-xs-6 col-xs-12">
+				<div class="col-xs-12 col-sm-8" ng-hide="isEditing">
 					<h1>Stats</h1>
 					<div id="profileDetails" class="userInfo">
-						<h2   ng-if="!isEditing" id="profileDetails">Game Reviews:    {{user.reviews.length}}</h2>
-						<button class="magicButton" ng-click="showGames = !showGames">Toggle Reviews</button>
+						<h2 ng-if="!isEditing" id="profileDetails">Game Reviews:</h2>
+						<span>{{user.reviews.length}}</span>
+						<br>
+						<button class="btn magicButton" ng-click="showGames = !showGames">Toggle Reviews</button>
 						<div ng-repeat="review in user.reviews" ng-if="showGames" class="animate">
 							<h2 ng-click="getToMatch(review.deathMatch._id)">
 								<div class="gameReview">
 									{{review.game}}:
+									<br>
 									{{review.review}}
 								</div>
 							</h2>
 						</div>
-						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:    {{user.deathMatches.length}}</h2>
-						<button class="magicButton" ng-click="showMatches = !showMatches" >Toggle Matches</button>
-						<div ng-repeat="deathMatch in user.deathMatches" ng-if="showMatches">
-							<h2 class="gameReview" ng-click="getToMatch(deathMatch._id)">{{deathMatch["game1"].name}} V.S {{deathMatch["game2"].name}}</h2>
+						<h2  ng-if="!isEditing" id="profileDetails">Deathmatches started:</h2>
+						<span>{{user.deathMatches.length}}</span>
+						<br>
+						<button class="btn magicButton" ng-click="showMatches = !showMatches" >Toggle Matches</button>
+						<div ng-repeat="deathMatch in user.deathMatches" ng-if="showMatches" class="deathMatchName">
+							<span class="gameReview" ng-click="getToMatch(deathMatch._id)">{{deathMatch["game1"].name}} VS {{deathMatch["game2"].name}}</span>
 						</div>
-						<h2 ng-if="!isEditing" id="profileDetails">Points:    {{user.score}}</h2>
+						<h2 ng-if="!isEditing" id="profileDetails">Points:</h2>
+						<span>{{user.score}}</span>
 					</div>
 				</div>
 				<div>

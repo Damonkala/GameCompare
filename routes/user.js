@@ -60,14 +60,14 @@ router.put('/favorite', function(req, res){
       updatedUser.password = null
       updatedUser.avatar = null;
       var newToken = jwt.encode(updatedUser, process.env.JWT_SECRET)
-      console.log("NEWTOEKN", newToken)
+      // console.log("NEWTOEKN", newToken)
       res.cookie("token", newToken)
       res.send(newToken)
     })
   })
 })
 router.post("/edit", function(req, res){
-  console.log("edit api", req.body)
+  // console.log("edit api", req.body)
   User.findByIdAndUpdate(req.body._id, {$set: {
     address: req.body.address,
     phone: req.body.phone,
@@ -78,7 +78,7 @@ router.post("/edit", function(req, res){
 }, function(err, savedUser){
   console.log('user that got changed during the edit api function...savedUser', savedUser)
   User.findById(req.body._id).deepPopulate("reviews deathMatches deathMatches.game1 deathMatches.game2 reviews.deathMatch ").exec(function(err, updatedUser){
-    console.log("comes back from findbyId of svedUser",updatedUser);
+    // console.log("comes back from findbyId of svedUser",updatedUser);
     updatedUser.password = null;
     updatedUser.avatar = null
     if (!req.body.isAdmin){
@@ -102,7 +102,7 @@ router.put('/unfavorite', function(req, res){
       var token = updatedUser
       // token.favorites = null;
       var newToken = jwt.encode(token, process.env.JWT_SECRET)
-      console.log("NEWTOEKN", newToken)
+      // console.log("NEWTOEKN", newToken)
 
       User.findById(user._id).populate('favorites', 'avatar username').exec(function(err, responseUser){
         if(err){
@@ -111,7 +111,7 @@ router.put('/unfavorite', function(req, res){
         }
         responseUser.password = null;
         responseUser.avatar = null;
-        console.log("USER RESPONSE BITCH!",responseUser)
+        // console.log("USER RESPONSE BITCH!",responseUser)
         res.send(responseUser)
       })
     })

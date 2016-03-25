@@ -1,34 +1,32 @@
-<h1>List of ongoing Death Matches</h1>
-<div class="userList-titleSearch">
+<h1>List of Ongoing Deathmatches</h1>
+
+<div class="userList-titleSearch col-xs-6">
   <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)">
 </div>
-<table class="table table-hover table-center table-bordered">
-  <tbody>
-    <tr ng-repeat="match in deathMatches" ui-sref="deathMatchPage({id: match._id})" class="">
-      <td>
-        <h2 class="username">
-          {{match.user.name}}
-        </h2>
-      </td>
-      <td>
-        <img src="https:{{match.game1.cover[0].url}}" class="thumb">
-        <td ng-class="comparing(match.game1UserReviews.length, match.game2UserReviews.length)">
-          <div class="battleText">
-            {{match.game1.name}}
-          </div>
-        </td>
-      </td>
-      <td class="battleText">
-        V.S
-      </td>
-      <td>
-        <img src="https:{{match.game2.cover[0].url}}" class="thumb">
-        <td ng-class="comparing(match.game2UserReviews.length, match.game1UserReviews.length)">
-          <div class="battleText">
-            {{match.game2.name}}
-          </div>
-        </td>
-      </td>
-    </tr>
-  </tbody>
-</table>
+
+<div ng-repeat="match in deathMatches" ui-sref="deathMatchPage({id: match._id})" class="col-xs-12 col-sm-8 col-sm-offset-2 match-row">
+  <div class="col-sm-3 col-xs-12">
+    <h2 class="username">
+      {{match.user.name}}
+    </h2>
+  </div>
+  <div class="col-sm-3 col-xs-12">
+    <img src="https:{{match.game1.cover[0].url}}" class="thumb game-img">
+    <div ng-class="comparing(match.game1UserReviews.length, match.game2UserReviews.length)">
+      <div class="battleText">
+        {{match.game1.name}}
+      </div>
+    </div>
+  </div>
+  <div class="battleText col-sm-3 col-xs-12">
+    VS
+  </div>
+  <div class="col-sm-3 col-xs-12">
+    <img src="https:{{match.game2.cover[0].url}}" class="thumb game-img">
+    <div ng-class="comparing(match.game2UserReviews.length, match.game1UserReviews.length)">
+      <div class="battleText">
+        {{match.game2.name}}
+      </div>
+    </div>
+  </div>
+</div>

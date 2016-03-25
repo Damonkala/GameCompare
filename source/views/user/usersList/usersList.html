@@ -1,46 +1,28 @@
-<h1>List of Users</h1>
-<!-- <div ng-if="isLoggedIn"> -->
-<div class="userList-titleHeader"><h1>User List</h1></div>
-<div class="userList-titleSearch">
-  <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)">
+<div class="userList-titleHeader">
+  <h1>User List</h1>
+</div>
+<div class="userList-titleSearch col-sm-12">
+  <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)" placeholder="Search">
 </div>
 <br>
 <div class="container">
-  <div class="col-xs-2 col-centered"></div>
-  <div id="user-list-container" class="col-xs-8 col-centered">
-    <table class="table table-hover table-bordered">
-      <!-- <thead> -->
-        <tr>
-          <th></th>
-          <th>Avatar</th>
-          <th>Username</th>
-          <th>Score</th>
-        </tr>
-      <!-- </thead> -->
-      <!-- <tbody> -->
-      <tr ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users | orderBy: "-score" track by $index '>
-        <td class="userListProfilePicDiv col-xs-4">
-          <img ng-if="!user.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail"></img>
-          <img ng-if="user.avatar"src="data:image/jpeg;base64,{{user.avatar}}" class="userThumbnail"></img>
-          <!-- <br> -->
-          <!-- <a class="userList-username" ui-sref='userPage({username: user.username})'><h5 class="userList-username">{{user.name}}</h5></a> -->
-        </td>
-        <td class="mainzText">
-          <h3>{{user.username}}</h3>
-        </td>
-        <td class="mainzText">
-          <h3>{{user.score}}</h3>
-        </td>
-      </tr>
-    <!-- </tbody> -->
-    </table>
+  <div id="user-list-container" class="col-xs-12">
+    <div ui-sref='userPage({username: user.username})' class="userContainer row" ng-repeat='user in users | orderBy: "-score" track by $index '>
+      <div class="userListProfilePicDiv col-xs-4">
+        <img ng-if="!user.avatar"src="http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg" class="userThumbnail"></img>
+        <img ng-if="user.avatar"src="data:image/jpeg;base64,{{user.avatar}}" class="userThumbnail"></img>
+      </div>
+      <div class="mainzText col-xs-4">
+        <h3 class="user-name">{{user.username}}</h3>
+      </div>
+      <div class="mainzText col-xs-4">
+        <h3 class="user-score">{{user.score}}</h3>
+      </div>
+    </div>
   </div>
 </div>
 <div class="col-xs-2 col-centered"></div>
 
 <div ng-if="isAdmin">
   <button ng-click="eraseUser(user._id)">Delete</button>
-</div>
-<!-- </div> -->
-</div>
 </div>
