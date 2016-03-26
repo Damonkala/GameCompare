@@ -72,6 +72,10 @@ blockquote {
 	font-family: 'Cabin', sans-serif;
 	font-size: 14px;
 	color: #333;
+	display: inline;
+	background-color: #E7E8EF;
+	width: 100%;
+	padding: 2px;
 }
 
 
@@ -169,8 +173,6 @@ div.avatar-upload .btn {
 	-webkit-background-clip: text;
 	transition: all 0.2s ease;
 }
-
-
 
 .dm {
 	display: inline-block;
@@ -387,32 +389,70 @@ div.userContainer:hover {
 .sideBySide{
 	display: inline-block;
 }
-.votes{
+.votes {
 	border-radius: 30000000px;
 }
-.voting{
+.voting {
 	display: block;
 	font-family: Zig;
 }
-.table-bordered tr{
+.table-bordered tr {
 	border: 3px solid #4E5D6C;
 }
-#IGDB{
+#IGDB {
 	color: #27AE60;
 }
-#IGDB:hover{
+#IGDB:hover {
 	color: #DF691A;
 }
-#mostImportantButton{
+#mostImportantButton {
 	text-align: center;
-	margin: 0px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 	width: 100%;
 }
-.mainzText>h3{
+.mainzText>h3, .battleText {
 	font-family: Zig;
 }
-.battleText{
-	font-family: Zig;
+
+.games-table {
+	font-family: 'Cabin', sans-serif;
+}
+.table.games-table>tbody>tr>td {
+	padding: 10px;
+}
+.game-name, .platform {
+	font-size: 16px;
+	line-height: 27px;
+}
+.release {
+	font-size: 14px;
+	line-height: 27px;
+	word-wrap: nowrap;
+}
+.game-pic {
+	border: 3px solid #4E5D6C;
+}
+.compare .checkbox {
+	position: absolute;
+	top: -99999px;
+	left: -99999px;
+}
+.compare .checkbox + label {
+	border: 3px solid #4E5D6C;
+	border-radius: 4px;
+	padding: 5px;
+}
+.compare .checkbox:checked + label {
+	border: 3px solid #4E5D6C;
+	background-color: #333;
+	border-radius: 4px;
+	padding: 5px;
+}
+
+
+.bottom {
+	margin-bottom: 100px;
 }
 /* The starting CSS styles for the enter animation */
 .fade.ng-enter {
