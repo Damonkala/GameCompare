@@ -371,6 +371,7 @@ div.userContainer:hover {
 .match-row .username{
 	color: #f2f2f2;
 	font-family: Zig;
+	word-wrap: break-word;
 }
 .match-row .game-img {
 	border: 3px solid #4E5D6C;
