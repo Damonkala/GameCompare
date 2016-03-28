@@ -6,7 +6,6 @@ angular.module('gameCompare')
 .controller('deathMatchListCtrl', function($scope, $location, $rootScope, $state, $cookies, $http, DeathMatchService, GameService){
 	DeathMatchService.load()
 	.then( function victory(resp) {
-		console.log("INFO:", resp.data);
 		deathMatches = resp.data;
 		$scope.deathMatches = resp.data;
 	}, function failure(err) {

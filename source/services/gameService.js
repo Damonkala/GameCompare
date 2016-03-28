@@ -25,7 +25,6 @@ app.service('GameService', function($http, $location, $rootScope, $cookies, jwtH
 		return $http.post(`/games`, newGame)
 	};
 	this.getGames = function(games){
-		console.log("Games?", games);
 		return $http.post(`/games/getTwoGames`, games)
 	}
 	this.compareGames = function(score1, score2){

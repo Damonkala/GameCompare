@@ -4,15 +4,12 @@ angular.module('gameCompare')
 
 
 .controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster){
-	console.log("WO HO");
-	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
-		// console.log(res.data)
 		if (res.data === "authRequired"){
 			//  $location.path('/login')
 		} else {
@@ -43,7 +40,6 @@ angular.module('gameCompare')
 	DeathMatchService.openMatch($state.params.id)
 	.then( function victory(resp) {
 		$scope.deathMatchId = $state.params.id;
-		console.log("INFO:", resp.data);
 		$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
 		$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
 		$scope.game1UserReviews = resp.data.game1UserReviews
@@ -62,9 +58,7 @@ angular.module('gameCompare')
 	}
 
 	$scope.writeReview = function(content, game, gameName){
-		console.log("GORM!", gameName);
 		if(content){
-			console.log("is it game", game);
 			var review = {}
 			review.gameName = gameName;
 			review.game = game
@@ -74,7 +68,6 @@ angular.module('gameCompare')
 			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
 				DeathMatchService.openMatch(resp.data._id)
 				.then( function victory(resp) {
-					console.log("INFO:", resp.data);
 					$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
 					$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
 					$scope.game1UserReviews = resp.data.game1UserReviews
@@ -84,7 +77,7 @@ angular.module('gameCompare')
 					console.log(err);
 				});
 			}), function failure(err){
-				console.log("O no ", err);
+				console.log(err);
 			}
 		} else {
 			swal({

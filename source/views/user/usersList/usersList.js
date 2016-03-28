@@ -42,7 +42,6 @@ angular.module('gameCompare')
 	}
 
 	$scope.favorited = function(user){
-		// console.log("USER", user);
 		if (user._id !== $scope.userInfo._id){
 			return ($scope.userInfo.favorites).some(function(favorite){
 				return (user._id === favorite)
@@ -50,7 +49,6 @@ angular.module('gameCompare')
 		} else {return true}
 	}
 	$scope.isUser = function(user){
-		// console.log("USER", user);
 		if (user._id !== $scope.userInfo._id){
 				return (false)
 		} else {return true}
@@ -59,9 +57,7 @@ angular.module('gameCompare')
 
 	$scope.updateSearch = function(searchTerm){
 		// $scope.searchTerm = searchTerm
-		console.log(searchTerm)
 		if(searchTerm){
-			console.log(searchTerm)
 		$scope.users = $scope.users.filter(function(user){
 			if (user.username.match(searchTerm)){
 				return true

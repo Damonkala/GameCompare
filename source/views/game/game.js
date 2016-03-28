@@ -12,12 +12,10 @@ angular.module('gameCompare')
 	// });
 
 	$scope.readGame2 = function(){
-		console.log("Is game two okay?", $scope.gameTwo);
 	}
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-		console.log("I AM ", $scope.userInfo);
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
@@ -37,7 +35,7 @@ angular.module('gameCompare')
 		$http.post(`/deathMatches`, deathmatch).then(function victory(resp){
 			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
-			console.log("OH NO!", err);
+			console.log(err);
 		})
 	}
 	// $scope.compare = function(game1, game2){
@@ -62,7 +60,6 @@ angular.module('gameCompare')
 		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
 		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
 	}, function(err) {
-		console.log("Something went wrong, whoops");
 		console.error(err)
 	})
 })
