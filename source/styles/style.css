@@ -110,6 +110,23 @@ blockquote {
 .userList-titleSearch {
 	margin-bottom: 25px;
 }
+.search-result {
+	margin-top: 25px;
+	margin-bottom: 25px;
+	padding: 15px;
+}
+.search-result-img {
+	border: 3px solid #4E5D6C;
+}
+.reviews .review {
+	margin-bottom: 15px;
+	padding: 10px;
+}
+.results-options tr td, 
+.results-options tr th {
+	padding: 10px;
+	font-family: 'Cabin', sans-serif;
+}
 
 
 #imageHolder {
@@ -473,17 +490,17 @@ div.userContainer:hover {
 .game-pic {
 	border: 3px solid #4E5D6C;
 }
-.compare .checkbox {
+.compare input[type=checkbox].checkbox {
 	position: absolute;
-	top: -99999px;
+	/*top: -99999px;*/
 	left: -99999px;
 }
-.compare .checkbox + label {
+.compare input[type=checkbox].checkbox + label {
 	border: 3px solid #4E5D6C;
 	border-radius: 4px;
 	padding: 5px;
 }
-.compare .checkbox:checked + label {
+.compare input[type=checkbox].checkbox:checked + label {
 	border: 3px solid #4E5D6C;
 	background-color: #333;
 	border-radius: 4px;

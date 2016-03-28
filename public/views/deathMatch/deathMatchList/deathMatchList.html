@@ -1,7 +1,7 @@
 <h1>List of Ongoing Deathmatches</h1>
 
 <div class="userList-titleSearch col-xs-6">
-  <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)">
+  <input type="text" ng-model="searchTerm" ng-keyup="updateSearch(searchTerm)" placeholder="Search">
 </div>
 
 <div ng-repeat="match in deathMatches" ui-sref="deathMatchPage({id: match._id})" class="col-xs-12 col-sm-8 col-sm-offset-2 match-row">
