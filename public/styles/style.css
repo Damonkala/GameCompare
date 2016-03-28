@@ -207,21 +207,21 @@ game-directive {
 	border-radius: 10px;
 	background-color: #FCFDFE;
 	margin-bottom: 25px;
+	width: 100%;
 }
 #game2{
 	border: 3px solid #F8A055;
 	border-radius: 10px;
 	background-color: #FCFDFE;
 	margin-bottom: 25px;
+	width: 100%;
 }
 #game1 .thumb, #game2 .thumb {
 	border: 3px solid #4E5D6C;
 }
-.game-container {
-	text-align: left;
-}
 .center-img {
 	text-align: center;
+	margin-bottom: 25px;
 }
 .stats {
 	font-family: 'Cabin', sans-serif;
@@ -258,16 +258,16 @@ game-directive {
 	color: green;
 }
 .isGreaterThan{
-	color: #33cc33;
+	color: forestgreen;
 	font-weight: bold;
 }
 .isEqualTo{
-	color: blue;
+	color: cornflowerblue;
 }
 .reviews{
 	text-align: center;
 	font-family: Zig;
-	width: 100%;
+	/*width: 100%;*/
 	font-size: 20px;
 	vertical-align: top;
 }
@@ -290,6 +290,7 @@ game-directive {
 	border-radius: 10px;
 	margin-top: 10px;
 	margin-right: 10px;
+	margin-bottom: 15px;
 }
 .superTitle{
 	font-family: Zig;
@@ -301,6 +302,19 @@ game-directive {
 }
 #selected{
 	display: inline-block;
+}
+.review-btn {
+	font-family: 'Cabin', sans-serif;
+	border-radius: 4px;
+}
+.add-desc {
+	color: brown;
+}
+.review-box {
+	border-radius: 4px;
+	padding: 10px;
+	height: 100px;
+	font-size: 14px;
 }
 
 div.userContainer {
@@ -333,11 +347,24 @@ div.userContainer:hover {
 	vertical-align: top;
 	border-radius: 10px;
 	background-color: #283655;
-	font-family: GlacialIndifference;
 	margin-top: 20px;
 	margin-bottom: 20px;
 	color: #FCFDFE;
 	width: 100%;
+	padding: 10px;
+}
+.reviewInfo {
+	font-size: 12px;
+	margin-top: 0;
+	display: inline-block;
+}
+.user {
+	display: inline-block;
+	width: 25%;
+	margin-right: 25px;
+}
+.top-img {
+	margin-top: 25px;
 }
 
 .user-score {
@@ -393,16 +420,17 @@ div.userContainer:hover {
 .userThumbnail{
 	width: 100px;
 }
-.user{
-	display: block;
-	width: 25%;
-}
+
 
 .sideBySide{
 	display: inline-block;
 }
 .votes {
-	border-radius: 30000000px;
+	border-radius: 100%;
+	width: 50px;
+	height: 50px;
+	margin-top: -10px;
+	margin-bottom: 5px;
 }
 .voting {
 	display: block;
