@@ -69,7 +69,7 @@
 		</div>
 		<button class="magicButton" ng-click="saveGame()">Save Game</button>
 	</div>
-</div>
+</div ng-controller="listCtrl">
 <table class="table table-hover" ng-if="games && !loading">
 	<tr>
 		<th>
@@ -93,3 +93,37 @@
 	</tr>
 </table>
 <br>
+<div>
+
+	<button type="button" name="button" ng-click="compareTwoGames()" class="magicButton" id="mostImportantButton">Compare</button>
+	<table class="table table-hover table-bordered" ng-if="!games">
+		<tr>
+			<th>Cover</th>
+			<th>Name</th>
+			<th>Console(s)</th>
+			<th>Date</th>
+			<th>Compare</th>
+		</tr>
+		<tr ng-repeat="games in dbGames | filter:searchBox">
+			<td>
+				<img src="https:{{games.cover[0].url}}" class="thumb">
+			</td>
+			<td>
+				{{games.name}}
+			</td>
+			<td>
+				<div ng-repeat="release in games.releases">
+					{{release.platform_name}}
+				</div>
+			</td>
+			<td>
+				<div ng-repeat="release in games.releases">
+					{{release.release_date}}
+				</div>
+			</td>
+			<td>
+				<input type="checkbox" checklist-model="game.names" checklist-value="games" class="checkbox">
+			</td>
+		</tr>
+	</table>
+</div>
