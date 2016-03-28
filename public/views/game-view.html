@@ -1,5 +1,5 @@
 <div ng-controller="gameCtrl" class="sideBySide">
-	<div class="col-sm-6">
+	<div class="col-sm-6 game-container">
 		<div class="col-sm-12" id="game1" ng-if="gameOne">
 			<a href="{{gameOne.url}}">
 				<h1 class="title">
@@ -87,7 +87,7 @@
 				Releases:
 				<div ng-repeat="release in gameOne.releases">
 					<p>
-						{{release.release_date}} for {{release.platform_name}}
+						{{release.platform_name}}: {{release.release_date}}
 					</p>
 				</div>
 				Genres:
@@ -112,7 +112,7 @@
 		</div>
 	</div>
 	
-	<div class="col-sm-6">
+	<div class="col-sm-6 game-container">
 		<div class="col-sm-12" id="game2" ng-if="gameTwo">
 			<a href="{{gameTwo.url}}">
 				<h1 class="title">
@@ -200,7 +200,7 @@
 				Releases:
 				<div ng-repeat="release in gameTwo.releases">
 					<p>
-						{{release.release_date}} for {{release.platform_name}}
+						{{release.platform_name}}: {{release.release_date}}
 					</p>
 				</div>
 				Genres:

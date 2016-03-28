@@ -195,20 +195,30 @@ game-directive {
 	margin: 0 auto !important;
 	float: none !important;
 }
+.battle-btn {
+	font-family: 'Cabin', sans-serif;
+	letter-spacing: .7px;
+	width: 100%;
+	margin-bottom: 25px;
+	border-radius: 4px;
+}
 #game1 {
 	border: 3px solid #F8A055;
 	border-radius: 10px;
 	background-color: #FCFDFE;
-	margin-bottom: 50px;
+	margin-bottom: 25px;
 }
 #game2{
 	border: 3px solid #F8A055;
 	border-radius: 10px;
 	background-color: #FCFDFE;
-	margin-bottom: 50px;
+	margin-bottom: 25px;
 }
 #game1 .thumb, #game2 .thumb {
 	border: 3px solid #4E5D6C;
+}
+.game-container {
+	text-align: left;
 }
 .center-img {
 	text-align: center;
