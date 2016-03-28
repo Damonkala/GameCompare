@@ -99,67 +99,6 @@ app.service('DeathMatchService', function($http, $location, $rootScope, $cookies
 
 angular.module('gameCompare')
 
-.controller('homeCtrl', function($scope, $http){
-	$http.get(`/games/`).then( function victory(resp) {
-		console.log("INFO:", resp.data);
-		$scope.dbGames = resp.data;
-	}, function failure(err) {
-		console.log(err);
-	});
-
-	$scope.compare = function(){
-		console.log("CLICKITY CLACK");
-		console.log("A THANG!", $scope.check);
-	}
-
-})
-
-'use strict';
-
-var app = angular.module('gameCompare');
-
-app.service('GameService', function($http, $location, $rootScope, $cookies, jwtHelper){
-	this.load = function(){
-		return $http.get(`/games/`)
-	};
-	this.openGame = function(id){
-		return $http.get(`/games/page/stats/${id}`)
-	};
-	this.searchGame = function(term){
-		return $http.get(`/games/search/${term}`)
-	};
-	this.startBattle = function(deathmatch){
-		return $http.post(`/deathMatches`, deathmatch)
-	};
-	this.startBattle = function(games){
-		return $http.post(`/games/compare`, games)
-	};
-	this.getScore = function(name){
-		return $http.get(`/games/page/scores/${name}`)
-	};
-	this.saveGame = function(newGame){
-		return $http.post(`/games`, newGame)
-	};
-	this.getGames = function(games){
-		console.log("Games?", games);
-		return $http.post(`/games/getTwoGames`, games)
-	}
-	this.compareGames = function(score1, score2){
-		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
-			return "isGreaterThan"
-		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
-			return "isLessThan"
-		} else {
-			return "isEqualTo"
-		}
-	}
-	// this.totalScore = function()
-})
-
-'use strict';
-
-angular.module('gameCompare')
-
 .controller('gameCtrl', function($scope, $http, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
 	// GameService.load()
 	// .then( function victory(resp) {
@@ -233,6 +172,67 @@ angular.module('gameCompare')
 		},
 		templateUrl: "views/game-view.html"
 	};
+})
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('GameService', function($http, $location, $rootScope, $cookies, jwtHelper){
+	this.load = function(){
+		return $http.get(`/games/`)
+	};
+	this.openGame = function(id){
+		return $http.get(`/games/page/stats/${id}`)
+	};
+	this.searchGame = function(term){
+		return $http.get(`/games/search/${term}`)
+	};
+	this.startBattle = function(deathmatch){
+		return $http.post(`/deathMatches`, deathmatch)
+	};
+	this.startBattle = function(games){
+		return $http.post(`/games/compare`, games)
+	};
+	this.getScore = function(name){
+		return $http.get(`/games/page/scores/${name}`)
+	};
+	this.saveGame = function(newGame){
+		return $http.post(`/games`, newGame)
+	};
+	this.getGames = function(games){
+		console.log("Games?", games);
+		return $http.post(`/games/getTwoGames`, games)
+	}
+	this.compareGames = function(score1, score2){
+		if(Number(score1) > Number(score2) || isNaN(Number(score2)) ){
+			return "isGreaterThan"
+		} if(Number(score1) < Number(score2) || isNaN(Number(score1))) {
+			return "isLessThan"
+		} else {
+			return "isEqualTo"
+		}
+	}
+	// this.totalScore = function()
+})
+
+'use strict';
+
+angular.module('gameCompare')
+
+.controller('homeCtrl', function($scope, $http){
+	$http.get(`/games/`).then( function victory(resp) {
+		console.log("INFO:", resp.data);
+		$scope.dbGames = resp.data;
+	}, function failure(err) {
+		console.log(err);
+	});
+
+	$scope.compare = function(){
+		console.log("CLICKITY CLACK");
+		console.log("A THANG!", $scope.check);
+	}
+
 })
 
 'use strict';
@@ -329,26 +329,29 @@ app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtH
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, $state, GameService){
+.controller('listCtrl', function($scope, $http, $state, GameService, $timeout){
 	$scope.loading = false;
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
 	$scope.init = function(){
 		$http.get(`/games/`).then( function victory(resp) {
-				$scope.dbGames = resp.data;
+			$scope.dbGames = resp.data;
 		}, function failure(err) {
 			console.log(err);
 		});
 	}
 	$scope.init();
+	$scope.upd8 = function(){
+		$scope.init();
+	}
 	$scope.game = {
-    dbGames: []
-  };
-  $scope.checkAll = function() {
-    $scope.game.dbGames = angular.copy($scope.dbGames);
-  };
-  $scope.uncheckAll = function() {
-    $scope.game.dbGames = [];
-  };
+		dbGames: []
+	};
+	$scope.checkAll = function() {
+		$scope.game.dbGames = angular.copy($scope.dbGames);
+	};
+	$scope.uncheckAll = function() {
+		$scope.game.dbGames = [];
+	};
 	$scope.compareTwoGames = function() {
 		if($scope.game.dbGames.length > 2){
 			var randomPair = {};
@@ -427,9 +430,10 @@ angular.module('gameCompare')
 				confirmButtonColor: "#DD6B55",
 				confirmButtonText: "Great!",
 			});
-			$scope.$apply(function () {
+			$timeout(function() {
 				$scope.init();
-			})
+				console.log('update with timeout fired')
+			}, 10000);
 		}, function failure(err) {
 			console.log(err);
 		});

@@ -2,26 +2,29 @@
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, $state, GameService){
+.controller('listCtrl', function($scope, $http, $state, GameService, $timeout){
 	$scope.loading = false;
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
 	$scope.init = function(){
 		$http.get(`/games/`).then( function victory(resp) {
-				$scope.dbGames = resp.data;
+			$scope.dbGames = resp.data;
 		}, function failure(err) {
 			console.log(err);
 		});
 	}
 	$scope.init();
+	$scope.upd8 = function(){
+		$scope.init();
+	}
 	$scope.game = {
-    dbGames: []
-  };
-  $scope.checkAll = function() {
-    $scope.game.dbGames = angular.copy($scope.dbGames);
-  };
-  $scope.uncheckAll = function() {
-    $scope.game.dbGames = [];
-  };
+		dbGames: []
+	};
+	$scope.checkAll = function() {
+		$scope.game.dbGames = angular.copy($scope.dbGames);
+	};
+	$scope.uncheckAll = function() {
+		$scope.game.dbGames = [];
+	};
 	$scope.compareTwoGames = function() {
 		if($scope.game.dbGames.length > 2){
 			var randomPair = {};
@@ -100,9 +103,10 @@ angular.module('gameCompare')
 				confirmButtonColor: "#DD6B55",
 				confirmButtonText: "Great!",
 			});
-			$scope.$apply(function () {
+			$timeout(function() {
 				$scope.init();
-			})
+				console.log('update with timeout fired')
+			}, 10000);
 		}, function failure(err) {
 			console.log(err);
 		});

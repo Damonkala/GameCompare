@@ -69,7 +69,7 @@
 		</div>
 		<button class="magicButton" ng-click="saveGame()">Save Game</button>
 	</div>
-</div ng-controller="listCtrl">
+</div>
 <table class="table table-hover" ng-if="games && !loading">
 	<tr>
 		<th>
@@ -92,12 +92,12 @@
 		</td>
 	</tr>
 </table>
-<br>
+<hr>
 <div ng-controller="listCtrl">
 	<button  class="btn btn-primary" ng-click="checkAll()">Check all</button>
 	<button  class="btn btn-primary" ng-click="uncheckAll()">Uncheck all</button>
 	<button type="button" name="button" ng-click="compareTwoGames()" class="magicButton" id="mostImportantButton">Compare</button>
-	<table class="table table-hover table-bordered" ng-if="!games">
+	<table class="table table-hover table-bordered">
 		<tr>
 			<th>Cover</th>
 			<th>Name</th>
