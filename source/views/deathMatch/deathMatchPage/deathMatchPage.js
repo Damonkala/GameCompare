@@ -3,7 +3,7 @@
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster, UserReviewService){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -31,7 +31,7 @@ angular.module('gameCompare')
 		})
 	}
 	$scope.hasVoted = function(userId, reviewId){
-		UserService.hasVoted(userId, reviewId)
+		UserReviewService.hasVoted(userId, reviewId)
 		.then(function(res, err){
 			if(res.data === "voted"){
 				return "hasVoted";
@@ -53,11 +53,11 @@ angular.module('gameCompare')
 	});
 
 	$scope.upvote = function(gameId, criticId, reviewScore){
-		DeathMatchService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		UserReviewService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 		.then($state.go($state.current, {}, {reload: true}))
 	}
 	$scope.downvote = function(gameId, criticId){
-		DeathMatchService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		UserReviewService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 		.then($state.go($state.current, {}, {reload: true}))
 	}
 
@@ -71,7 +71,7 @@ angular.module('gameCompare')
 			review.deathMatch = $state.params.id;
 			review.user = $scope.userInfo._id;
 			review.review = content;
-			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
+			UserReviewService.writeReview($state.params.id, review).then( function victory(resp){
 				DeathMatchService.openMatch(resp.data._id)
 				.then( function victory(resp) {
 					console.log("INFO:", resp.data);

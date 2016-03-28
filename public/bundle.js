@@ -92,15 +92,7 @@ app.service('DeathMatchService', function($http, $location, $rootScope, $cookies
 	this.openMatch = function(id){
 		return $http.get(`/deathMatches/${id}`)
 	};
-	this.writeReview = function(id, review){
-		return $http.put(`/deathMatches/${id}`, review)
-	};
-	this.upvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`/deathMatches/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
-	}
-	this.downvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`/deathMatches/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
-	}
+
 })
 
 'use strict';
@@ -336,6 +328,60 @@ app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtH
 'use strict';
 
 angular.module('gameCompare')
+.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
+	$scope.submit = function(user){
+		UserService.login(user)
+		.then(function(res){
+			console.log('res', res.data)
+			$scope.$emit('loggedIn');
+			if(res.data === "Incorrect Username or Password!"){
+				swal({
+					type: "error",
+					title: "Uh-Oh!",
+					text: res.data,
+					showConfirmButton: true,
+					confirmButtonText: "I hear ya.",
+				});
+			} else{
+				document.cookie = 'token' + "=" + res.data;
+				var token = $cookies.get('token');
+				console.log("This Here is a Token:", token);
+				var decoded = jwtHelper.decodeToken(token);
+				UserService.loggedIn = 'true';
+				$state.go('userPage', {"username": user.username})
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	}
+});
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('UserReviewService', function($http, $location, $rootScope, $cookies, jwtHelper){
+	this.writeReview = function(id, review){
+		return $http.put(`/deathMatches/${id}`, review)
+	};
+	this.upvote = function(userId, deathMatch, review, criticId){
+		return $http.put(`/userReviews/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+	}
+	this.downvote = function(userId, deathMatch, review, criticId){
+		return $http.put(`/userReviews/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+	}
+	this.wroteReview = function(userInfoId, deathMatchId){
+		console.log("Made it to service!");
+		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+	};
+	this.hasVoted = function(userId, reviewId){
+		return $http.post('/userReviews/hasVoted', {userId: userId, reviewId: reviewId})
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
 
 .controller('listCtrl', function($scope, $http, $state, GameService){
 	$scope.loading = false;
@@ -541,37 +587,6 @@ app.service('UserService', function($http, $location, $rootScope, $cookies, jwtH
 'use strict';
 
 angular.module('gameCompare')
-.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	$scope.submit = function(user){
-		UserService.login(user)
-		.then(function(res){
-			console.log('res', res.data)
-			$scope.$emit('loggedIn');
-			if(res.data === "Incorrect Username or Password!"){
-				swal({
-					type: "error",
-					title: "Uh-Oh!",
-					text: res.data,
-					showConfirmButton: true,
-					confirmButtonText: "I hear ya.",
-				});
-			} else{
-				document.cookie = 'token' + "=" + res.data;
-				var token = $cookies.get('token');
-				console.log("This Here is a Token:", token);
-				var decoded = jwtHelper.decodeToken(token);
-				UserService.loggedIn = 'true';
-				$state.go('userPage', {"username": user.username})
-			}
-		}, function(err) {
-			console.error(err);
-		});
-	}
-});
-
-'use strict';
-
-angular.module('gameCompare')
 
 
 .controller('registerCtrl', function($scope, $state, UserService){
@@ -755,7 +770,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster, UserReviewService){
 	console.log("WO HO");
 	console.log("PURAMS", $state.params.id);
 	var cookies = $cookies.get('token');
@@ -783,7 +798,7 @@ angular.module('gameCompare')
 		})
 	}
 	$scope.hasVoted = function(userId, reviewId){
-		UserService.hasVoted(userId, reviewId)
+		UserReviewService.hasVoted(userId, reviewId)
 		.then(function(res, err){
 			if(res.data === "voted"){
 				return "hasVoted";
@@ -805,11 +820,11 @@ angular.module('gameCompare')
 	});
 
 	$scope.upvote = function(gameId, criticId, reviewScore){
-		DeathMatchService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		UserReviewService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 		.then($state.go($state.current, {}, {reload: true}))
 	}
 	$scope.downvote = function(gameId, criticId){
-		DeathMatchService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		UserReviewService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 		.then($state.go($state.current, {}, {reload: true}))
 	}
 
@@ -823,7 +838,7 @@ angular.module('gameCompare')
 			review.deathMatch = $state.params.id;
 			review.user = $scope.userInfo._id;
 			review.review = content;
-			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
+			UserReviewService.writeReview($state.params.id, review).then( function victory(resp){
 				DeathMatchService.openMatch(resp.data._id)
 				.then( function victory(resp) {
 					console.log("INFO:", resp.data);
