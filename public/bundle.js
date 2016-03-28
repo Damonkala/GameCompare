@@ -331,66 +331,53 @@ angular.module('gameCompare')
 
 .controller('listCtrl', function($scope, $http, $state, GameService){
 	$scope.loading = false;
-	console.log("LOADING?", $scope.loading);
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
 	$scope.init = function(){
 		$http.get(`/games/`).then( function victory(resp) {
 				$scope.dbGames = resp.data;
-			console.log("Initialize", $scope.dbGames);
 		}, function failure(err) {
 			console.log(err);
 		});
 	}
 	$scope.init();
 	$scope.game = {
-		names: []
-	}
-	$scope.checkAll = function(){
-		console.log("CHECKING ALŁ");
-		$scope.game.names = angular.copy($scope.names);
-	}
-	$scope.uncheckAll = function() {
-		$scope.game.names = [];
-	};
+    dbGames: []
+  };
+  $scope.checkAll = function() {
+    $scope.game.dbGames = angular.copy($scope.dbGames);
+  };
+  $scope.uncheckAll = function() {
+    $scope.game.dbGames = [];
+  };
 	$scope.compareTwoGames = function() {
-		if($scope.game.names.length > 2){
+		if($scope.game.dbGames.length > 2){
 			var randomPair = {};
-			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			randomPair.game1 = $scope.game.dbGames[Math.floor(Math.random()*$scope.game.dbGames.length)];
+			randomPair.game2 = $scope.game.dbGames[Math.floor(Math.random()*$scope.game.dbGames.length)];
 			if(randomPair.game1.name === randomPair.game2.name){
-				console.log("A failure occured");
 				$scope.compareTwoGames();
 			} else {
-				console.log("Random Game 1",randomPair.game1.name.replace(/\s+/g, '+').toLowerCase());
-				console.log("Random Game 2",randomPair.game2.name.replace(/\s+/g, '+').toLowerCase());
 				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
 			}
 		} else {
-			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
+			$state.go('game', {"game1": $scope.game.dbGames[0].name, "game2": $scope.game.dbGames[1].name})
 		}
 	}
 	$scope.search = function(term){
 		$scope.loading = true;
 		$scope.loadingImage = loadingPics[Math.floor(Math.random() * loadingPics.length)];
-		console.log("LOADING IMAGE", $scope.loadingImage);
-		console.log("LOADING?", $scope.loading);
 		term = term.replace(/\s+/g, '-').toLowerCase();
 		GameService.searchGame(term).then( function victory(resp) {
 			$scope.loading = false;
-			console.log("INFO:", resp.data.games);
 			$scope.games = resp.data.games;
-			console.log(moment($scope.games[0].release_date).format('MMMM Do YYYY, h:mm:ss a'));
 		}, function failure(err) {
-			console.log(err);
+			console.console.error();(err);
 		});
 	}
 	$scope.openGame = function(id, name){
 		$scope.loadingImage = loadingPics[Math.floor(Math.random() * loadingPics.length)];
-		console.log("LOADING IMAGE", $scope.loadingImage);
 		$scope.loading = true;
-		console.log("LOADING?", $scope.loading);
 		GameService.openGame(id).then( function victory(resp) {
-			console.log("NEW INFO:", resp);
 			$scope.url = `https://www.igdb.com/games/${resp.data.game.slug}`;
 			$scope.gameInfo = resp.data.game;
 		}, function failure(err) {
@@ -417,7 +404,6 @@ angular.module('gameCompare')
 	}
 	$scope.saveGame = function(){
 		var badScore = {'criticScore': 0, 'userScore': 0}
-		console.log("Shaving");
 		var newGame = {}
 		newGame.companies = $scope.gameInfo.companies
 		newGame.url = $scope.url
