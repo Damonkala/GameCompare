@@ -178,14 +178,6 @@ div.avatar-upload .btn {
 	display: inline-block;
 	width: 75%;
 }
-#game1 {
-	display: inline-block;
-	border: 3px solid #F8A055;
-	width: 700px;
-	vertical-align: top;
-	border-radius: 10px;
-	background-color: #FCFDFE;
-}
 death-match-directive {
 	display: inline-block;
 }
@@ -198,18 +190,33 @@ game-directive {
 	margin-left:auto;
 	margin-right:auto;
 }
-.table-center{
+.table-center {
 	font-family: GlacialIndifference;
 	margin: 0 auto !important;
 	float: none !important;
 }
-#game2{
-	display: inline-block;
+#game1 {
 	border: 3px solid #F8A055;
-	width: 700px;
-	vertical-align: top;
 	border-radius: 10px;
 	background-color: #FCFDFE;
+	margin-bottom: 50px;
+}
+#game2{
+	border: 3px solid #F8A055;
+	border-radius: 10px;
+	background-color: #FCFDFE;
+	margin-bottom: 50px;
+}
+#game1 .thumb, #game2 .thumb {
+	border: 3px solid #4E5D6C;
+}
+.center-img {
+	text-align: center;
+}
+.stats {
+	font-family: 'Cabin', sans-serif;
+	color: #333;
+	margin-top: 15px;
 }
 .radar{
 	background-color: #33383E;
@@ -225,7 +232,7 @@ game-directive {
 }
 .review:hover{
 	border: 2px solid black;
-	box-shadow: 10px 10px 5px #888888;
+	/*box-shadow: 10px 10px 5px #888888;*/
 }
 .ign{
 	background-color: #d3222a;
@@ -281,11 +288,6 @@ game-directive {
 	-webkit-text-stroke-width: 1px;
 	-webkit-text-stroke-color: black;
 	color: #F8A055;./styles
-}
-.stats{
-	font-family: Verdana, Geneva, sans-serif;
-	color: black;
-	font-family: GlacialIndifference;
 }
 #selected{
 	display: inline-block;
@@ -378,8 +380,6 @@ div.userContainer:hover {
 	margin-bottom: 5px;
 }
 
-
-
 .userThumbnail{
 	width: 100px;
 }
@@ -387,6 +387,7 @@ div.userContainer:hover {
 	display: block;
 	width: 25%;
 }
+
 .sideBySide{
 	display: inline-block;
 }
