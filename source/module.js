@@ -32,41 +32,30 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
   var username;
   if(cookies){
     $scope.userInfo = (jwtHelper.decodeToken(cookies))
-    console.log("TASTY COOKIES", cookies);
   }
   UserService.isAuthed(cookies)
   .then(function(res , err){
-    console.log(res.data)
     if (res.data !== "authRequired"){
       // $state.go('usersList');
       $scope.isLoggedIn = true;
-      console.log("LOGGED IN!")
     } else {
       $scope.isLoggedIn = false;
-      console.log("YOU AIN'T LOOGED IN SUCKA");
       // $state.go('game');
     }
   })
   $scope.$on('loggedIn', function(){
-    console.log("WE GOT LOOOOOOGED IN!!!!!!!!!");
     $scope.isLoggedIn = true;
     var cookies = $cookies.get('token');
     if(cookies){
-      console.log("in cookis if")
       $scope.userInfo = (jwtHelper.decodeToken(cookies))
     }
     username = $scope.userInfo.username
 
   })
   $scope.$on('edit', function(event, data){
-    console.log('e:', event);
-    console.log('d:', data);
-    console.log("New:", data._id)
-    console.log("Old", $scope.userInfo._id)
     if(!$scope.userInfo.isAdmin || data._id === $scope.userInfo._id){
       $scope.userInfo = data;
       username = $scope.userInfo.username
-      console.log("NEWUSERNAME!!!!!", username)
     }
   })
   $scope.logout = function(){
@@ -76,7 +65,6 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
   }
   $scope.goHome = function(){
     var username = $scope.userInfo.username
-    console.log("ISUSERNAME", username)
     $state.go('userPage', {"username": username})
   }
 })

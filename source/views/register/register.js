@@ -4,7 +4,6 @@ angular.module('gameCompare')
 
 
 .controller('registerCtrl', function($scope, $state, UserService){
-	console.log("LODADED");
 	$scope.submit = function(user){
 		if(user.password !== user.password2){
 			swal({

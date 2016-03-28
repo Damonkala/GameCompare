@@ -1,27 +1,29 @@
 <input type="text" placeholder="Game Name" ng-model="searchBox">
-<button ng-click="search(searchBox)" class="btn btn-primary">Search for Game</button>
+<button ng-click="search(searchBox)" class="btn magicButton">Search for Game</button>
 <img src="{{loadingImage}}" alt="" ng-if="!reviews && loading || !games && loading">
-<div ng-if="gameInfo && reviews" class="happyBox">
-	<img src="https:{{gameInfo.cover.url}}" alt="">
-	<p>
-		Name: {{gameInfo.name}}
-	</p>
-	<p>
-		Summary: {{gameInfo.summary}}
-	</p>
-	<div ng-repeat="genre in gameInfo.genres track by $index">
+<div ng-if="gameInfo && reviews" class="happyBox search-result col-xs-12 col-sm-8 col-sm-offset-2">
+	<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+		<img class="search-result-img" src="https:{{gameInfo.cover.url}}" alt="">
 		<p>
-			Genres: {{genre.name}}
+			Name: {{gameInfo.name}}
 		</p>
+		<p>
+			Summary: {{gameInfo.summary}}
+		</p>
+		<div ng-repeat="genre in gameInfo.genres track by $index">
+			<p>
+				Genres: {{genre.name}}
+			</p>
 	</div>
-	<div class="reviews">
+	</div>
+	<div class="reviews col-xs-12 col-sm-8 col-sm-offset-2">
 		<div class="review radar" ng-if="gamesradar.criticScore > 0 || gamesradar.userScore > 0">
 			<a href="{{gamesradar.url}}">
 				<p>
 					Gamesradar:
 				</p>
 				<p ng-if="gamesradar.criticScore > 0">
-					Critc Score: {{gamesradar.criticScore}}/5
+					Critic Score: {{gamesradar.criticScore}}/5
 				</p>
 				<p ng-if="gamesradar.userScore > 0">
 					User Score: {{gamesradar.userScore}}/5
@@ -70,7 +72,7 @@
 		<button class="magicButton" ng-click="saveGame()">Save Game</button>
 	</div>
 </div>
-<table class="table table-hover" ng-if="games && !loading">
+<table class="table table-hover results-options" ng-if="games && !loading">
 	<tr>
 		<th>
 			Name

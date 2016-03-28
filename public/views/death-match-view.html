@@ -1,18 +1,19 @@
 <div ng-controller="deathMatchListCtrl">
-	<div id="game1" ng-if="gameOne">
+	<div id="game1" ng-if="gameOne" class="col-xs-12 col-sm-6 contenderOne">
+		<div class="center-img top-img">
+			<img src="https:{{gameOne.cover}}" class="thumb">
+		</div>
 		<a href="{{gameOne.url}}">
 			<h1 class="title">
 				{{gameOne.name}}
 			</h1>
 		</a>
 		<hr>
-		<div class="sideBySide">
+		<div class="sideBySide col-xs-12">
 			<div class="reviews">
 				<div class="review radar" ng-if="gameOne.gamesRadarCriticScore > 0 || gameOne.gamesRadarUserScore > 0">
 					<a href="{{gameOne.gamesRadarUrl}}">
-						<p>
-							Gamesradar:
-						</p>
+						<p>Gamesradar:</p>
 						<p ng-class="comparing(gameOne.gamesRadarCriticScore, gameTwo.gamesRadarCriticScore)" ng-if="gameOne.gamesRadarCriticScore > 0">
 							Critc Score: {{gameOne.gamesRadarCriticScore}}/5
 						</p>
@@ -72,14 +73,16 @@
 					</p>
 				</div>
 			</div>
-			<div ng-repeat="userReview in userReviews track by $index">
+			<!-- <div ng-repeat="userReview in userReviews track by $index">
 				<div class="userReviews">
-					{{userReview.user["username"]}}
-					{{userReview.timestamp | date:"MM/dd/yyyy 'at' h:mma"}}
 					<div class="user">
 						<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
 					</div>
+					<p class="reviewInfo">{{userReview.user["username"]}} on 
+						{{userReview.timestamp | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+					<hr>
 					{{userReview.review}}
+					<hr>
 					<div ng-controller="deathMatchPageCtrl">
 						<span class="voting" ng-if="isLoggedIn">
 							<button class="btn btn-success votes" ng-click="upvote(userReview._id, userReview.user._id, userReview.score)">+</button>
@@ -88,17 +91,17 @@
 						{{userReview.score}}
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div ng-controller="deathMatchPageCtrl">
 			<ng-form ng-if="isLoggedIn && !wroteReview">
-				<textarea rows="8" cols="40" ng-model='reviewBox'></textarea>
+				<textarea class="review-box" rows="8" cols="40" ng-model='reviewBox'></textarea>
 				<br>
-				<button class="btn btn-success" ng-click="writeReview(reviewBox, gameNum, gameName)">Write a review</button>
+				<button class="btn btn-success review-btn" ng-click="writeReview(reviewBox, gameNum, gameName)">Write a review</button>
 			</ng-form>
 		</div>
 		<hr>
-		<img src="https:{{gameOne.cover}}" class="thumb">
+		<!-- <img src="https:{{gameOne.cover}}" class="thumb"> -->
 		<div class="stats">
 			<div ng-repeat="company in gameOne.companies">
 				<p ng-if="company.developer">
@@ -108,27 +111,28 @@
 					Published by: {{company.name}}
 				</p>
 			</div>
-			Release(s):
+			Releases:
 			<div ng-repeat="release in gameOne.releases">
 				<p>
-					{{release.release_date}} for {{release.platform_name}}
+					{{release.platform_name}}: {{release.release_date}}
 				</p>
 			</div>
-			Genre(s):
+			Genres:
 			<div ng-repeat="genre in gameOne.genres">
 				{{genre.name}}
 			</div>
 			<br>
-			Themes(s):
+			Themes:
 			<div ng-repeat="theme in gameOne.themes">
 				{{theme.name}}
 			</div>
+			<br>
 			<p>
 				Summary: {{gameOne.summary}}
 			</p>
 			<p ng-if="!gameOne.summary">
 				This title is awaiting a description.
-				<a href="{{gameOne.url}}">
+				<a href="{{gameOne.url}}" class="add-desc">
 					Why not add one?
 				</a>
 			</p>
@@ -139,5 +143,30 @@
 		<button class="btn btn-success" ng-click="writeReview(reviewBox, gameNum, gameName)">Write a review</button>
 	</ng-form>
 </div> -->
+	<div ng-repeat="userReview in userReviews track by $index">
+				<div class="userReviews">
+					<div class="user">
+						<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
+					</div>
+					<p class="reviewInfo">{{userReview.user["username"]}} on 
+						{{userReview.timestamp | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+					<hr>
+					{{userReview.review}}
+					<hr>
+					<div ng-controller="deathMatchPageCtrl">
+						<span class="voting" ng-if="isLoggedIn">
+							<button class="btn btn-success votes" ng-click="upvote(userReview._id, userReview.user._id, userReview.score)">+</button>
+							<button class="btn btn-danger votes" ng-click="downvote(userReview._id, userReview.user._id, userReview.score)">-</button>
+						</span>
+						{{userReview.score}}
+					</div>
+				</div>
+			</div>
 </div>
 </div>
+
+
+
+
+
+

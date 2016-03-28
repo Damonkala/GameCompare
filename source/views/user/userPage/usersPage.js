@@ -11,10 +11,8 @@ angular.module('gameCompare')
 		var token = jwtHelper.decodeToken(cookies)
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
 	}
-	console.log("COOKIES", cookies)
 	UserService.isAuthed(cookies)
 	.then(function(res, err){
-		console.log(res.data)
 		if (res.data === "authRequired"){
 			// $location.path('/login')
 		} else{
@@ -23,10 +21,7 @@ angular.module('gameCompare')
 	})
 	UserService.page($state.params.username)
 	.then(function(res) {
-		console.log("PARAMS", $state.params.name)
-		console.log(res.data.favorites)
 		$scope.user = res.data;
-		console.log("HELLO THIS IS ", $scope.user);
 		$scope.favorites = res.data.favorites;
 		if(token){
 			$scope.isOwnPage = $scope.user.username === token.username || token.isAdmin === true;
@@ -42,38 +37,30 @@ angular.module('gameCompare')
 		}
 		if(res.data.avatar){
 			$scope.profileImageSrc = `data:image/jpeg;base64,${$scope.user.avatar}`;
-			console.log("Alright, there should be an image, but it's not showing up, sorry", $scope.profileImageSrc);
 		} else {
 			$scope.profileImageSrc = `http://gitrnl.networktables.com/resources/userfiles/nopicture.jpg`
-			console.log("Alright, there isn't an image, but nothing is showing up, what the fuck!?");
 		}
 
 	}, function(err) {
 		console.error(err)
 	});
 	$scope.test = function(){
-		console.log("TESTING")
 	}
 	$scope.removeFavorite = function (userId){
 		UserService.unFavoriteUser(userId)
 		.then(function(res){
-			console.log(res.data)
 			$scope.userInfo = res.data
 			var cookie = $cookies.get('token');
 			var token = jwtHelper.decodeToken(cookie);
-			console.log("TOKEN: ",token)
-			console.log("INFO: ",$scope.userInfo)
 			$scope.favorites = $scope.userInfo.favorites;
 		})
 	}
 
 	$scope.toggleEdit = function(){
-		console.log($scope.isEditing)
 		$scope.isEditing = !$scope.isEditing
 	}
 
 	$scope.saveEdits = function(){
-		console.log("save edits!!!!!" , $scope.editPayload);
 		if(!$scope.editPayload.phone){$scope.editPayload.phone = 0};
 		if(!$scope.editPayload.address){$scope.editPayload.address = ""};
 		UserService.editAccount($scope.editPayload)
@@ -82,18 +69,14 @@ angular.module('gameCompare')
 			$scope.$emit('edit', response.data)
 			$scope.user = response.data;
 			$scope.isEditing = !$scope.isEditing;
-			console.log(response.data, "received")
 		})
 
 	}
 
 	$scope.uploadImage = function(image){
-		console.log(image)
 		UserService.uploadImage(image, $scope.user._id)
 		.then(function(res){
-			console.log(res.data)
 			$scope.profileImageSrc = `data:image/jpeg;base64,${res.data.avatar}`;
-			console.log($scope.profileImageSrc)
 
 		})
 	}
@@ -106,7 +89,6 @@ angular.module('gameCompare')
 	$scope.exposeData = function(){console.log($scope.myFile)}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
-		console.log(res.data)
 		if (res.data === "authRequired"){
 			// $location.path('/login')
 		}
