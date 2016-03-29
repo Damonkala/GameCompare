@@ -14,7 +14,7 @@
 			<p>
 				Genres: {{genre.name}}
 			</p>
-	</div>
+		</div>
 	</div>
 	<div class="reviews col-xs-12 col-sm-8 col-sm-offset-2">
 		<div class="review radar" ng-if="gamesradar.criticScore > 0 || gamesradar.userScore > 0">
@@ -95,3 +95,39 @@
 	</tr>
 </table>
 <br>
+<div ng-controller="listCtrl">
+	<button  class="magicButton" ng-click="checkAll()">Check all</button>
+	<button  class="magicButton" ng-click="uncheckAll()">Uncheck all</button>
+	<button type="button" name="button" ng-click="compareTwoGames()" class="magicButton" id="mostImportantButton">Compare</button>
+	<table class="table table-hover table-bordered games-table" ng-if="!games">
+		<tr>
+			<th>Cover</th>
+			<th>Name</th>
+			<th>Console(s)</th>
+			<th>Date</th>
+			<th>Compare</th>
+		</tr>
+		<tr ng-repeat="games in dbGames | filter:searchBox">
+			<td>
+				<img src="https:{{games.cover[0].url}}" class="thumb game-pic">
+			</td>
+			<td class="game-name">
+				{{games.name}}
+			</td>
+			<td>
+				<div ng-repeat="release in games.releases" class="platform">
+					{{release.platform_name}}
+				</div>
+			</td>
+			<td>
+				<div ng-repeat="release in games.releases" class="release">
+					{{release.release_date}}
+				</div>
+			</td>
+			<td class="compare">
+				<input type="checkbox" checklist-model="game.dbGames" checklist-value="games" class="checkbox" name={{games.name}} id={{games.name}}>
+				<label for={{games.name}}>Compare</label>
+			</td>
+		</tr>
+	</table>
+</div>

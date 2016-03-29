@@ -80,15 +80,7 @@ app.service('DeathMatchService', function($http, $location, $rootScope, $cookies
 	this.openMatch = function(id){
 		return $http.get(`/deathMatches/${id}`)
 	};
-	this.writeReview = function(id, review){
-		return $http.put(`/deathMatches/${id}`, review)
-	};
-	this.upvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`/deathMatches/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
-	}
-	this.downvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`/deathMatches/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
-	}
+
 })
 
 'use strict';
@@ -304,38 +296,39 @@ app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtH
 
 angular.module('gameCompare')
 
-.controller('listCtrl', function($scope, $http, $state, GameService){
+.controller('listCtrl', function($scope, $http, $state, GameService, $timeout){
 	$scope.loading = false;
 	var loadingPics = ["http://www.contemporary-home-computing.org/idioms/wp-content/uploads/mario.gif", "http://vignette3.wikia.nocookie.net/kirby/images/7/70/Sonic_1_Running.gif/revision/latest?cb=20140909010956&path-prefix=en", "http://rs128.pbsrc.com/albums/p195/R3DG3CKO/pacman.gif~c200", "https://49.media.tumblr.com/e818add8c7f18bf8c6e45d61ec83d89a/tumblr_ms85ibKsgO1rf4po9o1_250.gif"]
 	$scope.init = function(){
 		$http.get(`/games/`).then( function victory(resp) {
-				$scope.dbGames = resp.data;
+			$scope.dbGames = resp.data;
+			$scope.dbGames = resp.data;
 		}, function failure(err) {
 			console.log(err);
 		});
 	}
 	$scope.init();
 	$scope.game = {
-		names: []
-	}
-	$scope.checkAll = function(){
-		$scope.game.names = angular.copy($scope.names);
-	}
+		dbGames: []
+	};
+	$scope.checkAll = function() {
+		$scope.game.dbGames = angular.copy($scope.dbGames);
+	};
 	$scope.uncheckAll = function() {
-		$scope.game.names = [];
+		$scope.game.dbGames = [];
 	};
 	$scope.compareTwoGames = function() {
-		if($scope.game.names.length > 2){
+		if($scope.game.dbGames.length > 2){
 			var randomPair = {};
-			randomPair.game1 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
-			randomPair.game2 = $scope.game.names[Math.floor(Math.random()*$scope.game.names.length)];
+			randomPair.game1 = $scope.game.dbGames[Math.floor(Math.random()*$scope.game.dbGames.length)];
+			randomPair.game2 = $scope.game.dbGames[Math.floor(Math.random()*$scope.game.dbGames.length)];
 			if(randomPair.game1.name === randomPair.game2.name){
 				$scope.compareTwoGames();
 			} else {
 				$state.go('game', {"game1": randomPair.game1.name, "game2": randomPair.game2.name})
 			}
 		} else {
-			$state.go('game', {"game1": $scope.game.names[0].name, "game2": $scope.game.names[1].name})
+			$state.go('game', {"game1": $scope.game.dbGames[0].name, "game2": $scope.game.dbGames[1].name})
 		}
 	}
 	$scope.search = function(term){
@@ -346,7 +339,7 @@ angular.module('gameCompare')
 			$scope.loading = false;
 			$scope.games = resp.data.games;
 		}, function failure(err) {
-			console.log(err);
+			console.console.error();(err);
 		});
 	}
 	$scope.openGame = function(id, name){
@@ -401,9 +394,10 @@ angular.module('gameCompare')
 				confirmButtonColor: "#DD6B55",
 				confirmButtonText: "Great!",
 			});
-			$scope.$apply(function () {
+			$timeout(function() {
 				$scope.init();
-			})
+				console.log('update with timeout fired')
+			}, 10000);
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -422,6 +416,58 @@ angular.module('gameCompare')
 		templateUrl: "views/search-view.html"
 	}
 })
+
+'use strict';
+
+var app = angular.module('gameCompare');
+
+app.service('UserReviewService', function($http, $location, $rootScope, $cookies, jwtHelper){
+	this.writeReview = function(id, review){
+		return $http.put(`/deathMatches/${id}`, review)
+	};
+	this.upvote = function(userId, deathMatch, review, criticId){
+		return $http.put(`/userReviews/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+	}
+	this.downvote = function(userId, deathMatch, review, criticId){
+		return $http.put(`/userReviews/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+	}
+	this.wroteReview = function(userInfoId, deathMatchId){
+		console.log("Made it to service!");
+		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+	};
+	this.hasVoted = function(userId, reviewId){
+		return $http.post('/userReviews/hasVoted', {userId: userId, reviewId: reviewId})
+	}
+})
+
+'use strict';
+
+angular.module('gameCompare')
+.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
+	$scope.submit = function(user){
+		UserService.login(user)
+		.then(function(res){
+			$scope.$emit('loggedIn');
+			if(res.data === "Incorrect Username or Password!"){
+				swal({
+					type: "error",
+					title: "Uh-Oh!",
+					text: res.data,
+					showConfirmButton: true,
+					confirmButtonText: "I hear ya.",
+				});
+			} else{
+				document.cookie = 'token' + "=" + res.data;
+				var token = $cookies.get('token');
+				var decoded = jwtHelper.decodeToken(token);
+				UserService.loggedIn = 'true';
+				$state.go('userPage', {"username": user.username})
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	}
+});
 
 'use strict';
 
@@ -484,35 +530,6 @@ app.service('UserService', function($http, $location, $rootScope, $cookies, jwtH
 		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})
 	}
 })
-
-'use strict';
-
-angular.module('gameCompare')
-.controller('loginCtrl', function($scope, $state, $rootScope, UserService, jwtHelper, $cookies){
-	$scope.submit = function(user){
-		UserService.login(user)
-		.then(function(res){
-			$scope.$emit('loggedIn');
-			if(res.data === "Incorrect Username or Password!"){
-				swal({
-					type: "error",
-					title: "Uh-Oh!",
-					text: res.data,
-					showConfirmButton: true,
-					confirmButtonText: "I hear ya.",
-				});
-			} else{
-				document.cookie = 'token' + "=" + res.data;
-				var token = $cookies.get('token');
-				var decoded = jwtHelper.decodeToken(token);
-				UserService.loggedIn = 'true';
-				$state.go('userPage', {"username": user.username})
-			}
-		}, function(err) {
-			console.error(err);
-		});
-	}
-});
 
 'use strict';
 
@@ -698,7 +715,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster, UserReviewService){
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -723,7 +740,7 @@ angular.module('gameCompare')
 		})
 	}
 	$scope.hasVoted = function(userId, reviewId){
-		UserService.hasVoted(userId, reviewId)
+		UserReviewService.hasVoted(userId, reviewId)
 		.then(function(res, err){
 			if(res.data === "voted"){
 				return "hasVoted";
@@ -744,11 +761,11 @@ angular.module('gameCompare')
 	});
 
 	$scope.upvote = function(gameId, criticId, reviewScore){
-		DeathMatchService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		UserReviewService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 		.then($state.go($state.current, {}, {reload: true}))
 	}
 	$scope.downvote = function(gameId, criticId){
-		DeathMatchService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
+		UserReviewService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
 		.then($state.go($state.current, {}, {reload: true}))
 	}
 
@@ -760,7 +777,7 @@ angular.module('gameCompare')
 			review.deathMatch = $state.params.id;
 			review.user = $scope.userInfo._id;
 			review.review = content;
-			DeathMatchService.writeReview($state.params.id, review).then( function victory(resp){
+			UserReviewService.writeReview($state.params.id, review).then( function victory(resp){
 				DeathMatchService.openMatch(resp.data._id)
 				.then( function victory(resp) {
 					$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)

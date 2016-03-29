@@ -46,6 +46,7 @@ app.use(cookieParser())
 app.use('/user', require('./routes/user'))
 app.use('/games', require('./routes/games'))
 app.use('/deathMatches', require('./routes/deathMatches'))
+app.use('/userReviews', require('./routes/userReviews'))
 app.use('/auth', require('./routes/auth'))
 app.use('/imageUpload', require('./routes/imageUpload'))
 
