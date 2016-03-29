@@ -1,5 +1,6 @@
 <input type="text" placeholder="Game Name" ng-model="searchBox">
 <button ng-click="search(searchBox)" class="btn magicButton">Search for Game</button>
+<button ng-click="upd8()">upd8</button>
 <img src="{{loadingImage}}" alt="" ng-if="!reviews && loading || !games && loading">
 <div ng-if="gameInfo && reviews" class="happyBox search-result col-xs-12 col-sm-8 col-sm-offset-2">
 	<div class="col-xs-12 col-sm-8 col-sm-offset-2">
@@ -99,7 +100,7 @@
 	<button  class="magicButton" ng-click="checkAll()">Check all</button>
 	<button  class="magicButton" ng-click="uncheckAll()">Uncheck all</button>
 	<button type="button" name="button" ng-click="compareTwoGames()" class="magicButton" id="mostImportantButton">Compare</button>
-	<table class="table table-hover table-bordered games-table" ng-if="!games">
+	<table class="table table-hover table-bordered games-table">
 		<tr>
 			<th>Cover</th>
 			<th>Name</th>

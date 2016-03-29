@@ -284,12 +284,20 @@ angular.module('gameCompare')
 	$scope.init = function(){
 		$http.get(`/games/`).then( function victory(resp) {
 			$scope.dbGames = resp.data;
-			$scope.dbGames = resp.data;
+			console.log("Current games in the list", $scope.dbGames);
 		}, function failure(err) {
 			console.log(err);
 		});
 	}
 	$scope.init();
+	$scope.upd8 = function(){
+		$http.get(`/games/`).then( function victory(resp) {
+			$scope.dbGames = resp.data;
+			console.log("Upd8ted list", $scope.dbGames);
+		}, function failure(err) {
+			console.log(err);
+		});
+	}
 	$scope.game = {
 		dbGames: []
 	};
@@ -379,7 +387,7 @@ angular.module('gameCompare')
 			$timeout(function() {
 				$scope.init();
 				console.log('update with timeout fired')
-			}, 10000);
+			}, 3000);
 		}, function failure(err) {
 			console.log(err);
 		});
