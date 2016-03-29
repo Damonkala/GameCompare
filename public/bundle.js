@@ -88,19 +88,10 @@ app.service('DeathMatchService', function($http, $location, $rootScope, $cookies
 angular.module('gameCompare')
 
 .controller('gameCtrl', function($scope, $http, UserService, GameService, $cookies, jwtHelper, $location, ScopeMaster, $state){
-	// GameService.load()
-	// .then( function victory(resp) {
-	// 	console.log("INFO:", resp.data);
-	// 	$scope.dbGames = resp.data;
-	// }, function failure(err) {
-	// 	console.log(err);
-	// });
-
-	$scope.readGame2 = function(){
-	}
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
+		console.log("I AM ", $scope.userInfo);
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
@@ -120,20 +111,9 @@ angular.module('gameCompare')
 		$http.post(`/deathMatches`, deathmatch).then(function victory(resp){
 			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
-			console.log(err);
+			console.log("OH NO!", err);
 		})
 	}
-	// $scope.compare = function(game1, game2){
-	// 	var games = {}
-	// 	games.game1 = game1;
-	// 	games.game2 = game2;
-	// 	GameService.startBattle(games).then(function victory(resp){
-	// 		$scope.gameOne = ScopeMaster.setScopes(resp.data[0][0])
-	// 		$scope.gameTwo = ScopeMaster.setScopes(resp.data[1][0])
-	// 	}, function failure(err){
-	// 		console.log(err);
-	// 	})
-	// }
 	if(!$state.params.game1 || !$state.params.game2){
 		$state.go('list');
 	}
@@ -144,7 +124,9 @@ angular.module('gameCompare')
 	.then(function(res) {
 		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
 		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
+		console.log($scope.gameOne, $scope.gameTwo);
 	}, function(err) {
+		console.log("Something went wrong, whoops");
 		console.error(err)
 	})
 })
