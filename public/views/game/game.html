@@ -1,22 +1,5 @@
-<div class="container">
+<div ng-controller="deathMatchPageCtrl" class="container">
   <button ng-if="isLoggedIn" class="btn btn-danger name battle-btn" ng-click="startBattle()" ng-if="gameOne && gameTwo">BEGIN BATTLE!</button>
-  <game-directive game-one="gameOne" game-two="gameTwo"></game-directive>
+  <game-directive></game-directive>
   <button ng-if="isLoggedIn" class="btn btn-danger name battle-btn" ng-click="startBattle()" ng-if="gameOne && gameTwo">BEGIN BATTLE!</button>
 </div>
-<!-- <select ng-model="game1">
-<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
-{{games.name}}
-</option>
-</select>
-<select ng-model="game2">
-<option ng-repeat="games in dbGames | orderBy:'name'" value="{{games.name}}">
-{{games.name}}
-</option>
-</select>
-<button class="btn btn-primary" ng-click="compare(game1, game2)">Compare</button>
-<br>
--->
-
-<!-- <div ng-app="gameCompare" ng-controller="gameCtrl"> -->
-  <!-- <game-directive game-one="gameTwo" game-two="gameOne"></game-directive> -->
-<!-- </div> -->

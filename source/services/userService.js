@@ -53,7 +53,7 @@ app.service('UserService', function($http, $location, $rootScope, $cookies, jwtH
 		return $http.post(`/auth`, {token:token})
 	};
 	this.wroteReview = function(userInfoId, deathMatchId){
-		return $http.post(`/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
 	this.hasVoted = function(userId, reviewId){
 		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})

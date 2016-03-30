@@ -514,7 +514,7 @@ app.service('UserService', function($http, $location, $rootScope, $cookies, jwtH
 		return $http.post(`/auth`, {token:token})
 	};
 	this.wroteReview = function(userInfoId, deathMatchId){
-		return $http.post(`/deathMatches/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
+		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
 	this.hasVoted = function(userId, reviewId){
 		return $http.post('/deathMatches/hasVoted', {userId: userId, reviewId: reviewId})
@@ -705,7 +705,7 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster, UserReviewService){
+.controller('deathMatchPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $http, DeathMatchService, GameService, ScopeMaster, UserReviewService, $timeout){
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -720,12 +720,15 @@ angular.module('gameCompare')
 		}
 	})
 	$scope.hasWrittenReview = function(userId, deathMatchId){
+		console.log(userId, "!!!!!!!!!GAME BRO!!!!!!!!!!!", userId);
 		UserService.wroteReview(userId, deathMatchId)
 		.then(function(res , err){
 			if (res.data === "written"){
 				$scope.wroteReview = true;
+				console.log("YOU ALREADY WROTE A REVIEW IDIOT!");
 			} else {
 				$scope.wroteReview = false;
+				console.log("YOU HAVENT WROTE A REVIEW IDIOT!");
 			}
 		})
 	}
@@ -739,24 +742,37 @@ angular.module('gameCompare')
 			}
 		})
 	}
-	DeathMatchService.openMatch($state.params.id)
-	.then( function victory(resp) {
-		$scope.deathMatchId = $state.params.id;
-		$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
-		$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
-		$scope.game1UserReviews = resp.data.game1UserReviews
-		$scope.game2UserReviews = resp.data.game2UserReviews
-	}, function failure(err) {
-		console.log(err);
-	});
-
+	$scope.init = function(){
+		DeathMatchService.openMatch($state.params.id)
+		.then( function victory(resp) {
+			$scope.deathMatchId = $state.params.id;
+			$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
+			$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
+			$scope.game1UserReviews = resp.data.game1UserReviews
+			$scope.game2UserReviews = resp.data.game2UserReviews
+			console.log($scope.gameOne.name, "VS", $scope.gameTwo.name);
+		}, function failure(err) {
+			console.log(err);
+		});
+	}
+	$scope.init()
 	$scope.upvote = function(gameId, criticId, reviewScore){
 		UserReviewService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
-		.then($state.go($state.current, {}, {reload: true}))
+		.then(function(){
+			$timeout(function() {
+				$scope.init();
+				console.log('update with timeout fired')
+			});
+		})
 	}
 	$scope.downvote = function(gameId, criticId){
 		UserReviewService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
-		.then($state.go($state.current, {}, {reload: true}))
+		.then(function(){
+			$timeout(function() {
+				$scope.init();
+				console.log('update with timeout fired')
+			});
+		})
 	}
 
 	$scope.writeReview = function(content, game, gameName){
@@ -770,11 +786,11 @@ angular.module('gameCompare')
 			UserReviewService.writeReview($state.params.id, review).then( function victory(resp){
 				DeathMatchService.openMatch(resp.data._id)
 				.then( function victory(resp) {
-					$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
-					$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
-					$scope.game1UserReviews = resp.data.game1UserReviews
-					$scope.game2UserReviews = resp.data.game2UserReviews
-					$state.go($state.current, {}, {reload: true});
+					$timeout(function() {
+						$scope.init();
+						$scope.hasWrittenReview($scope.userInfo._id, $state.params.id);
+						console.log('update with timeout fired')
+					});
 				}, function failure(err) {
 					console.log(err);
 				});
@@ -796,13 +812,6 @@ angular.module('gameCompare')
 .directive("deathMatchDirective", function() {
 	return {
 		restrict: 'AE',
-		scope: {
-			gameOne: "=",
-			gameTwo: "=",
-			userReviews: "=",
-			gameNum: "=",
-			gameName: "=",
-		},
 		templateUrl: "views/death-match-view.html"
 	};
 })
