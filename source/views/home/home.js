@@ -8,8 +8,4 @@ angular.module('gameCompare')
 	}, function failure(err) {
 		console.log(err);
 	});
-
-	$scope.compare = function(){
-	}
-
 })

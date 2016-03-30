@@ -35,7 +35,7 @@ angular.module('gameCompare')
 				imageUrl: "images/thumbs-up.jpg"
 			});			$state.go('login');
 		}, function(err){
-			console.log(err);
+			console.error(err);
 		});
 	}
 });

@@ -8,7 +8,6 @@ angular.module('gameCompare')
 	$scope.init = function(){
 		$http.get(`/games/`).then( function victory(resp) {
 			$scope.dbGames = resp.data;
-			console.log("Current games in the list", $scope.dbGames);
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -17,7 +16,6 @@ angular.module('gameCompare')
 	$scope.upd8 = function(){
 		$http.get(`/games/`).then( function victory(resp) {
 			$scope.dbGames = resp.data;
-			console.log("Upd8ted list", $scope.dbGames);
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -53,7 +51,7 @@ angular.module('gameCompare')
 			$scope.loading = false;
 			$scope.games = resp.data.games;
 		}, function failure(err) {
-			console.console.error();(err);
+			console.console.error(err);
 		});
 	}
 	$scope.openGame = function(id, name){

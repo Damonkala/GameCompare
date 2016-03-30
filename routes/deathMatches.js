@@ -9,13 +9,11 @@ var UserReview = require('../models/UserReview.js');
 var User = require('../models/User.js');
 
 router.get('/', function(req, res){
-	console.log("RETURNING ALL DEATH MATCHES");
 	DeathMatch.find({}, function(err, deathMatch){
 		res.send(deathMatch)
 	}).populate('game1 game2 user')
 })
 router.post('/', function(req, res){
-	console.log("MAKING A NEW DEATH MATCH", req.body);
 	DeathMatch.make(req.body, function(err, deathMatch){
 		res.send(deathMatch)
 		User.findByIdAndUpdate(deathMatch.user, { $push: { deathMatches: deathMatch }, $inc: {score: 1}}, function(err, deathMatch) {
@@ -24,9 +22,7 @@ router.post('/', function(req, res){
 	})
 })
 router.get('/:id', function(req, res){
-	console.log("DE ID", req.params.id);
 	DeathMatch.findById(req.params.id).deepPopulate("game1UserReviews.user game2UserReviews.user game1 game2 user game1UserReviews game2UserReviews").exec(function(err, deathMatch) {
-		console.log("POP?", deathMatch);
 		res.status(err ? 400 : 200).send(err || deathMatch)
 	})
 })

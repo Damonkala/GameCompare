@@ -32,16 +32,13 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
   var username;
   if(cookies){
     $scope.userInfo = (jwtHelper.decodeToken(cookies))
-    console.log("Got cookies?");
   }
   UserService.isAuthed(cookies)
   .then(function(res , err){
     if (res.data !== "authRequired"){
-      console.log("You are logged in");
       $rootScope.isLoggedIn = true;
     } else {
       $rootScope.isLoggedIn = false;
-      console.log("You are not logged in");
     }
   })
   $scope.$on('loggedIn', function(){

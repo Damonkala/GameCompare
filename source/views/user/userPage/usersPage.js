@@ -8,16 +8,13 @@ angular.module('gameCompare')
 	$scope.editPayload = {};
 	var cookies = $cookies.get('token');
 	if(cookies){
-		console.log("cookies in the userpage");
 		var token = jwtHelper.decodeToken(cookies)
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
 		UserService.isAuthed(cookies)
 		.then(function(res, err){
 			if (res.data === "authRequired"){
 				// $location.path('/login')
-				console.log("not logged in?");
 			} else{
-				console.log("So you are logged in!");
 				$rootScope.isLoggedIn = true;
 			}
 		})

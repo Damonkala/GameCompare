@@ -24,7 +24,6 @@ var userSchema = Schema({
 userSchema.plugin(deepPopulate);
 
 userSchema.statics.register = function(user, cb){
-	console.log("THIS IS THE NEW USER WE'RE REGISTERING", user);
 	var username = user.username;
 	var email = user.email;
 	var name = user.name;
@@ -32,7 +31,6 @@ userSchema.statics.register = function(user, cb){
 		bcrypt.hash(user.password, salt, function(err, password) {
 			User.find({$or: [{username: username}, {email: email}] }, function(err, user){
 				if (err || user[0]){return console.log(err) || console.log("Username or email already exists")}
-				console.log("HEY! WE GOTA  NEW USER!!!!!!!", user);
 				var newUser = new User;
 				newUser.username = username;
 				newUser.email = email;
@@ -40,9 +38,6 @@ userSchema.statics.register = function(user, cb){
 				newUser.password = password;
 				console.log(newUser)
 				newUser.save(function(err, savedUser){
-					console.log('saved user: ', savedUser)
-					console.log(err);
-					console.log("HEY! WE SAVED A NEW USER INTO THE DATABASE YO!!!!!!!", savedUser);
 					savedUser.password = null;
 					cb(err, savedUser)
 				})

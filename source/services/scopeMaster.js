@@ -23,34 +23,13 @@ app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtH
 		trueGame.ignCriticScore = data.ign.length ? data.ign[0].criticScore : 0
 		trueGame.ignUserScore = data.ign.length ? data.ign[0].userScore : 0
 		trueGame.ignUrl = data.ign.length ? data.ign[0].url : undefined
-		// if(data.gamespot){
-		// 	trueGame.gameSpot = data.gamespot[0];
-		// } else{
-		// 	trueGame.gameSpot = noReview;
-		// }
-		// if(data.gamesradar){
-		// 	trueGame.gamesRadar = data.gamesradar[0];
-		// } else{
-		// 	trueGame.gamesRadar = noReview;
-		// }
-		// trueGame.gamesRadarCriticScore = data.gamesradar[0].criticScore;
-		// trueGame.gamesRadarUserScore = data.gamesradar[0].userScore;
-		// trueGame.gamesRadarUrl = data.gamesradar[0].url;
-		//
-		// trueGame.ignCriticScore = data.ign[0].criticScore;
-		// trueGame.ignUserScore = data.ign[0].userScore;
-		// trueGame.ignUrl = data.ign[0].url;
-		//
-		// trueGame.metacriticCriticScore = data.metacritic[0].criticScore;
-		// trueGame.metacriticUserScore = data.metacritic[0].userScore;
-		// trueGame.metacriticUrl = data.metacritic[0].url;
 
 		var criticScore = [trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore]
 		var userScore = [trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore]
 
 		function totalScore(scores) {
 			var total = [];
-			
+
 			for(var i = 0; i<scores.length;i++){
 				if(!Number(scores[i])){
 					total.push(0)
@@ -59,16 +38,12 @@ app.service('ScopeMaster', function($http, $location, $rootScope, $cookies, jwtH
 				}
 			}
 			return total.reduce(function(a, b){
-				// var nonWholeNumber = a + b;
-				// return Math.max( Math.round(nonWholeNumber * 10) / 10).toFixed(2);
 				return a + b;
 
 			})
 		}
-		// trueGame.totalCritic = totalScore([trueGame.gameSpotCriticScore, trueGame.gamesRadarCriticScore, trueGame.ignCriticScore, trueGame.metacriticCriticScore])
 		trueGame.totalCritic = totalScore(criticScore)
 		trueGame.totalUser = totalScore(userScore)
-		// trueGame.totalUser = totalScore([trueGame.gameSpotUserScore, trueGame.gamesRadarUserScore, trueGame.ignUserScore, trueGame.metacriticUserScore])
 
 		return trueGame
 	}

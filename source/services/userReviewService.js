@@ -13,7 +13,6 @@ app.service('UserReviewService', function($http, $location, $rootScope, $cookies
 		return $http.put(`/userReviews/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
 	}
 	this.wroteReview = function(userInfoId, deathMatchId){
-		console.log("Made it to service!");
 		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
 	this.hasVoted = function(userId, reviewId){

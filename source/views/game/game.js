@@ -6,7 +6,6 @@ angular.module('gameCompare')
 	var cookies = $cookies.get('token');
 	if(cookies){
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-		console.log("I AM ", $scope.userInfo);
 	}
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
@@ -22,7 +21,6 @@ angular.module('gameCompare')
 		deathmatch.user = $scope.userInfo._id;
 		deathmatch.game1 = $scope.gameOne;
 		deathmatch.game2 = $scope.gameTwo;
-		// GameService.startBattle(deathmatch)
 		$http.post(`/deathMatches`, deathmatch).then(function victory(resp){
 			$state.go('deathMatchPage', {"id": resp.data._id})
 		}, function failure(err){
@@ -39,9 +37,7 @@ angular.module('gameCompare')
 	.then(function(res) {
 		$scope.gameOne = ScopeMaster.setScopes(res.data.game1[0])
 		$scope.gameTwo = ScopeMaster.setScopes(res.data.game2[0])
-		console.log($scope.gameOne, $scope.gameTwo);
 	}, function(err) {
-		console.log("Something went wrong, whoops");
 		console.error(err)
 	})
 })

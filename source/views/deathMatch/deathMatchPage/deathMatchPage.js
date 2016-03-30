@@ -11,22 +11,18 @@ angular.module('gameCompare')
 	UserService.isAuthed(cookies)
 	.then(function(res , err){
 		if (res.data === "authRequired"){
-			//  $location.path('/login')
 		} else {
 			$scope.isLoggedIn = true;
 			$scope.hasWrittenReview($scope.userInfo._id, $state.params.id)
 		}
 	})
 	$scope.hasWrittenReview = function(userId, deathMatchId){
-		console.log(userId, "!!!!!!!!!GAME BRO!!!!!!!!!!!", userId);
 		UserService.wroteReview(userId, deathMatchId)
 		.then(function(res , err){
 			if (res.data === "written"){
 				$scope.wroteReview = true;
-				console.log("YOU ALREADY WROTE A REVIEW IDIOT!");
 			} else {
 				$scope.wroteReview = false;
-				console.log("YOU HAVENT WROTE A REVIEW IDIOT!");
 			}
 		})
 	}
@@ -48,7 +44,6 @@ angular.module('gameCompare')
 			$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
 			$scope.game1UserReviews = resp.data.game1UserReviews
 			$scope.game2UserReviews = resp.data.game2UserReviews
-			console.log($scope.gameOne.name, "VS", $scope.gameTwo.name);
 		}, function failure(err) {
 			console.log(err);
 		});
@@ -61,7 +56,6 @@ angular.module('gameCompare')
 			.then( function victory(resp) {
 				$timeout(function() {
 					$scope.init();
-					console.log('update with timeout fired')
 				});
 			}, function failure(err) {
 				console.log(err);
@@ -75,7 +69,6 @@ angular.module('gameCompare')
 			.then( function victory(resp) {
 				$timeout(function() {
 					$scope.init();
-					console.log('update with timeout fired')
 				});
 			}, function failure(err) {
 				console.log(err);
@@ -97,7 +90,6 @@ angular.module('gameCompare')
 					$timeout(function() {
 						$scope.init();
 						$scope.hasWrittenReview($scope.userInfo._id, $state.params.id);
-						console.log('update with timeout fired')
 					});
 				}, function failure(err) {
 					console.log(err);

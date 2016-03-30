@@ -18,7 +18,6 @@ router.get('/', function(req, res){
 	})
 })
 router.post('/getTwoGames', function(req, res){
-	// console.log("Are we okay on the REQUEST part?:", req.body);
 	var returnGames = {};
 	Game.find({name: req.body.game1}, function(err, game){
 		returnGames.game1 = game;
@@ -29,19 +28,15 @@ router.post('/getTwoGames', function(req, res){
 	})
 })
 router.post('/compare', function(req, res){
-	// console.log("GET REQED!", req.body);
-	// console.log("REQED LENGTH!", req.body.length);
+	// console.log("GET REQED!", req.body)	// console.log("REQED LENGTH!", req.body.length);
 	var games = []
 	var reads = 0;
 	for(var key in req.body){
-		// console.log("In req", key);
 		var game = req.body[key]
 		Game.find({name: game}, function(err, game){
 			games.push(game);
 			reads++;
-			// console.log("READ", reads);
 			if(reads === 2){
-				// console.log("SEND", games);
 				res.send(games)
 			}
 		})
@@ -79,12 +74,10 @@ router.get('/page/scores/:name', function(req, res){
 	name = name.replace(/\&/g, '%26');
 	name = name.replace(":", '')
 	name = name.replace("é", 'e')
-	console.log("NAME CHEQ", name);
 	unirest.get(`https://ahmedakhan-game-review-information-v1.p.mashape.com/api/v1/information?game_name=${name}`)
 	.header("X-Mashape-Key", `${api_key2}`)
 	.header("Accept", "application/json")
 	.end(function (result) {
-		console.log("send it back:", result.body);
 		res.send(result.body);
 	});
 })
@@ -106,7 +99,6 @@ router.get('/page/stats/:id', function(req, res){
 			str += chunk;
 		});
 		response.on('end', function () {
-			// console.log("Heya", str);
 			res.send(str)
 		});
 	}
@@ -115,7 +107,6 @@ router.get('/page/stats/:id', function(req, res){
 })
 
 router.post('/save'), function(req, res){
-	// console.log("SAVE ME!!!!!!", req.body.newGame);
 	Game.create(req.body.newGame, function(err, game){
 		res.send(game)
 	})

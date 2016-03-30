@@ -9,7 +9,7 @@ angular.module('gameCompare')
 		deathMatches = resp.data;
 		$scope.deathMatches = resp.data;
 	}, function failure(err) {
-		console.log(err);
+		console.error();(err);
 	});
 	var deathMatches;
 	$scope.comparing = function(score1, score2){
