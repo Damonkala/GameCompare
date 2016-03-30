@@ -32,19 +32,20 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
   var username;
   if(cookies){
     $scope.userInfo = (jwtHelper.decodeToken(cookies))
+    console.log("Got cookies?");
   }
   UserService.isAuthed(cookies)
   .then(function(res , err){
     if (res.data !== "authRequired"){
-      // $state.go('usersList');
-      $scope.isLoggedIn = true;
+      console.log("You are logged in");
+      $rootScope.isLoggedIn = true;
     } else {
-      $scope.isLoggedIn = false;
-      // $state.go('game');
+      $rootScope.isLoggedIn = false;
+      console.log("You are not logged in");
     }
   })
   $scope.$on('loggedIn', function(){
-    $scope.isLoggedIn = true;
+    $rootScope.isLoggedIn = true;
     var cookies = $cookies.get('token');
     if(cookies){
       $scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -59,9 +60,9 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
     }
   })
   $scope.logout = function(){
-    $scope.isLoggedIn = false;
+    $rootScope.isLoggedIn = false;
     $cookies.remove('token');
-    $state.go('game')
+    $state.go('list')
   }
   $scope.goHome = function(){
     var username = $scope.userInfo.username

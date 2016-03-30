@@ -32,19 +32,20 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
   var username;
   if(cookies){
     $scope.userInfo = (jwtHelper.decodeToken(cookies))
+    console.log("Got cookies?");
   }
   UserService.isAuthed(cookies)
   .then(function(res , err){
     if (res.data !== "authRequired"){
-      // $state.go('usersList');
-      $scope.isLoggedIn = true;
+      console.log("You are logged in");
+      $rootScope.isLoggedIn = true;
     } else {
-      $scope.isLoggedIn = false;
-      // $state.go('game');
+      $rootScope.isLoggedIn = false;
+      console.log("You are not logged in");
     }
   })
   $scope.$on('loggedIn', function(){
-    $scope.isLoggedIn = true;
+    $rootScope.isLoggedIn = true;
     var cookies = $cookies.get('token');
     if(cookies){
       $scope.userInfo = (jwtHelper.decodeToken(cookies))
@@ -59,9 +60,9 @@ app.controller('MasterController', function(UserService, $cookies, jwtHelper, $s
     }
   })
   $scope.logout = function(){
-    $scope.isLoggedIn = false;
+    $rootScope.isLoggedIn = false;
     $cookies.remove('token');
-    $state.go('game')
+    $state.go('list')
   }
   $scope.goHome = function(){
     var username = $scope.userInfo.username
@@ -451,6 +452,7 @@ angular.module('gameCompare')
 				var token = $cookies.get('token');
 				var decoded = jwtHelper.decodeToken(token);
 				UserService.loggedIn = 'true';
+				$scope.$emit('loggedIn')
 				$state.go('userPage', {"username": user.username})
 			}
 		}, function(err) {
@@ -831,22 +833,25 @@ angular.module('gameCompare')
 angular.module('gameCompare')
 
 
-.controller('userPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64){
+.controller('userPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $rootScope){
 	$scope.user = {};
 	$scope.editPayload = {};
 	var cookies = $cookies.get('token');
 	if(cookies){
+		console.log("cookies in the userpage");
 		var token = jwtHelper.decodeToken(cookies)
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	}
-	UserService.isAuthed(cookies)
-	.then(function(res, err){
-		if (res.data === "authRequired"){
-			// $location.path('/login')
-		} else{
-			$scope.isLoggedIn = true;
-		}
-	})
+		UserService.isAuthed(cookies)
+		.then(function(res, err){
+			if (res.data === "authRequired"){
+				// $location.path('/login')
+				console.log("not logged in?");
+			} else{
+				console.log("So you are logged in!");
+				$rootScope.isLoggedIn = true;
+			}
+		})
+}
 	UserService.page($state.params.username)
 	.then(function(res) {
 		$scope.user = res.data;

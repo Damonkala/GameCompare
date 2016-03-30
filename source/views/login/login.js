@@ -19,6 +19,7 @@ angular.module('gameCompare')
 				var token = $cookies.get('token');
 				var decoded = jwtHelper.decodeToken(token);
 				UserService.loggedIn = 'true';
+				$scope.$emit('loggedIn')
 				$state.go('userPage', {"username": user.username})
 			}
 		}, function(err) {

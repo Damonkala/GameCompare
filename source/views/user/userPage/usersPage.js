@@ -3,22 +3,25 @@
 angular.module('gameCompare')
 
 
-.controller('userPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64){
+.controller('userPageCtrl', function($scope, $state, UserService, $cookies, jwtHelper, $location , $base64, $rootScope){
 	$scope.user = {};
 	$scope.editPayload = {};
 	var cookies = $cookies.get('token');
 	if(cookies){
+		console.log("cookies in the userpage");
 		var token = jwtHelper.decodeToken(cookies)
 		$scope.userInfo = (jwtHelper.decodeToken(cookies))
-	}
-	UserService.isAuthed(cookies)
-	.then(function(res, err){
-		if (res.data === "authRequired"){
-			// $location.path('/login')
-		} else{
-			$scope.isLoggedIn = true;
-		}
-	})
+		UserService.isAuthed(cookies)
+		.then(function(res, err){
+			if (res.data === "authRequired"){
+				// $location.path('/login')
+				console.log("not logged in?");
+			} else{
+				console.log("So you are logged in!");
+				$rootScope.isLoggedIn = true;
+			}
+		})
+}
 	UserService.page($state.params.username)
 	.then(function(res) {
 		$scope.user = res.data;
