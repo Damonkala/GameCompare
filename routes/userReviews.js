@@ -32,7 +32,8 @@ router.put('/upvote', function(req, res){
 					User.findByIdAndUpdate(req.body.criticId, { $inc: {score: 1}}, function(err, user) {
 						console.log(user);
 						User.findByIdAndUpdate(req.body.userInfo,  {$push: {votes: req.body.deathMatch}}, function(err, user){
-							console.log(user);
+							// console.log(user);
+							res.status(err ? 400 : 200).send(err || user)
 						})
 					})
 				})
@@ -51,7 +52,8 @@ router.put('/downvote', function(req, res){
 					User.findByIdAndUpdate(req.body.criticId, { $inc: {score: -1}}, function(err, user) {
 						console.log(user);
 						User.findByIdAndUpdate(req.body.userInfo,  {$pull: {votes: req.body.deathMatch}}, function(err, user){
-							console.log(user);
+							// console.log(user);
+							res.status(err ? 400 : 200).send(err || user)
 						})
 					})
 				})
