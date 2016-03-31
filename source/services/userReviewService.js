@@ -6,11 +6,8 @@ app.service('UserReviewService', function($http, $location, $rootScope, $cookies
 	this.writeReview = function(id, review){
 		return $http.put(`/deathMatches/${id}`, review)
 	};
-	this.upvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`/userReviews/upvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
-	}
-	this.downvote = function(userId, deathMatch, review, criticId){
-		return $http.put(`/userReviews/downvote`, {"userInfo": userId, "deathMatch": deathMatch, "review": review, "criticId": criticId})
+	this.vote = function(currentUserId, reviewVotedForId, authorVotedForId, voteValue){
+		return $http.put('/userReviews/vote', {currentUserId: currentUserId, reviewVotedForId: reviewVotedForId, authorVotedForId: authorVotedForId, voteValue: voteValue})
 	}
 	this.wroteReview = function(userInfoId, deathMatchId){
 		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})

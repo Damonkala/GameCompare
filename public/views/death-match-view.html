@@ -130,8 +130,8 @@
 						<hr>
 						<div>
 							<span class="voting" ng-if="isLoggedIn">
-								<button class="btn btn-success votes" ng-click="upvote(userReview._id, userReview.user._id, userReview.score)">+</button>
-								<button class="btn btn-danger votes" ng-click="downvote(userReview._id, userReview.user._id, userReview.score)">-</button>
+								<button class="btn btn-success votes" ng-click="vote(userReview._id, userReview.user._id, 1)">+</button>
+								<button class="btn btn-danger votes" ng-click="vote(userReview._id, userReview.user._id, -1)">-</button>
 							</span>
 							{{userReview.score}}
 						</div>
@@ -271,8 +271,8 @@
 							<hr>
 							<div>
 								<span class="voting" ng-if="isLoggedIn">
-									<button class="btn btn-success votes" ng-click="upvote(userReview._id, userReview.user._id, userReview.score)">+</button>
-									<button class="btn btn-danger votes" ng-click="downvote(userReview._id, userReview.user._id, userReview.score)">-</button>
+									<button class="btn btn-success votes" ng-click="vote(userReview._id, userReview.user._id, 1)">+</button>
+									<button class="btn btn-danger votes" ng-click="vote(userReview._id, userReview.user._id, -1)">-</button>
 								</span>
 								{{userReview.score}}
 							</div>

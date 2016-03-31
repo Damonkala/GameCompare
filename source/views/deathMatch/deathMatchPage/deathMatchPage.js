@@ -49,29 +49,12 @@ angular.module('gameCompare')
 		});
 	}
 	$scope.init()
-	$scope.upvote = function(gameId, criticId){
-		UserReviewService.upvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
-		.then( function victory(resp){
-			DeathMatchService.openMatch(resp.data._id)
-			.then( function victory(resp) {
-				$timeout(function() {
-					$scope.init();
-				});
-			}, function failure(err) {
-				console.log(err);
-			});
-		})
-	}
-	$scope.downvote = function(gameId, criticId){
-		UserReviewService.downvote($scope.userInfo._id, $scope.deathMatchId, gameId, criticId)
-		.then( function victory(resp){
-			DeathMatchService.openMatch(resp.data._id)
-			.then( function victory(resp) {
-				$timeout(function() {
-					$scope.init();
-				});
-			}, function failure(err) {
-				console.log(err);
+	$scope.vote = function(userReviewId, authorId, val){
+		console.log(`${$scope.userInfo._id} (you) are going to vote for ${authorId}'s review: ${userReviewId}, and the vote will be ${val}' `);
+		UserReviewService.vote($scope.userInfo._id, userReviewId, authorId, val)
+		.then(function victory(resp){
+			$timeout(function() {
+				$scope.init();
 			});
 		})
 	}

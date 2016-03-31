@@ -18,7 +18,7 @@ var userSchema = Schema({
 	reviews: [{type: Schema.Types.ObjectId, ref: "UserReview"}],
 	joinDate: { type : Date, default: Date.now },
 	score: { type: Number, default: 0},
-	votes: [{type: Schema.Types.ObjectId, ref: "UserReview"}]
+	votes: {type: Array, default: []}
 });
 
 userSchema.plugin(deepPopulate);
