@@ -118,7 +118,7 @@
 					</a>
 				</p>
 			</div>
-			<div ng-repeat="userReview in game1UserReviews track by $index">
+			<div ng-repeat="userReview in game1UserReviews | orderBy: '-score' track by $index">
 				<div class="userReviews">
 					<div class="user">
 						<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
@@ -259,7 +259,7 @@
 						</a>
 					</p>
 				</div>
-				<div ng-repeat="userReview in game2UserReviews track by $index">
+				<div ng-repeat="userReview in game2UserReviews | orderBy: '-score' track by $index">
 					<div class="userReviews">
 						<div class="user">
 							<img src="data:image/jpeg;base64,{{userReview.user.avatar}}" class="userThumbnail" alt="">
