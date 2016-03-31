@@ -27,7 +27,8 @@ router.get('/:id', function(req, res){
 	})
 })
 router.put('/:id', function(req, res){
-	var game = req.body.game;
+	console.log(req.body);
+	var game = req.body.num;
 	UserReview.make(req.body, function(err, newReview){
 		if(game === 1){
 			DeathMatch.findByIdAndUpdate(req.params.id, { $push: { game1UserReviews: newReview }}).deepPopulate("game1UserReviews.user game2UserReviews.user game1 game2 user game1UserReviews game2UserReviews").exec(function(err, deathMatch) {

@@ -5,7 +5,7 @@
 				<img src="https:{{gameOne.cover}}" class="thumb">
 			</div>
 			<a href="{{gameOne.url}}">
-				<h1 class="title">
+				<h1 class="title" ng-model="gameName">
 					{{gameOne.name}}
 				</h1>
 			</a>
@@ -79,7 +79,7 @@
 				<ng-form ng-if="isLoggedIn && !wroteReview">
 					<textarea class="review-box" rows="8" cols="40" ng-model='reviewBox'></textarea>
 					<br>
-					<button class="btn btn-success review-btn" ng-click="writeReview(reviewBox, 1, gameName)">Write a review</button>
+					<button class="btn btn-success review-btn" ng-click="writeReview(reviewBox, 1, gameOne.name)">Write a review</button>
 				</ng-form>
 			</div>
 			<hr>
@@ -145,7 +145,7 @@
 					<img src="https:{{gameTwo.cover}}" class="thumb">
 				</div>
 				<a href="{{gameTwo.url}}">
-					<h1 class="title">
+					<h1 class="title" ng-model="gameName">
 						{{gameTwo.name}}
 					</h1>
 				</a>
@@ -219,7 +219,7 @@
 					<ng-form ng-if="isLoggedIn && !wroteReview">
 						<textarea class="review-box" rows="8" cols="40" ng-model='reviewBox'></textarea>
 						<br>
-						<button class="btn btn-success review-btn" ng-click="writeReview(reviewBox, 2, gameName)">Write a review</button>
+						<button class="btn btn-success review-btn" ng-click="writeReview(reviewBox, 2, gameTwo.name)">Write a review</button>
 					</ng-form>
 				</div>
 				<hr>

@@ -22,6 +22,7 @@ angular.module('gameCompare')
 	UserService.page($state.params.username)
 	.then(function(res) {
 		$scope.user = res.data;
+		console.log($scope.user.reviews);
 		$scope.favorites = res.data.favorites;
 		if(token){
 			$scope.isOwnPage = $scope.user.username === token.username || token.isAdmin === true;

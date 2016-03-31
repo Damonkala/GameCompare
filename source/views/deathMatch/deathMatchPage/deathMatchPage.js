@@ -59,11 +59,11 @@ angular.module('gameCompare')
 		})
 	}
 
-	$scope.writeReview = function(content, game, gameName){
+	$scope.writeReview = function(content, num, gameName){
 		if(content){
 			var review = {}
-			review.gameName = gameName;
-			review.game = game
+			review.game = gameName;
+			review.num = num
 			review.deathMatch = $state.params.id;
 			review.user = $scope.userInfo._id;
 			review.review = content;

@@ -122,7 +122,7 @@ blockquote {
 	margin-bottom: 15px;
 	padding: 10px;
 }
-.results-options tr td, 
+.results-options tr td,
 .results-options tr th {
 	padding: 10px;
 	font-family: 'Cabin', sans-serif;
@@ -422,7 +422,7 @@ div.userContainer:hover {
 	margin-bottom: 15px;
 }
 .match-row:hover {
-	background-color: #F8A055; 
+	background-color: #F8A055;
 }
 .match-row .username{
 	color: #f2f2f2;
