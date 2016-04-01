@@ -358,7 +358,13 @@ div.userContainer:hover {
 	margin: auto;
 	border-color: #F8A055;
 }
-
+.notVoted{
+	font-family: Zig;
+}
+.voted{
+	color: gold;
+	font-family: Zig;
+}
 .userReviews{
 	border: 3px solid #F8A055;
 	vertical-align: top;

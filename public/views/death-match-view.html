@@ -133,7 +133,9 @@
 								<button class="btn btn-success votes" ng-click="vote(userReview._id, userReview.user._id, 1)">+</button>
 								<button class="btn btn-danger votes" ng-click="vote(userReview._id, userReview.user._id, -1)">-</button>
 							</span>
-							{{userReview.score}}
+							<div ng-class="hasVoted(userReview._id)">
+								{{userReview.score}}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -274,7 +276,9 @@
 									<button class="btn btn-success votes" ng-click="vote(userReview._id, userReview.user._id, 1)">+</button>
 									<button class="btn btn-danger votes" ng-click="vote(userReview._id, userReview.user._id, -1)">-</button>
 								</span>
-								{{userReview.score}}
+								<div  ng-class="hasVoted(userReview._id)">
+									{{userReview.score}}
+								</div>
 							</div>
 						</div>
 					</div>

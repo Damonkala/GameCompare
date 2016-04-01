@@ -26,19 +26,24 @@ angular.module('gameCompare')
 			}
 		})
 	}
-	$scope.hasVoted = function(userId, reviewId){
-		UserReviewService.hasVoted(userId, reviewId)
-		.then(function(res, err){
-			if(res.data === "voted"){
-				return "hasVoted";
-			} else {
-				return
-			}
+	$scope.loadVote = function(){
+		UserService.getVotes($scope.userInfo._id)
+		.then(function(res){
+			console.log("VOTES: ", res.data.votes);
+			$scope.userVotes = res.data.votes;
 		})
+	}
+	$scope.hasVoted = function(reviewId){
+		if($scope.userVotes.some(elem => elem.id === reviewId)){
+			return 'voted'
+		} else {
+			return 'notVoted'
+		}
 	}
 	$scope.init = function(){
 		DeathMatchService.openMatch($state.params.id)
 		.then( function victory(resp) {
+			$scope.loadVote();
 			$scope.deathMatchId = $state.params.id;
 			$scope.gameOne = ScopeMaster.setScopes(resp.data.game1)
 			$scope.gameTwo = ScopeMaster.setScopes(resp.data.game2)
@@ -49,6 +54,7 @@ angular.module('gameCompare')
 		});
 	}
 	$scope.init()
+	$scope.loadVote();
 	$scope.vote = function(userReviewId, authorId, val){
 		console.log(`${$scope.userInfo._id} (you) are going to vote for ${authorId}'s review: ${userReviewId}, and the vote will be ${val}' `);
 		UserReviewService.vote($scope.userInfo._id, userReviewId, authorId, val)

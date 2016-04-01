@@ -17,7 +17,11 @@ router.post('/login', function(req, res){
     }
   })
 })
-
+router.get('/votes/:id', function(req, res){
+  User.findById(req.params.id, 'votes', function(err, votes){
+    res.send(votes);
+  })
+})
 router.post('/register', function(req, res){
   User.register(req.body, function(err, user){
     res.send(user)

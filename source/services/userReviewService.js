@@ -13,6 +13,6 @@ app.service('UserReviewService', function($http, $location, $rootScope, $cookies
 		return $http.post(`/userReviews/wroteReview`, {userInfo: userInfoId, deathMatch: deathMatchId})
 	};
 	this.hasVoted = function(userId, reviewId){
-		return $http.post('/userReviews/hasVoted', {userId: userId, reviewId: reviewId})
+		return $http.put('/userReviews/hasVoted', {userId: userId, reviewId: reviewId})
 	}
 })

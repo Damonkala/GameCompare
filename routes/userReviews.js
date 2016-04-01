@@ -16,6 +16,18 @@ router.post('/wroteReview', function(req, res){
 		}
 	})
 })
+router.put('/hasVoted', function(req, res){
+	User.findOne({$and: [{_id: req.body.userId, 'votes.id': req.body.reviewId}]},
+	function(err, user){
+		if(user){
+			console.log("Well, you voted for this person, so the css will change");
+			res.send('voted')
+		} else {
+			console.log("Since you haven't voted for this person, the css will be no different");
+			res.send('notVoted')
+		}
+	})
+})
 router.put('/vote', function(req, res) {
 	var vote = {};
 	vote.id = req.body.reviewVotedForId;
@@ -48,7 +60,6 @@ router.put('/vote', function(req, res) {
 							console.log("Something else then");
 						}
 					})
-					// }
 				} else {
 					UserReview.findByIdAndUpdate(req.body.reviewVotedForId, {$inc: {score: req.body.voteValue}},
 						function(err, userReview){
@@ -71,42 +82,6 @@ router.put('/vote', function(req, res) {
 							}
 						})
 					})
-					// router.post('/hasVoted', function(req, res){
-					// 	User.find({$and: [{_id: req.body.userInfo}, {votes: req.body.deathMatch}]})
-					// })
-					// router.put('/upvote', function(req, res){
-					// 	User.find({$and: [{_id: req.body.userInfo}, {deathMatches: req.body.deathMatch}] }, function(err, userReview){
-					// 		if (err || userReview[0]){return console.log(err) || console.log("ALREADY VOTED");}
-					// 		User.find({$and: [{_id: req.body.userInfo}, {votes: req.body.deathMatch}] }, function(err, userReview){
-					// 			if (err || userReview[0]){return console.log(err) || console.log("ALREADY VOTED");}
-					// 			else{
-					// UserReview.findByIdAndUpdate(req.body.review, { $inc: {score: 1}}, function(err, userReview){
-					// 					User.findByIdAndUpdate(req.body.criticId, { $inc: {score: 1}}, function(err, user) {
-					// User.findByIdAndUpdate(req.body.userInfo,  {$push: {votes: req.body.deathMatch}}, function(err, user){
-					// 							res.status(err ? 400 : 200).send(err || user)
-					// 						})
-					// 					})
-					// 				})
-					// 			}
-					// 		})
-					// 	})
-					// })
-					// router.put('/downvote', function(req, res){
-					// 	User.find({$and: [{_id: req.body.userInfo}, {deathMatches: req.body.deathMatch}] }, function(err, userReview){
-					// 		if (err || userReview[0]){return console.log(err) || console.log("ALREADY VOTED");}
-					// 		User.find({$and: [{_id: req.body.userInfo}, {votes: req.body.deathMatch}] }, function(err, userReview){
-					// 			if (err || userReview[0]){return console.log(err) || res.send("voted");}
-					// 			else{
-					// 				UserReview.findByIdAndUpdate(req.body.review, { $inc: {score: -1}}, function(err, userReview){
-					// 					User.findByIdAndUpdate(req.body.criticId, { $inc: {score: -1}}, function(err, user) {
-					// 						User.findByIdAndUpdate(req.body.userInfo,  {$pull: {votes: req.body.deathMatch}}, function(err, user){
-					// 							res.status(err ? 400 : 200).send(err || user)
-					// 						})
-					// 					})
-					// 				})
-					// 			}
-					// 		})
-					// 	})
-					// })
+
 
 					module.exports = router;

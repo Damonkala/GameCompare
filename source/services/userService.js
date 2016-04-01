@@ -25,6 +25,9 @@ app.service('UserService', function($http, $location, $rootScope, $cookies, jwtH
 	this.editAccount = function(data){
 		return $http.post(`/user/edit`, data)
 	}
+	this.getVotes = function(id){
+		return $http.get(`/user/votes/${id}`)
+	}
 	this.unFavoriteUser = function(userId){
 		var data = {};
 		var decoded = (jwtHelper.decodeToken($cookies.get('token')))
